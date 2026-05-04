@@ -1,0 +1,76 @@
+VERSION ""
+
+
+NS_ : 
+	NS_DESC_
+	CM_
+	BA_DEF_
+	BA_
+	VAL_
+	CAT_DEF_
+	CAT_
+	FILTER
+	BA_DEF_DEF_
+	EV_DATA_
+	ENVVAR_DATA_
+	SGTYPE_
+	SGTYPE_VAL_
+	BA_DEF_SGTYPE_
+	BA_SGTYPE_
+	SIG_TYPE_REF_
+	VAL_TABLE_
+	SIG_GROUP_
+	SIG_VALTYPE_
+	SIGTYPE_VALTYPE_
+	BO_TX_BU_
+	BA_DEF_REL_
+	BA_REL_
+	BA_SGTYPE_REL_
+	SG_MUL_VAL_
+
+BS_:
+
+BU_:
+
+BO_ 199 Toggle_Battery_Preconditioning: 8 Vector__XXX
+ SG_ Battery_Preconditioning_0 : 24|8@1+ (1,0) [0|255] "" Vector__XXX
+ SG_ Battery_Preconditioning_1 : 32|8@1+ (1,0) [0|255] "" Vector__XXX
+
+BO_ 685 BMS_Precond_Status: 8 Vector__XXX
+ SG_ Battery_Precond_State : 8|8@1+ (1,0) [0|255] "" Vector__XXX
+
+BO_ 1048 Steering_Wheel_Heating: 8 Vector__XXX
+ SG_ Steering_Wheel_Heating_State : 16|8@1+ (1,0) [0|255] "" Vector__XXX
+
+BO_ 1080 RearLeft_Seat_Heating: 8 Vector__XXX
+ SG_ RearLeft_Seat_Heating_State :  0|8@1+ (1,0) [0|255] "" Vector__XXX
+
+BO_ 1096 Steering_Wheel_Buttons: 8 Vector__XXX
+ SG_ Steering_Wheel_Other_Button :  16|8@1+ (1,0) [0|255] "" Vector__XXX
+ SG_ Steering_Wheel_Star_Button :   40|8@1+ (1,0) [0|255] "" Vector__XXX
+
+BO_ 1107 RearRight_Seat_Heating: 8 Vector__XXX
+ SG_ RearRight_Seat_Heating_State : 0|8@1+ (1,0) [0|255] "" Vector__XXX
+
+BO_ 1141 Passenger_Seat_Heating: 8 Vector__XXX
+ SG_ Passenger_Seat_Heating_State : 0|8@1+ (1,0) [0|255] "" Vector__XXX
+
+B0_ 1174 Driver_Seat_Heating: 8 Vector__XXX
+ SG_ Driver_Seat_Heating_State :    0|8@1+ (1,0) [0|255] "" Vector__XXX
+
+BO_ 1261 Navigation_Precond_Status: 8 Vector__XXX
+ SG_ Distance_To_Charger_1 : 40|8@1+ (1,0) [0|255] "" Vector__XXX
+ SG_ Distance_To_Charger_2 : 48|8@1+ (1,0) [0|255] "" Vector__XXX
+ SG_ Precond               : 56|8@1+ (1,0) [0|255] "" Vector__XXX
+
+
+VAL_ 199  Battery_Preconditioning_0    64 "On" 0 "Off";
+VAL_ 199  Battery_Preconditioning_1    3 "On" 0 "Off";
+VAL_ 685  Battery_Precond_State        21 "On" 5 "Preparing" 1 "Off" ;
+VAL_ 1080 RearLeft_Seat_Heating_State  65 "High" 49 "Low" 17 "Off" ;
+VAL_ 1048 Steering_Wheel_Heating_State 1 "On" 0 "Off" ;
+VAL_ 1096 Steering_Wheel_Star_Button   16 "Pressed" 0 "Not_Pressed";
+VAL_ 1096 Steering_Wheel_Other_Button  64 "Mode_Pressed" 1 "Speak_Pressed" 4 "Phone_Pressed" 0 "None_Pressed";
+VAL_ 1107 RearRight_Seat_Heating_State 65 "High" 49 "Low" 17 "Off" ;
+VAL_ 1141 Passenger_Seat_Heating_State 70 "High" 62 "Medium" 54 "Low" 22 "Off" ;
+VAL_ 1174 Driver_Seat_Heating_State    70 "High" 62 "Medium" 54 "Low" 22 "Off" ;
