@@ -1,0 +1,122 @@
+VERSION ""
+
+NS_ :
+ NS_DESC_
+ CM_
+ BA_DEF_
+ BA_
+ VAL_
+ CAT_DEF_
+ CAT_
+ FILTER
+ BA_DEF_DEF_
+ EV_DATA_
+ ENVVAR_DATA_
+ SGTYPE_
+ SGTYPE_VAL_
+ BA_DEF_SGTYPE_
+ BA_SGTYPE_
+ SIG_TYPE_REF_
+ VAL_TABLE_
+ SIG_GROUP_
+ SIG_VALTYPE_
+ SIGTYPE_VALTYPE_
+ BO_TX_BU_
+ BA_DEF_REL_
+ BA_REL_
+ BA_DEF_DEF_REL_
+ BU_SG_REL_
+ BU_EV_REL_
+ BU_BO_REL_
+ SG_MUL_VAL_
+
+BS_:
+
+BU_: OBC BMS VCU CLU
+
+BO_ 1440 OBC_01: 8 OBC
+ SG_ OBC_ChargeStatus : 0|4@1+ (1,0) [0|15] "" VCU,CLU
+ SG_ OBC_ChargeMode : 4|4@1+ (1,0) [0|15] "" VCU,CLU
+ SG_ OBC_ACInputVoltage : 8|16@1+ (0.1,0) [0|6553.5] "V" VCU,CLU
+ SG_ OBC_ACInputCurrent : 24|16@1+ (0.1,0) [0|6553.5] "A" VCU,CLU
+ SG_ OBC_DCOutputVoltage : 40|16@1+ (0.1,0) [0|6553.5] "V" BMS,VCU
+ SG_ OBC_DCOutputCurrent : 56|8@1+ (0.5,0) [0|127.5] "A" BMS,VCU
+
+BO_ 1442 OBC_02: 8 OBC
+ SG_ OBC_ChargePower : 0|16@1+ (0.1,0) [0|6553.5] "kW" VCU,CLU
+ SG_ OBC_CumulativeEnergy : 16|32@1+ (0.01,0) [0|42949672.95] "kWh" CLU
+ SG_ OBC_Temperature : 48|8@1+ (1,-40) [-40|215] "degC" VCU
+ SG_ OBC_FaultCode : 56|8@1+ (1,0) [0|255] "" VCU,CLU
+
+BO_ 1444 OBC_03: 8 OBC
+ SG_ OBC_EstimatedTimeRemaining : 0|16@1+ (1,0) [0|65535] "min" CLU
+ SG_ OBC_TargetSOC : 16|8@1+ (0.5,0) [0|100] "%" VCU
+ SG_ OBC_CurrentSOC : 24|8@1+ (0.5,0) [0|100] "%" CLU
+ SG_ OBC_V2L_OutputVoltage : 32|16@1+ (0.1,0) [0|6553.5] "V" CLU
+ SG_ OBC_V2L_OutputCurrent : 48|16@1+ (0.1,0) [0|6553.5] "A" CLU
+
+BO_ 1446 DCFC_01: 8 OBC
+ SG_ DCFC_InputVoltage : 0|16@1+ (0.1,0) [0|6553.5] "V" VCU,CLU
+ SG_ DCFC_InputCurrent : 16|16@1+ (0.1,0) [0|6553.5] "A" VCU,CLU
+ SG_ DCFC_OutputPower : 32|16@1+ (0.1,0) [0|6553.5] "kW" VCU,CLU
+ SG_ DCFC_MaxOutputPower : 48|16@1+ (0.1,0) [0|6553.5] "kW" VCU,CLU
+
+BO_ 1448 DCFC_02: 8 OBC
+ SG_ DCFC_Status : 0|4@1+ (1,0) [0|15] "" VCU,CLU
+ SG_ DCFC_InletTemp : 4|8@1+ (1,-40) [-40|215] "degC" VCU
+ SG_ DCFC_Protocol : 12|4@1+ (1,0) [0|15] "" VCU,CLU
+ SG_ DCFC_PilotSignal : 16|8@1+ (1,0) [0|100] "%" VCU
+ SG_ DCFC_EstimatedTime : 24|16@1+ (1,0) [0|65535] "min" CLU
+ SG_ DCFC_RequestedPower : 40|16@1+ (0.1,0) [0|6553.5] "kW" VCU
+ SG_ DCFC_CumulativeEnergy : 56|8@1+ (0.5,0) [0|127.5] "kWh" CLU
+
+BO_ 1450 ICCU_01: 8 OBC
+ SG_ ICCU_12VStatus : 0|4@1+ (1,0) [0|15] "" VCU,CLU
+ SG_ ICCU_12VBattVoltage : 4|8@1+ (0.1,0) [0|25.5] "V" CLU
+ SG_ ICCU_12VBattCurrent : 12|12@1- (0.1,0) [-204.8|204.7] "A" CLU
+ SG_ ICCU_HVDCOutputVoltage : 24|16@1+ (0.1,0) [0|6553.5] "V" VCU
+ SG_ ICCU_HVDCOutputCurrent : 40|16@1+ (0.1,0) [0|6553.5] "A" VCU
+ SG_ ICCU_Temperature : 56|8@1+ (1,-40) [-40|215] "degC" VCU
+
+CM_ BO_ 1440 "On-Board Charger (OBC) primary status. Present during AC charging. The E-GMP OBC supports up to 11 kW AC (3-phase) or 7.2 kW (single-phase) depending on variant.";
+CM_ SG_ 1440 OBC_ChargeStatus "0=Not_Charging, 1=Preparing, 2=Charging, 3=Suspended_EV, 4=Suspended_EVSE, 5=Finished, 6=Fault, 7=Reserved";
+CM_ SG_ 1440 OBC_ChargeMode "0=None, 1=AC_1Phase_7kW, 2=AC_3Phase_11kW, 3=V2L, 4=V2H, 5=Reserved";
+CM_ SG_ 1440 OBC_ACInputVoltage "RMS AC input voltage at charge port. 230V EU / 120V US / 240V US";
+CM_ SG_ 1440 OBC_ACInputCurrent "RMS AC input current. Limited by EVSE pilot signal and OBC capability.";
+CM_ SG_ 1440 OBC_DCOutputVoltage "DC output voltage from OBC to high voltage bus";
+CM_ SG_ 1440 OBC_DCOutputCurrent "DC output current from OBC to battery";
+
+CM_ BO_ 1442 "OBC secondary data including power, energy, and temperature.";
+CM_ SG_ 1442 OBC_ChargePower "Instantaneous AC charge power (input side)";
+CM_ SG_ 1442 OBC_CumulativeEnergy "Total cumulative energy delivered by OBC since manufacture";
+CM_ SG_ 1442 OBC_FaultCode "OBC fault code. See service manual for fault code table.";
+
+CM_ BO_ 1444 "OBC session information and V2L status.";
+CM_ SG_ 1444 OBC_EstimatedTimeRemaining "Remaining charge time to target SOC at current charge rate";
+CM_ SG_ 1444 OBC_TargetSOC "Target SOC set by driver via vehicle UI or app";
+CM_ SG_ 1444 OBC_V2L_OutputVoltage "Vehicle-to-Load output voltage. E-GMP supports 230V/16A (3.6 kW) V2L.";
+CM_ SG_ 1444 OBC_V2L_OutputCurrent "Vehicle-to-Load output current";
+
+CM_ BO_ 1446 "DC Fast Charger (DCFC/CCS2/CHAdeMO) primary data. E-GMP supports up to 800V CCS2 charging.";
+CM_ SG_ 1446 DCFC_InputVoltage "DC input voltage from fast charger (up to 800V on 800V architecture)";
+CM_ SG_ 1446 DCFC_InputCurrent "DC input current from fast charger";
+CM_ SG_ 1446 DCFC_OutputPower "Actual DC fast charge power being delivered";
+CM_ SG_ 1446 DCFC_MaxOutputPower "Maximum power the BMS is currently requesting from the charger";
+
+CM_ BO_ 1448 "DC Fast Charger secondary data including status and protocol.";
+CM_ SG_ 1448 DCFC_Status "0=Idle, 1=Preparing, 2=Charging, 3=Finishing, 4=Fault, 5=Waiting_for_BMS";
+CM_ SG_ 1448 DCFC_Protocol "0=None, 1=CCS1, 2=CCS2, 3=CHAdeMO, 4=GB_T, 5=Reserved";
+CM_ SG_ 1448 DCFC_PilotSignal "CP signal duty cycle percentage indicating max current capacity of EVSE";
+
+CM_ BO_ 1450 "Integrated Charging Control Unit (ICCU) - manages 12V auxiliary battery charging and LDC (Low-voltage DC-DC Converter). E-GMP uses integrated OBC+LDC unit.";
+CM_ SG_ 1450 ICCU_12VStatus "0=Off, 1=Standby, 2=Charging, 3=Float, 4=Fault";
+CM_ SG_ 1450 ICCU_12VBattVoltage "12V auxiliary battery terminal voltage";
+CM_ SG_ 1450 ICCU_12VBattCurrent "12V auxiliary battery charge/discharge current. Positive=charging";
+CM_ SG_ 1450 ICCU_HVDCOutputVoltage "LDC high-side input voltage (same as HV bus)";
+CM_ SG_ 1450 ICCU_HVDCOutputCurrent "LDC current draw from HV bus";
+
+VAL_ 1440 OBC_ChargeStatus 0 "Not_Charging" 1 "Preparing" 2 "Charging" 3 "Suspended_EV" 4 "Suspended_EVSE" 5 "Finished" 6 "Fault" 7 "Reserved";
+VAL_ 1440 OBC_ChargeMode 0 "None" 1 "AC_1Phase_7kW" 2 "AC_3Phase_11kW" 3 "V2L" 4 "V2H" 5 "Reserved";
+VAL_ 1448 DCFC_Status 0 "Idle" 1 "Preparing" 2 "Charging" 3 "Finishing" 4 "Fault" 5 "Waiting_BMS";
+VAL_ 1448 DCFC_Protocol 0 "None" 1 "CCS1" 2 "CCS2" 3 "CHAdeMO" 4 "GB_T" 5 "Reserved";
+VAL_ 1450 ICCU_12VStatus 0 "Off" 1 "Standby" 2 "Charging" 3 "Float" 4 "Fault";

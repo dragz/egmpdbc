@@ -1,0 +1,147 @@
+VERSION ""
+
+NS_ :
+ NS_DESC_
+ CM_
+ BA_DEF_
+ BA_
+ VAL_
+ CAT_DEF_
+ CAT_
+ FILTER
+ BA_DEF_DEF_
+ EV_DATA_
+ ENVVAR_DATA_
+ SGTYPE_
+ SGTYPE_VAL_
+ BA_DEF_SGTYPE_
+ BA_SGTYPE_
+ SIG_TYPE_REF_
+ VAL_TABLE_
+ SIG_GROUP_
+ SIG_VALTYPE_
+ SIGTYPE_VALTYPE_
+ BO_TX_BU_
+ BA_DEF_REL_
+ BA_REL_
+ BA_DEF_DEF_REL_
+ BU_SG_REL_
+ BU_EV_REL_
+ BU_BO_REL_
+ SG_MUL_VAL_
+
+BS_:
+
+BU_: BMS VCU CLU OBC
+
+BO_ 1264 BMS_01: 8 BMS
+ SG_ BMS_ChargingMode : 0|4@1+ (1,0) [0|15] "" VCU,CLU
+ SG_ BMS_RelayStatus : 4|2@1+ (1,0) [0|3] "" VCU,CLU
+ SG_ BMS_ReadyStatus : 6|2@1+ (1,0) [0|3] "" VCU,CLU
+ SG_ BMS_MaxDischargePower : 16|16@1+ (0.1,0) [0|6553.5] "kW" VCU,CLU
+ SG_ BMS_MaxChargePower : 32|16@1+ (0.1,0) [0|6553.5] "kW" VCU,CLU,OBC
+ SG_ BMS_SOH : 48|8@1+ (0.5,0) [0|100] "%" CLU
+
+BO_ 1266 BMS_02: 8 BMS
+ SG_ BMS_PackVoltage : 0|16@1+ (0.1,0) [0|655.35] "V" VCU,CLU
+ SG_ BMS_PackCurrent : 16|16@1- (0.1,0) [-3276.8|3276.7] "A" VCU,CLU
+ SG_ BMS_SOC : 32|8@1+ (0.5,0) [0|100] "%" VCU,CLU
+ SG_ BMS_MaxCellTemp : 40|8@1+ (1,-40) [-40|215] "degC" VCU,CLU
+ SG_ BMS_MinCellTemp : 48|8@1+ (1,-40) [-40|215] "degC" VCU,CLU
+ SG_ BMS_InletTemp : 56|8@1+ (1,-40) [-40|215] "degC" VCU
+
+BO_ 1268 BMS_03: 8 BMS
+ SG_ BMS_MaxCellVoltage : 0|16@1+ (0.001,0) [0|4.096] "V" VCU,CLU
+ SG_ BMS_MinCellVoltage : 16|16@1+ (0.001,0) [0|4.096] "V" VCU,CLU
+ SG_ BMS_AvgCellVoltage : 32|16@1+ (0.001,0) [0|4.096] "V" VCU,CLU
+ SG_ BMS_MaxCellVoltageNo : 48|8@1+ (1,0) [0|255] "" CLU
+ SG_ BMS_MinCellVoltageNo : 56|8@1+ (1,0) [0|255] "" CLU
+
+BO_ 1270 BMS_04: 8 BMS
+ SG_ BMS_AvgCellTemp : 0|8@1+ (1,-40) [-40|215] "degC" VCU,CLU
+ SG_ BMS_MaxCellTempNo : 8|8@1+ (1,0) [0|255] "" CLU
+ SG_ BMS_MinCellTempNo : 16|8@1+ (1,0) [0|255] "" CLU
+ SG_ BMS_FaultLevel : 24|4@1+ (1,0) [0|15] "" VCU,CLU
+ SG_ BMS_BalancingStatus : 28|2@1+ (1,0) [0|3] "" CLU
+ SG_ BMS_HeaterStatus : 30|2@1+ (1,0) [0|3] "" CLU
+ SG_ BMS_CoolingStatus : 32|2@1+ (1,0) [0|3] "" CLU
+ SG_ BMS_IsolationStatus : 34|2@1+ (1,0) [0|3] "" VCU,CLU
+ SG_ BMS_MainRelayPlus : 36|1@1+ (1,0) [0|1] "" VCU
+ SG_ BMS_MainRelayMinus : 37|1@1+ (1,0) [0|1] "" VCU
+ SG_ BMS_PrechargeRelay : 38|1@1+ (1,0) [0|1] "" VCU
+ SG_ BMS_ChargeRelayStatus : 39|1@1+ (1,0) [0|1] "" VCU,OBC
+ SG_ BMS_IsolationResistance : 40|16@1+ (1,0) [0|65535] "kOhm" VCU
+
+BO_ 1272 BMS_05: 8 BMS
+ SG_ BMS_TotalChargedEnergy : 0|32@1+ (0.1,0) [0|429496729.5] "kWh" CLU
+ SG_ BMS_TotalDischargedEnergy : 32|32@1+ (0.1,0) [0|429496729.5] "kWh" CLU
+
+BO_ 1274 BMS_06: 8 BMS
+ SG_ BMS_AvailableChargeEnergy : 0|16@1+ (0.01,0) [0|655.35] "kWh" VCU,CLU,OBC
+ SG_ BMS_AvailableDischargeEnergy : 16|16@1+ (0.01,0) [0|655.35] "kWh" VCU,CLU
+ SG_ BMS_PackCapacity : 32|16@1+ (0.1,0) [0|6553.5] "Ah" CLU
+ SG_ BMS_NominalCapacity : 48|16@1+ (0.1,0) [0|6553.5] "Ah" CLU
+
+BO_ 1320 BMS_07: 8 BMS
+ SG_ BMS_CellVoltage_1 : 0|16@1+ (0.001,0) [0|4.096] "V" CLU
+ SG_ BMS_CellVoltage_2 : 16|16@1+ (0.001,0) [0|4.096] "V" CLU
+ SG_ BMS_CellVoltage_3 : 32|16@1+ (0.001,0) [0|4.096] "V" CLU
+ SG_ BMS_CellVoltage_4 : 48|16@1+ (0.001,0) [0|4.096] "V" CLU
+
+BO_ 1322 BMS_08: 8 BMS
+ SG_ BMS_ModuleTemp_1 : 0|8@1+ (1,-40) [-40|215] "degC" CLU
+ SG_ BMS_ModuleTemp_2 : 8|8@1+ (1,-40) [-40|215] "degC" CLU
+ SG_ BMS_ModuleTemp_3 : 16|8@1+ (1,-40) [-40|215] "degC" CLU
+ SG_ BMS_ModuleTemp_4 : 24|8@1+ (1,-40) [-40|215] "degC" CLU
+ SG_ BMS_ModuleTemp_5 : 32|8@1+ (1,-40) [-40|215] "degC" CLU
+ SG_ BMS_ModuleTemp_6 : 40|8@1+ (1,-40) [-40|215] "degC" CLU
+ SG_ BMS_ModuleTemp_7 : 48|8@1+ (1,-40) [-40|215] "degC" CLU
+ SG_ BMS_ModuleTemp_8 : 56|8@1+ (1,-40) [-40|215] "degC" CLU
+
+CM_ BO_ 1264 "BMS status and power limits. Observed on P-CAN (500 kbps) of E-GMP platform vehicles (IONIQ5, IONIQ6, EV6, EV9, GV60).";
+CM_ SG_ 1264 BMS_ChargingMode "0=Not charging, 1=AC slow charge, 2=AC fast charge (3-phase), 3=DC fast charge (CCS/CHAdeMO), 4=V2L/V2G, 5=V2H";
+CM_ SG_ 1264 BMS_RelayStatus "Main contactor status. 0=Open, 1=Precharge, 2=Closed, 3=Fault";
+CM_ SG_ 1264 BMS_ReadyStatus "BMS readiness. 0=Not ready, 1=Initializing, 2=Ready, 3=Fault";
+CM_ SG_ 1264 BMS_MaxDischargePower "Maximum continuous discharge power available from the pack";
+CM_ SG_ 1264 BMS_MaxChargePower "Maximum allowable charge power requested by BMS";
+CM_ SG_ 1264 BMS_SOH "State of health as percentage of rated capacity";
+
+CM_ BO_ 1266 "BMS primary pack data. Periodic 10ms. Key message for monitoring battery state.";
+CM_ SG_ 1266 BMS_PackVoltage "High-voltage pack voltage measured at pack terminals";
+CM_ SG_ 1266 BMS_PackCurrent "Pack current. Positive=discharge, Negative=charge";
+CM_ SG_ 1266 BMS_SOC "State of charge as displayed to driver (after buffer applied)";
+CM_ SG_ 1266 BMS_MaxCellTemp "Maximum cell/module temperature in the pack";
+CM_ SG_ 1266 BMS_MinCellTemp "Minimum cell/module temperature in the pack";
+CM_ SG_ 1266 BMS_InletTemp "Battery coolant inlet temperature";
+
+CM_ BO_ 1268 "BMS cell voltage data. Contains min/max/avg cell voltages and cell position identifiers.";
+CM_ SG_ 1268 BMS_MaxCellVoltage "Highest cell voltage in the pack";
+CM_ SG_ 1268 BMS_MinCellVoltage "Lowest cell voltage in the pack";
+CM_ SG_ 1268 BMS_AvgCellVoltage "Average cell voltage across all cells";
+CM_ SG_ 1268 BMS_MaxCellVoltageNo "Cell index with highest voltage";
+CM_ SG_ 1268 BMS_MinCellVoltageNo "Cell index with lowest voltage";
+
+CM_ BO_ 1270 "BMS thermal and relay status. Contains detailed relay states and fault information.";
+CM_ SG_ 1270 BMS_FaultLevel "0=No fault, 1=Warning, 2=Fault level 1, 3=Fault level 2, 4=Emergency";
+CM_ SG_ 1270 BMS_BalancingStatus "Cell balancing state. 0=Off, 1=Passive balancing, 2=Active balancing, 3=Reserved";
+CM_ SG_ 1270 BMS_HeaterStatus "Battery heater. 0=Off, 1=On, 2=Fault, 3=Reserved";
+CM_ SG_ 1270 BMS_CoolingStatus "Battery cooling. 0=Off, 1=On low, 2=On high, 3=Fault";
+CM_ SG_ 1270 BMS_IsolationStatus "HV isolation monitoring. 0=OK, 1=Warning, 2=Fault, 3=Not measured";
+CM_ SG_ 1270 BMS_IsolationResistance "Isolation resistance between HV and chassis";
+
+CM_ BO_ 1272 "BMS cumulative energy counters. Total energy in/out over vehicle lifetime.";
+
+CM_ BO_ 1274 "BMS energy and capacity. Available usable energy and capacity measurements.";
+
+CM_ BO_ 1320 "BMS individual cell voltages (cells 1-4 per message). Multiple frames cover all cells.";
+
+CM_ BO_ 1322 "BMS module temperatures. Up to 8 temperature sensors per message frame.";
+
+VAL_ 1264 BMS_ChargingMode 0 "Not_Charging" 1 "AC_Slow" 2 "AC_Fast_3Phase" 3 "DC_Fast_CCS" 4 "V2L_V2G" 5 "V2H" 6 "Reserved" 7 "Reserved" 8 "Reserved" 9 "Reserved" 10 "Reserved" 11 "Reserved" 12 "Reserved" 13 "Reserved" 14 "Reserved" 15 "Error";
+VAL_ 1264 BMS_RelayStatus 0 "Open" 1 "Precharging" 2 "Closed" 3 "Fault";
+VAL_ 1264 BMS_ReadyStatus 0 "Not_Ready" 1 "Initializing" 2 "Ready" 3 "Fault";
+VAL_ 1270 BMS_FaultLevel 0 "No_Fault" 1 "Warning" 2 "Fault_Level_1" 3 "Fault_Level_2" 4 "Emergency" 5 "Reserved" 6 "Reserved" 7 "Reserved" 8 "Reserved" 9 "Reserved" 10 "Reserved" 11 "Reserved" 12 "Reserved" 13 "Reserved" 14 "Reserved" 15 "Error";
+VAL_ 1270 BMS_BalancingStatus 0 "Off" 1 "Passive" 2 "Active" 3 "Reserved";
+VAL_ 1270 BMS_HeaterStatus 0 "Off" 1 "On" 2 "Fault" 3 "Reserved";
+VAL_ 1270 BMS_CoolingStatus 0 "Off" 1 "On_Low" 2 "On_High" 3 "Fault";
+VAL_ 1270 BMS_IsolationStatus 0 "OK" 1 "Warning" 2 "Fault" 3 "Not_Measured";

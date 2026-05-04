@@ -1,0 +1,141 @@
+VERSION ""
+
+NS_ :
+ NS_DESC_
+ CM_
+ BA_DEF_
+ BA_
+ VAL_
+ CAT_DEF_
+ CAT_
+ FILTER
+ BA_DEF_DEF_
+ EV_DATA_
+ ENVVAR_DATA_
+ SGTYPE_
+ SGTYPE_VAL_
+ BA_DEF_SGTYPE_
+ BA_SGTYPE_
+ SIG_TYPE_REF_
+ VAL_TABLE_
+ SIG_GROUP_
+ SIG_VALTYPE_
+ SIGTYPE_VALTYPE_
+ BO_TX_BU_
+ BA_DEF_REL_
+ BA_REL_
+ BA_DEF_DEF_REL_
+ BU_SG_REL_
+ BU_EV_REL_
+ BU_BO_REL_
+ SG_MUL_VAL_
+
+BS_:
+
+BU_: VCU BMS CLU FCU RCU ESC
+
+BO_ 512 MOTOR_FRONT_01: 8 FCU
+ SG_ MOTOR_FR_Speed : 0|16@1- (1,0) [-32768|32767] "rpm" VCU,CLU
+ SG_ MOTOR_FR_Torque : 16|16@1- (0.1,0) [-3276.8|3276.7] "Nm" VCU,CLU
+ SG_ MOTOR_FR_Temp : 32|8@1+ (1,-40) [-40|215] "degC" VCU,CLU
+ SG_ MOTOR_FR_InverterTemp : 40|8@1+ (1,-40) [-40|215] "degC" VCU,CLU
+ SG_ MOTOR_FR_Status : 48|4@1+ (1,0) [0|15] "" VCU,CLU
+ SG_ MOTOR_FR_ErrorFlags : 52|4@1+ (1,0) [0|15] "" VCU,CLU
+ SG_ MOTOR_FR_ResolverAngle : 56|8@1+ (1.40625,0) [0|358.59375] "deg" VCU
+
+BO_ 514 MOTOR_FRONT_02: 8 FCU
+ SG_ MOTOR_FR_OutputPower : 0|16@1- (0.1,0) [-3276.8|3276.7] "kW" VCU,CLU
+ SG_ MOTOR_FR_InputVoltage : 16|16@1+ (0.1,0) [0|6553.5] "V" VCU
+ SG_ MOTOR_FR_PhaseCurrent : 32|16@1- (0.1,0) [-3276.8|3276.7] "A" VCU
+ SG_ MOTOR_FR_RotorTemp : 48|8@1+ (1,-40) [-40|215] "degC" VCU
+ SG_ MOTOR_FR_CoolantTemp : 56|8@1+ (1,-40) [-40|215] "degC" VCU
+
+BO_ 544 MOTOR_REAR_01: 8 RCU
+ SG_ MOTOR_RR_Speed : 0|16@1- (1,0) [-32768|32767] "rpm" VCU,CLU
+ SG_ MOTOR_RR_Torque : 16|16@1- (0.1,0) [-3276.8|3276.7] "Nm" VCU,CLU
+ SG_ MOTOR_RR_Temp : 32|8@1+ (1,-40) [-40|215] "degC" VCU,CLU
+ SG_ MOTOR_RR_InverterTemp : 40|8@1+ (1,-40) [-40|215] "degC" VCU,CLU
+ SG_ MOTOR_RR_Status : 48|4@1+ (1,0) [0|15] "" VCU,CLU
+ SG_ MOTOR_RR_ErrorFlags : 52|4@1+ (1,0) [0|15] "" VCU,CLU
+ SG_ MOTOR_RR_ResolverAngle : 56|8@1+ (1.40625,0) [0|358.59375] "deg" VCU
+
+BO_ 546 MOTOR_REAR_02: 8 RCU
+ SG_ MOTOR_RR_OutputPower : 0|16@1- (0.1,0) [-3276.8|3276.7] "kW" VCU,CLU
+ SG_ MOTOR_RR_InputVoltage : 16|16@1+ (0.1,0) [0|6553.5] "V" VCU
+ SG_ MOTOR_RR_PhaseCurrent : 32|16@1- (0.1,0) [-3276.8|3276.7] "A" VCU
+ SG_ MOTOR_RR_RotorTemp : 48|8@1+ (1,-40) [-40|215] "degC" VCU
+ SG_ MOTOR_RR_CoolantTemp : 56|8@1+ (1,-40) [-40|215] "degC" VCU
+
+BO_ 576 VCU_01: 8 VCU
+ SG_ VCU_DriveMode : 0|4@1+ (1,0) [0|15] "" CLU
+ SG_ VCU_RegenLevel : 4|4@1+ (1,0) [0|10] "" CLU
+ SG_ VCU_TorqueRequest : 8|16@1- (0.1,0) [-3276.8|3276.7] "Nm" FCU,RCU
+ SG_ VCU_SpeedRequest : 24|16@1+ (0.01,0) [0|655.35] "kph" FCU,RCU
+ SG_ VCU_AcceleratorPedal : 40|8@1+ (0.390625,0) [0|99.609375] "%" CLU
+ SG_ VCU_BrakePedal : 48|8@1+ (0.390625,0) [0|99.609375] "%" CLU
+ SG_ VCU_GearPosition : 56|4@1+ (1,0) [0|15] "" CLU,ESC
+ SG_ VCU_ReadyIndicator : 60|1@1+ (1,0) [0|1] "" CLU
+ SG_ VCU_RegenAvailable : 61|1@1+ (1,0) [0|1] "" CLU
+ SG_ VCU_AWDActive : 62|1@1+ (1,0) [0|1] "" CLU
+ SG_ VCU_FaultStatus : 63|1@1+ (1,0) [0|1] "" CLU
+
+BO_ 578 VCU_02: 8 VCU
+ SG_ VCU_VehicleSpeed : 0|16@1+ (0.01,0) [0|655.35] "kph" CLU,ESC
+ SG_ VCU_Odometer : 16|24@1+ (0.1,0) [0|1677721.4] "km" CLU
+ SG_ VCU_TripDistance : 40|16@1+ (0.1,0) [0|6553.5] "km" CLU
+ SG_ VCU_PowerConsumption : 56|8@1+ (0.5,0) [0|127.5] "kWh/100km" CLU
+
+BO_ 580 VCU_03: 8 VCU
+ SG_ VCU_TargetTorqueFront : 0|16@1- (0.1,0) [-3276.8|3276.7] "Nm" FCU
+ SG_ VCU_TargetTorqueRear : 16|16@1- (0.1,0) [-3276.8|3276.7] "Nm" RCU
+ SG_ VCU_MaxRegenTorque : 32|16@1+ (0.1,0) [0|6553.5] "Nm" CLU
+ SG_ VCU_ActualPowerDemand : 48|16@1- (0.1,0) [-3276.8|3276.7] "kW" CLU
+
+BO_ 582 VCU_04: 8 VCU
+ SG_ VCU_EstimatedRange : 0|16@1+ (1,0) [0|65535] "km" CLU
+ SG_ VCU_AuxPowerConsumption : 16|8@1+ (0.1,0) [0|25.5] "kW" CLU
+ SG_ VCU_HVACPowerConsumption : 24|8@1+ (0.1,0) [0|25.5] "kW" CLU
+ SG_ VCU_HeadlightStatus : 32|2@1+ (1,0) [0|3] "" CLU
+ SG_ VCU_WiperStatus : 34|2@1+ (1,0) [0|3] "" CLU
+ SG_ VCU_ExteriorTemp : 40|8@1+ (1,-40) [-40|215] "degC" CLU
+ SG_ VCU_Checksum : 56|8@1+ (1,0) [0|255] "" FCU,RCU,BMS
+
+CM_ BO_ 512 "Front motor/inverter status. Transmitted by Front Control Unit (FCU). 10ms periodic. Present on all E-GMP variants.";
+CM_ SG_ 512 MOTOR_FR_Speed "Positive = forward rotation. Negative = reverse rotation.";
+CM_ SG_ 512 MOTOR_FR_Torque "Positive = motoring torque (acceleration). Negative = regenerative torque.";
+CM_ SG_ 512 MOTOR_FR_Temp "Motor winding/stator temperature. Critical for thermal derating.";
+CM_ SG_ 512 MOTOR_FR_InverterTemp "Power electronics (IGBT) temperature. Triggers derating above ~80 degC.";
+CM_ SG_ 512 MOTOR_FR_Status "0=Off, 1=Ready, 2=Drive, 3=Regen, 4=Error, 5=Overheat_Derate, 6=Reserved, 7=Reserved";
+CM_ SG_ 512 MOTOR_FR_ErrorFlags "Bit field: bit0=overcurrent, bit1=overvoltage, bit2=overheat, bit3=comm_error";
+
+CM_ BO_ 514 "Front motor power and electrical measurements. 10ms periodic.";
+CM_ SG_ 514 MOTOR_FR_OutputPower "Positive = power output (motoring). Negative = power input (regen).";
+
+CM_ BO_ 544 "Rear motor/inverter status (AWD models). Transmitted by Rear Control Unit (RCU). Absent on RWD variants.";
+CM_ SG_ 544 MOTOR_RR_Speed "Positive = forward rotation. Negative = reverse rotation.";
+CM_ SG_ 544 MOTOR_RR_Torque "Positive = motoring torque (acceleration). Negative = regenerative torque.";
+
+CM_ BO_ 546 "Rear motor power and electrical measurements (AWD models). 10ms periodic.";
+
+CM_ BO_ 576 "Vehicle Control Unit primary commands and status. 10ms periodic.";
+CM_ SG_ 576 VCU_DriveMode "0=Eco, 1=Normal/Comfort, 2=Sport, 3=Sport+, 4=Snow, 5=Sand, 6=Mud, 7=My_Drive, 8=N_Mode (N Line/N variants)";
+CM_ SG_ 576 VCU_RegenLevel "Regenerative braking level. 0=Off (coasting), 1-3=Auto regen, i-Pedal one-pedal driving on level 3+. Adjusted via steering wheel paddle shifters.";
+CM_ SG_ 576 VCU_TorqueRequest "Total torque requested to traction system. Split between front and rear by VCU.";
+CM_ SG_ 576 VCU_GearPosition "0=Unknown, 1=P, 2=R, 3=N, 4=D, 5=L, 6-15=Reserved";
+CM_ SG_ 576 VCU_ReadyIndicator "Vehicle ready to drive indicator (READY lamp on cluster)";
+CM_ SG_ 576 VCU_AWDActive "All-wheel drive actively distributing torque to both axles";
+
+CM_ BO_ 578 "VCU vehicle dynamics. Speed and distance tracking.";
+CM_ SG_ 578 VCU_VehicleSpeed "Calibrated vehicle speed from VCU. May differ slightly from wheel speed sensors.";
+CM_ SG_ 578 VCU_Odometer "Total odometer reading in km";
+CM_ SG_ 578 VCU_PowerConsumption "Instantaneous energy consumption for range estimation";
+
+CM_ BO_ 580 "VCU torque split and power demands.";
+
+CM_ BO_ 582 "VCU auxiliary information including estimated range.";
+CM_ SG_ 582 VCU_EstimatedRange "Remaining range estimate calculated by VCU from SOC and recent consumption";
+
+VAL_ 576 VCU_DriveMode 0 "Eco" 1 "Normal" 2 "Sport" 3 "Sport_Plus" 4 "Snow" 5 "Sand" 6 "Mud" 7 "My_Drive" 8 "N_Mode" 9 "Reserved" 10 "Reserved" 11 "Reserved" 12 "Reserved" 13 "Reserved" 14 "Reserved" 15 "Error";
+VAL_ 576 VCU_GearPosition 0 "Unknown" 1 "P" 2 "R" 3 "N" 4 "D" 5 "L" 6 "Reserved" 7 "Reserved";
+VAL_ 512 MOTOR_FR_Status 0 "Off" 1 "Ready" 2 "Drive" 3 "Regen" 4 "Error" 5 "Derate" 6 "Reserved" 7 "Reserved";
+VAL_ 544 MOTOR_RR_Status 0 "Off" 1 "Ready" 2 "Drive" 3 "Regen" 4 "Error" 5 "Derate" 6 "Reserved" 7 "Reserved";
