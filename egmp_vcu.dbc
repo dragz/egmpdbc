@@ -119,7 +119,7 @@ CM_ BO_ 546 "Rear motor power and electrical measurements (AWD models). 10ms per
 
 CM_ BO_ 576 "Vehicle Control Unit primary commands and status. 10ms periodic.";
 CM_ SG_ 576 VCU_DriveMode "0=Eco, 1=Normal/Comfort, 2=Sport, 3=Sport+, 4=Snow, 5=Sand, 6=Mud, 7=My_Drive, 8=N_Mode (N Line/N variants)";
-CM_ SG_ 576 VCU_RegenLevel "Regenerative braking paddle level. 0=Off (coasting), 1-3=Auto, i-Pedal on level 3+";
+CM_ SG_ 576 VCU_RegenLevel "Regenerative braking level. 0=Off (coasting), 1-3=Auto regen, i-Pedal one-pedal driving on level 3+. Adjusted via steering wheel paddle shifters.";
 CM_ SG_ 576 VCU_TorqueRequest "Total torque requested to traction system. Split between front and rear by VCU.";
 CM_ SG_ 576 VCU_GearPosition "0=Unknown, 1=P, 2=R, 3=N, 4=D, 5=L, 6-15=Reserved";
 CM_ SG_ 576 VCU_ReadyIndicator "Vehicle ready to drive indicator (READY lamp on cluster)";
