@@ -116,3 +116,163 @@ VAL_ 1096 Steering_Wheel_Menu_Press_Button 1 "Pressed" 0 "Not_Pressed";
 VAL_ 1107 RearRight_Seat_Heating_State 65 "High" 49 "Low" 17 "Off" ;
 VAL_ 1141 Passenger_Seat_Heating_State 70 "High" 62 "Medium" 54 "Low" 22 "Off" ;
 VAL_ 1174 Driver_Seat_Heating_State    70 "High" 62 "Medium" 54 "Low" 22 "Off" ;
+
+BO_ 1668 ISOTP_FF_684: 8 Vector__XXX
+ SG_ ISOTP_Type        : 4|4@1+  (1,0) [0|15]  ""   Vector__XXX
+ SG_ ISOTP_Len_High    : 0|4@1+  (1,0) [0|15]  ""   Vector__XXX
+ SG_ ISOTP_Len_Low     : 8|8@1+  (1,0) [0|255] ""   Vector__XXX
+ SG_ ISOTP_SID         : 16|8@1+ (1,0) [0|255] ""   Vector__XXX
+
+CM_ BO_ 1668 "ISO-TP First Frame 0x684 → FC from 0x685. TotalLen=(Len_High<<8)|Len_Low";
+
+BO_ 1669 ISOTP_FC_685: 8 Vector__XXX
+ SG_ ISOTP_Type        : 4|4@1+  (1,0) [0|15]  ""   Vector__XXX
+ SG_ ISOTP_Flow_Status : 0|4@1+  (1,0) [0|15]  ""   Vector__XXX
+ SG_ ISOTP_Block_Size  : 8|8@1+  (1,0) [0|255] ""   Vector__XXX
+ SG_ ISOTP_STmin       : 16|8@1+ (1,0) [0|255] "ms" Vector__XXX
+
+CM_ BO_ 1669 "ISO-TP Flow Control 0x685 → responding to 0x684";
+
+BO_ 1643 ISOTP_FF_66B: 8 Vector__XXX
+ SG_ ISOTP_Type        : 4|4@1+  (1,0) [0|15]  ""   Vector__XXX
+ SG_ ISOTP_Len_High    : 0|4@1+  (1,0) [0|15]  ""   Vector__XXX
+ SG_ ISOTP_Len_Low     : 8|8@1+  (1,0) [0|255] ""   Vector__XXX
+ SG_ ISOTP_SID         : 16|8@1+ (1,0) [0|255] ""   Vector__XXX
+
+CM_ BO_ 1643 "ISO-TP First Frame 0x66B → FC from 0x69B";
+
+BO_ 1746 ISOTP_FF_6D2: 8 Vector__XXX
+ SG_ ISOTP_Type        : 4|4@1+  (1,0) [0|15]  ""   Vector__XXX
+ SG_ ISOTP_Len_High    : 0|4@1+  (1,0) [0|15]  ""   Vector__XXX
+ SG_ ISOTP_Len_Low     : 8|8@1+  (1,0) [0|255] ""   Vector__XXX
+ SG_ ISOTP_SID         : 16|8@1+ (1,0) [0|255] ""   Vector__XXX
+
+CM_ BO_ 1746 "ISO-TP First Frame 0x6D2 → FC from 0x69B";
+
+BO_ 1691 ISOTP_FC_69B: 8 Vector__XXX
+ SG_ ISOTP_Type        : 4|4@1+  (1,0) [0|15]  ""   Vector__XXX
+ SG_ ISOTP_Flow_Status : 0|4@1+  (1,0) [0|15]  ""   Vector__XXX
+ SG_ ISOTP_Block_Size  : 8|8@1+  (1,0) [0|255] ""   Vector__XXX
+ SG_ ISOTP_STmin       : 16|8@1+ (1,0) [0|255] "ms" Vector__XXX
+
+CM_ BO_ 1691 "ISO-TP Flow Control 0x69B → responding to 0x66B and 0x6D2";
+
+BO_ 1757 ISOTP_FF_6DD: 8 Vector__XXX
+ SG_ ISOTP_Type        : 4|4@1+  (1,0) [0|15]  ""   Vector__XXX
+ SG_ ISOTP_Len_High    : 0|4@1+  (1,0) [0|15]  ""   Vector__XXX
+ SG_ ISOTP_Len_Low     : 8|8@1+  (1,0) [0|255] ""   Vector__XXX
+ SG_ ISOTP_SID         : 16|8@1+ (1,0) [0|255] ""   Vector__XXX
+
+CM_ BO_ 1757 "ISO-TP First Frame 0x6DD → FC from 0x69E";
+
+BO_ 1646 ISOTP_FF_66E: 8 Vector__XXX
+ SG_ ISOTP_Type        : 4|4@1+  (1,0) [0|15]  ""   Vector__XXX
+ SG_ ISOTP_Len_High    : 0|4@1+  (1,0) [0|15]  ""   Vector__XXX
+ SG_ ISOTP_Len_Low     : 8|8@1+  (1,0) [0|255] ""   Vector__XXX
+ SG_ ISOTP_SID         : 16|8@1+ (1,0) [0|255] ""   Vector__XXX
+
+CM_ BO_ 1646 "ISO-TP First Frame 0x66E → FC from 0x69E";
+
+BO_ 1694 ISOTP_FC_69E: 8 Vector__XXX
+ SG_ ISOTP_Type        : 4|4@1+  (1,0) [0|15]  ""   Vector__XXX
+ SG_ ISOTP_Flow_Status : 0|4@1+  (1,0) [0|15]  ""   Vector__XXX
+ SG_ ISOTP_Block_Size  : 8|8@1+  (1,0) [0|255] ""   Vector__XXX
+ SG_ ISOTP_STmin       : 16|8@1+ (1,0) [0|255] "ms" Vector__XXX
+
+CM_ BO_ 1694 "ISO-TP Flow Control 0x69E → responding to 0x6DD and 0x66E";
+
+BO_ 1645 ISOTP_FF_66D: 8 Vector__XXX
+ SG_ ISOTP_Type        : 4|4@1+  (1,0) [0|15]  ""   Vector__XXX
+ SG_ ISOTP_Len_High    : 0|4@1+  (1,0) [0|15]  ""   Vector__XXX
+ SG_ ISOTP_Len_Low     : 8|8@1+  (1,0) [0|255] ""   Vector__XXX
+ SG_ ISOTP_SID         : 16|8@1+ (1,0) [0|255] ""   Vector__XXX
+
+CM_ BO_ 1645 "ISO-TP First Frame 0x66D → FC from 0x69D";
+
+BO_ 1758 ISOTP_FF_6DE: 8 Vector__XXX
+ SG_ ISOTP_Type        : 4|4@1+  (1,0) [0|15]  ""   Vector__XXX
+ SG_ ISOTP_Len_High    : 0|4@1+  (1,0) [0|15]  ""   Vector__XXX
+ SG_ ISOTP_Len_Low     : 8|8@1+  (1,0) [0|255] ""   Vector__XXX
+ SG_ ISOTP_SID         : 16|8@1+ (1,0) [0|255] ""   Vector__XXX
+
+CM_ BO_ 1758 "ISO-TP First Frame 0x6DE → FC from 0x69D";
+
+BO_ 1693 ISOTP_FC_69D: 8 Vector__XXX
+ SG_ ISOTP_Type        : 4|4@1+  (1,0) [0|15]  ""   Vector__XXX
+ SG_ ISOTP_Flow_Status : 0|4@1+  (1,0) [0|15]  ""   Vector__XXX
+ SG_ ISOTP_Block_Size  : 8|8@1+  (1,0) [0|255] ""   Vector__XXX
+ SG_ ISOTP_STmin       : 16|8@1+ (1,0) [0|255] "ms" Vector__XXX
+
+CM_ BO_ 1693 "ISO-TP Flow Control 0x69D → responding to 0x66D and 0x6DE";
+
+BO_ 1767 ISOTP_FF_6E7: 8 Vector__XXX
+ SG_ ISOTP_Type        : 4|4@1+  (1,0) [0|15]  ""   Vector__XXX
+ SG_ ISOTP_Len_High    : 0|4@1+  (1,0) [0|15]  ""   Vector__XXX
+ SG_ ISOTP_Len_Low     : 8|8@1+  (1,0) [0|255] ""   Vector__XXX
+ SG_ ISOTP_SID         : 16|8@1+ (1,0) [0|255] ""   Vector__XXX
+
+CM_ BO_ 1767 "ISO-TP First Frame 0x6E7 → FC from 0x6F4";
+
+BO_ 1759 ISOTP_FF_6DF: 8 Vector__XXX
+ SG_ ISOTP_Type        : 4|4@1+  (1,0) [0|15]  ""   Vector__XXX
+ SG_ ISOTP_Len_High    : 0|4@1+  (1,0) [0|15]  ""   Vector__XXX
+ SG_ ISOTP_Len_Low     : 8|8@1+  (1,0) [0|255] ""   Vector__XXX
+ SG_ ISOTP_SID         : 16|8@1+ (1,0) [0|255] ""   Vector__XXX
+
+CM_ BO_ 1759 "ISO-TP First Frame 0x6DF → FC from 0x6F4";
+
+BO_ 1780 ISOTP_FC_6F4: 8 Vector__XXX
+ SG_ ISOTP_Type        : 4|4@1+  (1,0) [0|15]  ""   Vector__XXX
+ SG_ ISOTP_Flow_Status : 0|4@1+  (1,0) [0|15]  ""   Vector__XXX
+ SG_ ISOTP_Block_Size  : 8|8@1+  (1,0) [0|255] ""   Vector__XXX
+ SG_ ISOTP_STmin       : 16|8@1+ (1,0) [0|255] "ms" Vector__XXX
+
+CM_ BO_ 1780 "ISO-TP Flow Control 0x6F4 → responding to 0x6E7 and 0x6DF";
+
+BO_ 1665 ISOTP_FF_681: 8 Vector__XXX
+ SG_ ISOTP_Type        : 4|4@1+  (1,0) [0|15]  ""   Vector__XXX
+ SG_ ISOTP_Len_High    : 0|4@1+  (1,0) [0|15]  ""   Vector__XXX
+ SG_ ISOTP_Len_Low     : 8|8@1+  (1,0) [0|255] ""   Vector__XXX
+ SG_ ISOTP_SID         : 16|8@1+ (1,0) [0|255] ""   Vector__XXX
+
+CM_ BO_ 1665 "ISO-TP First Frame 0x681 → FC from 0x6AA";
+
+BO_ 1664 ISOTP_FF_680: 8 Vector__XXX
+ SG_ ISOTP_Type        : 4|4@1+  (1,0) [0|15]  ""   Vector__XXX
+ SG_ ISOTP_Len_High    : 0|4@1+  (1,0) [0|15]  ""   Vector__XXX
+ SG_ ISOTP_Len_Low     : 8|8@1+  (1,0) [0|255] ""   Vector__XXX
+ SG_ ISOTP_SID         : 16|8@1+ (1,0) [0|255] ""   Vector__XXX
+
+CM_ BO_ 1664 "ISO-TP First Frame 0x680 → FC from 0x6AA";
+
+BO_ 1706 ISOTP_FC_6AA: 8 Vector__XXX
+ SG_ ISOTP_Type        : 4|4@1+  (1,0) [0|15]  ""   Vector__XXX
+ SG_ ISOTP_Flow_Status : 0|4@1+  (1,0) [0|15]  ""   Vector__XXX
+ SG_ ISOTP_Block_Size  : 8|8@1+  (1,0) [0|255] ""   Vector__XXX
+ SG_ ISOTP_STmin       : 16|8@1+ (1,0) [0|255] "ms" Vector__XXX
+
+CM_ BO_ 1706 "ISO-TP Flow Control 0x6AA → responding to 0x680 and 0x681";
+
+VAL_ 1668 ISOTP_Type 0 "SingleFrame" 1 "FirstFrame" 2 "ConsecFrame" 3 "FlowCtrl";
+VAL_ 1643 ISOTP_Type 0 "SingleFrame" 1 "FirstFrame" 2 "ConsecFrame" 3 "FlowCtrl";
+VAL_ 1746 ISOTP_Type 0 "SingleFrame" 1 "FirstFrame" 2 "ConsecFrame" 3 "FlowCtrl";
+VAL_ 1757 ISOTP_Type 0 "SingleFrame" 1 "FirstFrame" 2 "ConsecFrame" 3 "FlowCtrl";
+VAL_ 1646 ISOTP_Type 0 "SingleFrame" 1 "FirstFrame" 2 "ConsecFrame" 3 "FlowCtrl";
+VAL_ 1645 ISOTP_Type 0 "SingleFrame" 1 "FirstFrame" 2 "ConsecFrame" 3 "FlowCtrl";
+VAL_ 1758 ISOTP_Type 0 "SingleFrame" 1 "FirstFrame" 2 "ConsecFrame" 3 "FlowCtrl";
+VAL_ 1767 ISOTP_Type 0 "SingleFrame" 1 "FirstFrame" 2 "ConsecFrame" 3 "FlowCtrl";
+VAL_ 1759 ISOTP_Type 0 "SingleFrame" 1 "FirstFrame" 2 "ConsecFrame" 3 "FlowCtrl";
+VAL_ 1665 ISOTP_Type 0 "SingleFrame" 1 "FirstFrame" 2 "ConsecFrame" 3 "FlowCtrl";
+VAL_ 1664 ISOTP_Type 0 "SingleFrame" 1 "FirstFrame" 2 "ConsecFrame" 3 "FlowCtrl";
+VAL_ 1669 ISOTP_Type 0 "SingleFrame" 1 "FirstFrame" 2 "ConsecFrame" 3 "FlowCtrl";
+VAL_ 1691 ISOTP_Type 0 "SingleFrame" 1 "FirstFrame" 2 "ConsecFrame" 3 "FlowCtrl";
+VAL_ 1694 ISOTP_Type 0 "SingleFrame" 1 "FirstFrame" 2 "ConsecFrame" 3 "FlowCtrl";
+VAL_ 1693 ISOTP_Type 0 "SingleFrame" 1 "FirstFrame" 2 "ConsecFrame" 3 "FlowCtrl";
+VAL_ 1780 ISOTP_Type 0 "SingleFrame" 1 "FirstFrame" 2 "ConsecFrame" 3 "FlowCtrl";
+VAL_ 1706 ISOTP_Type 0 "SingleFrame" 1 "FirstFrame" 2 "ConsecFrame" 3 "FlowCtrl";
+VAL_ 1669 ISOTP_Flow_Status 0 "ContinueToSend" 1 "Wait" 2 "Overflow";
+VAL_ 1691 ISOTP_Flow_Status 0 "ContinueToSend" 1 "Wait" 2 "Overflow";
+VAL_ 1694 ISOTP_Flow_Status 0 "ContinueToSend" 1 "Wait" 2 "Overflow";
+VAL_ 1693 ISOTP_Flow_Status 0 "ContinueToSend" 1 "Wait" 2 "Overflow";
+VAL_ 1780 ISOTP_Flow_Status 0 "ContinueToSend" 1 "Wait" 2 "Overflow";
+VAL_ 1706 ISOTP_Flow_Status 0 "ContinueToSend" 1 "Wait" 2 "Overflow";
