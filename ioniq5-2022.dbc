@@ -276,3 +276,27 @@ VAL_ 1694 ISOTP_Flow_Status 0 "ContinueToSend" 1 "Wait" 2 "Overflow";
 VAL_ 1693 ISOTP_Flow_Status 0 "ContinueToSend" 1 "Wait" 2 "Overflow";
 VAL_ 1780 ISOTP_Flow_Status 0 "ContinueToSend" 1 "Wait" 2 "Overflow";
 VAL_ 1706 ISOTP_Flow_Status 0 "ContinueToSend" 1 "Wait" 2 "Overflow";
+
+BO_ 996 VIN_Broadcast: 8 Vector__XXX
+ SG_ VIN_Frame M  :  0|8@1+ (1,0) [0|255] "" Vector__XXX
+ SG_ VIN_C01 m42  : 56|8@1+ (1,0) [0|255] "" Vector__XXX
+ SG_ VIN_C02 m42  : 48|8@1+ (1,0) [0|255] "" Vector__XXX
+ SG_ VIN_C03 m42  : 40|8@1+ (1,0) [0|255] "" Vector__XXX
+ SG_ VIN_C04 m42  : 32|8@1+ (1,0) [0|255] "" Vector__XXX
+ SG_ VIN_C05 m42  : 24|8@1+ (1,0) [0|255] "" Vector__XXX
+ SG_ VIN_C06 m42  : 16|8@1+ (1,0) [0|255] "" Vector__XXX
+ SG_ VIN_C07 m42  :  8|8@1+ (1,0) [0|255] "" Vector__XXX
+ SG_ VIN_C08 m74  : 56|8@1+ (1,0) [0|255] "" Vector__XXX
+ SG_ VIN_C09 m74  : 48|8@1+ (1,0) [0|255] "" Vector__XXX
+ SG_ VIN_C10 m74  : 40|8@1+ (1,0) [0|255] "" Vector__XXX
+ SG_ VIN_C11 m74  : 32|8@1+ (1,0) [0|255] "" Vector__XXX
+ SG_ VIN_C12 m74  : 24|8@1+ (1,0) [0|255] "" Vector__XXX
+ SG_ VIN_C13 m74  : 16|8@1+ (1,0) [0|255] "" Vector__XXX
+ SG_ VIN_C14 m74  :  8|8@1+ (1,0) [0|255] "" Vector__XXX
+ SG_ VIN_C15 m106 : 56|8@1+ (1,0) [0|255] "" Vector__XXX
+ SG_ VIN_C16 m106 : 48|8@1+ (1,0) [0|255] "" Vector__XXX
+ SG_ VIN_C17 m106 : 40|8@1+ (1,0) [0|255] "" Vector__XXX
+
+CM_ BO_ 996 "VIN broadcast 0x3E4. Byte 0 = frame counter. VIN chars stored in reverse byte order (byte7=VIN[1], byte6=VIN[2]...). Frame 0x2A: VIN[1-7]=KMHKR81, Frame 0x4A: VIN[8-14]=CPNU058, Frame 0x6A: VIN[15-17]=627";
+
+VAL_ 996 VIN_Frame 42 "VIN_chars_01_07" 74 "VIN_chars_08_14" 106 "VIN_chars_15_17";
