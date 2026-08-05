@@ -65,15 +65,18 @@ BO_ 1080 RearLeft_Seat_Heating: 8 Vector__XXX
 
 CM_ "FrameID: 0x448";
 BO_ 1096 Steering_Wheel_Buttons: 8 Vector__XXX
- SG_ Steering_Wheel_Other_Button      : 16|8@1+ (1,0) [0|255] "" Vector__XXX
- SG_ Steering_Wheel_Star_Button       : 40|8@1+ (1,0) [0|255] "" Vector__XXX
- SG_ Steering_Wheel_Mute_Button       : 16|1@1+ (1,0) [0|1] "" Vector__XXX
- SG_ Steering_Wheel_Vol_Down_Button   : 22|1@1+ (1,0) [0|1] "" Vector__XXX
- SG_ Steering_Wheel_Vol_Up_Button     : 24|1@1+ (1,0) [0|1] "" Vector__XXX
- SG_ Steering_Wheel_Menu_Button       : 26|1@1+ (1,0) [0|1] "" Vector__XXX
- SG_ Steering_Wheel_Menu_Down_Button  : 40|1@1+ (1,0) [0|1] "" Vector__XXX
- SG_ Steering_Wheel_Menu_Up_Button    : 42|1@1+ (1,0) [0|1] "" Vector__XXX
- SG_ Steering_Wheel_Menu_Press_Button : 44|1@1+ (1,0) [0|1] "" Vector__XXX
+ SG_ Steering_Wheel_Speak_Button      : 16|1@1+ (1,0) [0|1] "" Vector__XXX
+ SG_ Steering_Wheel_Call_Button       : 18|1@1+ (1,0) [0|1] "" Vector__XXX
+ SG_ Steering_Wheel_Mode_Button       : 22|1@1+ (1,0) [0|1] "" Vector__XXX
+ SG_ Steering_Wheel_Mute_Button       : 24|1@1+ (1,0) [0|1] "" Vector__XXX
+ SG_ Steering_Wheel_Skip_Down_Button  : 26|1@1+ (1,0) [0|1] "" Vector__XXX
+ SG_ Steering_Wheel_Skip_Up_Button    : 28|1@1+ (1,0) [0|1] "" Vector__XXX
+ SG_ Steering_Wheel_Vol_Down_Button   : 30|1@1+ (1,0) [0|1] "" Vector__XXX
+ SG_ Steering_Wheel_Vol_Up_Button     : 32|1@1+ (1,0) [0|1] "" Vector__XXX
+ SG_ Steering_Wheel_Star_Button       : 44|1@1+ (1,0) [0|1] "" Vector__XXX
+ SG_ Steering_Wheel_Menu_Down_Button  : 48|1@1+ (1,0) [0|1] "" Vector__XXX
+ SG_ Steering_Wheel_Menu_Up_Button    : 50|1@1+ (1,0) [0|1] "" Vector__XXX
+ SG_ Steering_Wheel_Menu_Press_Button : 52|1@1+ (1,0) [0|1] "" Vector__XXX
 
 CM_ "FrameID: 0x453";
 BO_ 1107 RearRight_Seat_Heating: 8 Vector__XXX
@@ -93,6 +96,50 @@ BO_ 1261 Navigation_Precond_Status: 8 Vector__XXX
  SG_ Distance_To_Charger_2 : 48|8@1+ (1,0) [0|255] "" Vector__XXX
  SG_ Precond               : 56|8@1+ (1,0) [0|255] "" Vector__XXX
 
+CM_ "FrameID: 0x0A2";
+BO_ 162 Wheel_Speeds: 8 Vector__XXX
+ SG_ Wheel_Speed_1 : 0|16@1+  (0.03125,0) [0|2047.96] "kph" Vector__XXX
+ SG_ Wheel_Speed_2 : 16|16@1+ (0.03125,0) [0|2047.96] "kph" Vector__XXX
+ SG_ Wheel_Speed_3 : 32|16@1+ (0.03125,0) [0|2047.96] "kph" Vector__XXX
+ SG_ Wheel_Speed_4 : 48|16@1+ (0.03125,0) [0|2047.96] "kph" Vector__XXX
+
+CM_ "FrameID: 0x1AC";
+BO_ 428 Cluster_Info: 8 Vector__XXX
+ SG_ Speed_kph : 0|8@1+ (1,0) [0|255] "kph" Vector__XXX
+
+CM_ "FrameID: 0x226";
+BO_ 550 Ambient_Temperature: 8 Vector__XXX
+ SG_ Outdoor_Temperature : 24|8@1+ (1,-40) [-40|215] "C" Vector__XXX
+
+CM_ "FrameID: 0x227";
+BO_ 551 Odometer: 8 Vector__XXX
+ SG_ Odometer : 8|24@1+ (0.1,0) [0|1677721] "km" Vector__XXX
+
+CM_ "FrameID: 0x2FC";
+BO_ 764 Battery_Info: 8 Vector__XXX
+ SG_ State_Of_Charge : 56|8@1+ (0.5,0) [0|100] "%" Vector__XXX
+
+CM_ "FrameID: 0x31B";
+BO_ 795 Climate_Status: 8 Vector__XXX
+ SG_ Climate_Fan_Speed          : 24|4@1+ (1,0) [0|15] "" Vector__XXX
+ SG_ Climate_Airflow_Direction  : 28|4@1+ (1,0) [0|15] "" Vector__XXX
+ SG_ Climate_Recirculation_State: 34|1@1+ (1,0) [0|1]  "" Vector__XXX
+
+CM_ "FrameID: 0x380";
+BO_ 896 Climate_Temperature: 8 Vector__XXX
+ SG_ Driver_Temp_Raw    : 24|8@1+ (0.5,14) [14|32] "C" Vector__XXX
+ SG_ Passenger_Temp_Raw : 32|8@1+ (0.5,14) [14|32] "C" Vector__XXX
+ SG_ Rear_Temp_1_Raw    : 40|8@1+ (0.5,14) [14|32] "C" Vector__XXX
+ SG_ Rear_Temp_2_Raw    : 48|8@1+ (0.5,14) [14|32] "C" Vector__XXX
+
+CM_ "FrameID: 0x3AA";
+BO_ 938 Charge_Port_Door: 8 Vector__XXX
+ SG_ Port_Open : 33|1@1+ (1,0) [0|1] "" Vector__XXX
+
+CM_ "FrameID: 0x414";
+BO_ 1044 Trunk_Status: 8 Vector__XXX
+ SG_ Trunk_Open : 24|1@1+ (1,0) [0|1] "" Vector__XXX
+
 
 VAL_ 199  Battery_Preconditioning_0    64 "On" 0 "Off";
 VAL_ 199  Battery_Preconditioning_1    3 "On" 0 "Off";
@@ -104,18 +151,28 @@ VAL_ 1077 Power_State               255 "Car_Off" 0 "Car_on";
 VAL_ 685  Battery_Precond_State        21 "On" 5 "Preparing" 1 "Off" ;
 VAL_ 1080 RearLeft_Seat_Heating_State  65 "High" 49 "Low" 17 "Off" ;
 VAL_ 1048 Steering_Wheel_Heating_State 1 "On" 0 "Off" ;
-VAL_ 1096 Steering_Wheel_Star_Button       16 "Pressed" 0 "Not_Pressed";
-VAL_ 1096 Steering_Wheel_Other_Button      64 "Mode_Pressed" 1 "Speak_Pressed" 4 "Phone_Pressed" 0 "None_Pressed";
+VAL_ 1096 Steering_Wheel_Speak_Button      1 "Pressed" 0 "Not_Pressed";
+VAL_ 1096 Steering_Wheel_Call_Button       1 "Pressed" 0 "Not_Pressed";
+VAL_ 1096 Steering_Wheel_Mode_Button       1 "Pressed" 0 "Not_Pressed";
 VAL_ 1096 Steering_Wheel_Mute_Button       1 "Pressed" 0 "Not_Pressed";
+VAL_ 1096 Steering_Wheel_Skip_Down_Button  1 "Pressed" 0 "Not_Pressed";
+VAL_ 1096 Steering_Wheel_Skip_Up_Button    1 "Pressed" 0 "Not_Pressed";
 VAL_ 1096 Steering_Wheel_Vol_Down_Button   1 "Pressed" 0 "Not_Pressed";
 VAL_ 1096 Steering_Wheel_Vol_Up_Button     1 "Pressed" 0 "Not_Pressed";
-VAL_ 1096 Steering_Wheel_Menu_Button       1 "Pressed" 0 "Not_Pressed";
+VAL_ 1096 Steering_Wheel_Star_Button       1 "Pressed" 0 "Not_Pressed";
 VAL_ 1096 Steering_Wheel_Menu_Down_Button  1 "Pressed" 0 "Not_Pressed";
 VAL_ 1096 Steering_Wheel_Menu_Up_Button    1 "Pressed" 0 "Not_Pressed";
 VAL_ 1096 Steering_Wheel_Menu_Press_Button 1 "Pressed" 0 "Not_Pressed";
 VAL_ 1107 RearRight_Seat_Heating_State 65 "High" 49 "Low" 17 "Off" ;
 VAL_ 1141 Passenger_Seat_Heating_State 70 "High" 62 "Medium" 54 "Low" 22 "Off" ;
 VAL_ 1174 Driver_Seat_Heating_State    70 "High" 62 "Medium" 54 "Low" 22 "Off" ;
+VAL_ 795 Climate_Fan_Speed 0 "Off" 2 "Speed_1" 3 "Speed_2" 4 "Speed_3" 5 "Speed_4" 6 "Speed_5" 7 "Speed_6" 8 "Speed_7" 9 "Speed_8" ;
+VAL_ 795 Climate_Airflow_Direction 0 "Auto" 1 "Body" 2 "Body_Legs" 3 "Legs" 4 "Legs_Defog" ;
+VAL_ 795 Climate_Recirculation_State 0 "Off" 1 "On" ;
+VAL_ 896 Driver_Temp_Raw 0 "Off" ;
+VAL_ 896 Passenger_Temp_Raw 0 "Off" ;
+VAL_ 896 Rear_Temp_1_Raw 0 "Off" ;
+VAL_ 896 Rear_Temp_2_Raw 0 "Off" ;
 
 BO_ 1668 ISOTP_FF_684: 8 Vector__XXX
  SG_ ISOTP_Type        : 4|4@1+  (1,0) [0|15]  ""   Vector__XXX
