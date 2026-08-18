@@ -1,0 +1,155 @@
+VERSION ""
+
+VERSION ""
+
+NS_ :
+	NS_DESC_
+	CM_
+	BA_DEF_
+	BA_
+	VAL_
+	CAT_DEF_
+	CAT_
+	FILTER
+	BA_DEF_DEF_
+	EV_DATA_
+	ENVVAR_DATA_
+	SGTYPE_
+	SGTYPE_VAL_
+	BA_DEF_SGTYPE_
+	BA_SGTYPE_
+	SIG_TYPE_REF_
+	VAL_TABLE_
+	SIG_GROUP_
+	SIG_VALTYPE_
+	SIGTYPE_VALTYPE_
+	BO_TX_BU_
+	BA_DEF_REL_
+	BA_REL_
+	BA_DEF_SGTYPE_REL_
+	BU_SG_REL_
+	BU_EV_REL_
+	BU_BO_REL_
+
+BS_:
+
+BU_: Vector__XXX
+
+BA_DEF_ BO_  "VFrameFormat" ENUM  "StandardCAN","ExtendedCAN";
+
+BO_ 56 Power_Status: 8 Vector__XXX
+	SG_ Power_Status_Ready : 0|4@1+ (1,0) [0|0] "" Vector__XXX
+
+CM_ BO_ 56 "POWER_STATUS (0x038) power/READY frame. LS nibble of byte 0 == 0x04 indicates the car is in READY.";
+CM_ SG_ 56 Power_Status_Ready "LS nibble of byte 0";
+
+VAL_ 56 Power_Status_Ready 4 "Ready" ;
+
+BO_ 199 Toggle_Battery_Preconditioning: 8 Vector__XXX
+	SG_ Battery_Preconditioning_0 : 24|8@1+ (1,0) [0|0] "" Vector__XXX
+	SG_ Battery_Preconditioning_1 : 32|8@1+ (1,0) [0|0] "" Vector__XXX
+
+CM_ BO_ 199 "Low level BMU control (preconditioning, utility mode activation; involved in start/stop).";
+CM_ SG_ 199 Battery_Preconditioning_0 "byte 3";
+CM_ SG_ 199 Battery_Preconditioning_1 "byte 4";
+
+VAL_ 199 Battery_Preconditioning_0 0 "Off" 64 "On" ;
+VAL_ 199 Battery_Preconditioning_1 0 "Off" 3 "On" ;
+
+BO_ 685 BMS_Precond_Status: 8 Vector__XXX
+	SG_ Battery_Precond_State : 8|8@1+ (1,0) [0|0] "" Vector__XXX
+
+CM_ BO_ 685 "BMS_Precond_Status (0x2AD), Ioniq 5 / EV6. Byte 1 state: Ioniq 5 0x01 idle / 0x05 starting / 0x15 started; EV6 0x41 / 0x45 / 0x55. Ioniq 6 uses the extended ID 0x0A82AA03 instead.";
+CM_ SG_ 685 Battery_Precond_State "byte 1 state";
+
+VAL_ 685 Battery_Precond_State 1 "Off" 5 "Preparing" 21 "On" ;
+
+BO_ 2323819011 BMS_Precond_Status_Ioniq6: 8 Vector__XXX
+	SG_ Battery_Precond_State : 8|8@1+ (1,0) [0|0] "" Vector__XXX
+
+CM_ BO_ 2323819011 "BMS_Precond_Status for Ioniq 6 (extended ID 0x0A82AA03). Same byte-1 state semantics as 0x2AD on Ioniq 5 / EV6.";
+CM_ SG_ 2323819011 Battery_Precond_State "byte 1 state";
+
+VAL_ 2323819011 Battery_Precond_State 1 "Off" 5 "Preparing" 21 "On" ;
+
+BO_ 1261 Navigation_Precond_Status: 8 Vector__XXX
+	SG_ Distance_To_Charger_1 : 40|8@1+ (1,0) [0|0] "" Vector__XXX
+	SG_ Distance_To_Charger_2 : 48|8@1+ (1,0) [0|0] "" Vector__XXX
+	SG_ Precond : 56|8@1+ (1,0) [0|0] "" Vector__XXX
+
+CM_ BO_ 1261 "Navigation_Precond_Status (0x4ED): navigation distance to charger and precondition flag.";
+CM_ SG_ 1261 Distance_To_Charger_1 "byte 5";
+CM_ SG_ 1261 Distance_To_Charger_2 "byte 6";
+CM_ SG_ 1261 Precond "byte 7";
+
+
+BO_ 1256 Distance_Flag_Display: 8 Vector__XXX
+	SG_ Distance_Unit : 0|4@1+ (1,0) [0|0] "" Vector__XXX
+	SG_ Distance_Tenths : 4|4@1+ (1,0) [0|0] "" Vector__XXX
+	SG_ Distance_To_Charger : 32|16@1+ (1,0) [0|0] "" Vector__XXX
+	SG_ Distance_Flag : 48|4@1+ (1,0) [0|0] "" Vector__XXX
+
+CM_ BO_ 1256 "Distance/flag display (0x4E8): byte0 = tenths<<4 | unit; bytes 4-5 = uint16 distance (LE); byte 6 LS nibble = flag. 0xFFFF distance hides the number.";
+CM_ SG_ 1256 Distance_Unit "byte 0 LS nibble";
+CM_ SG_ 1256 Distance_Tenths "byte 0 MS nibble";
+CM_ SG_ 1256 Distance_To_Charger "bytes 4-5, uint16 LE";
+CM_ SG_ 1256 Distance_Flag "byte 6 LS nibble";
+
+VAL_ 1256 Distance_Unit 0 "M" 1 "KM" 2 "MI" 3 "FT" 4 "YD" ;
+VAL_ 1256 Distance_Flag 0 "Destination" 1 "Blue 1" 2 "Blue 2" 3 "Blue 3" 4 "Blue 4" 15 "None" ;
+
+BO_ 1228 Precond_Countdown_Flag: 8 Vector__XXX
+	SG_ Precond_Countdown : 0|8@1+ (1,0) [0|0] "" Vector__XXX
+
+CM_ SG_ 1228 Precond_Countdown "byte 0";
+
+
+BO_ 338 Battery_Temperature: 8 Vector__XXX
+	SG_ Battery_Temperature_Min : 0|8@1- (1,0) [0|0] "" Vector__XXX
+	SG_ Battery_Temperature_Max : 8|8@1- (1,0) [0|0] "" Vector__XXX
+
+CM_ BO_ 338 "Battery temperature (0x152): data[0] = min cell temp, data[1] = max cell temp (int8, deg C).";
+CM_ SG_ 338 Battery_Temperature_Min "byte 0, signed deg C";
+CM_ SG_ 338 Battery_Temperature_Max "byte 1, signed deg C";
+
+
+BO_ 1096 Steering_Wheel_Buttons: 8 Vector__XXX
+	SG_ Steering_Wheel_Other_Button : 16|8@1+ (1,0) [0|0] "" Vector__XXX
+	SG_ Steering_Wheel_Star_Button : 40|8@1+ (1,0) [0|0] "" Vector__XXX
+
+CM_ BO_ 1096 "Steering-wheel buttons (0x448): star, mode, speak, call, volume, skip, OK buttons.";
+CM_ SG_ 1096 Steering_Wheel_Other_Button "byte 2";
+CM_ SG_ 1096 Steering_Wheel_Star_Button "byte 5";
+
+VAL_ 1096 Steering_Wheel_Other_Button 0 "None_Pressed" 1 "Speak_Pressed" 4 "Phone_Pressed" 64 "Mode_Pressed" ;
+VAL_ 1096 Steering_Wheel_Star_Button 0 "Not_Pressed" 16 "Pressed" ;
+
+BO_ 1617 AVN_Buttons_651: 8 Vector__XXX
+	SG_ AVN_Vol_In : 12|4@1+ (1,0) [0|0] "" Vector__XXX
+	SG_ AVN_Tuner_In : 28|4@1+ (1,0) [0|0] "" Vector__XXX
+
+CM_ BO_ 1617 "AVN (head unit) button events (0x651); event frames sent only on press/release. VOL_IN = byte 1 MS nibble, TUNER_IN = byte 3 MS nibble.";
+CM_ SG_ 1617 AVN_Vol_In "byte 1 MS nibble (mask 0xF0)";
+CM_ SG_ 1617 AVN_Tuner_In "byte 3 MS nibble (mask 0xF0)";
+
+VAL_ 1617 AVN_Vol_In 0 "Release" 3 "Release" 4 "Press" 7 "Press" ;
+VAL_ 1617 AVN_Tuner_In 0 "Release" 3 "Release" 4 "Press" 7 "Press" ;
+
+BO_ 1618 AVN_Buttons_652: 8 Vector__XXX
+	SG_ AVN_Media : 0|4@1+ (1,0) [0|0] "" Vector__XXX
+	SG_ AVN_Map_Nav : 4|4@1+ (1,0) [0|0] "" Vector__XXX
+	SG_ AVN_Star : 8|4@1+ (1,0) [0|0] "" Vector__XXX
+	SG_ AVN_Tuner_Up_Down : 24|4@1+ (1,0) [0|0] "" Vector__XXX
+
+CM_ BO_ 1618 "AVN (head unit) button events (0x652); event frames sent only on press/release. byte0 MS nibble = MAP/NAV, LS = MEDIA; byte1 LS = STAR; byte3 LS = TUNER UP/DOWN.";
+CM_ SG_ 1618 AVN_Media "byte 0 LS nibble (mask 0x0F)";
+CM_ SG_ 1618 AVN_Map_Nav "byte 0 MS nibble (mask 0xF0)";
+CM_ SG_ 1618 AVN_Star "byte 1 LS nibble (mask 0x0F)";
+CM_ SG_ 1618 AVN_Tuner_Up_Down "byte 3 LS nibble (mask 0x0F)";
+
+VAL_ 1618 AVN_Media 0 "Release" 1 "Press" 12 "Release" 13 "Press" ;
+VAL_ 1618 AVN_Map_Nav 0 "Release" 1 "Nav Press" 3 "Release" 4 "Map Press" 7 "Map Press" 12 "Release" 13 "Nav Press" ;
+VAL_ 1618 AVN_Star 0 "Release" 3 "Release" 4 "Press" 7 "Press" ;
+VAL_ 1618 AVN_Tuner_Up_Down 0 "Release" 1 "Down Press" 3 "Release" 4 "Up Press" 7 "Up Press" 12 "Release" 13 "Down Press" ;
+
+BA_ "VFrameFormat" BO_ 2323819011 1;
