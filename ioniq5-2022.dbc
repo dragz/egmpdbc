@@ -370,14 +370,6 @@ CM_ SG_ 56 Power_Status_Ready "LS nibble of byte 0";
 
 VAL_ 56 Power_Status_Ready 4 "Ready" ;
 
-BO_ 2323819011 BMS_Precond_Status_Ioniq6: 8 Vector__XXX
-	SG_ Battery_Precond_State : 8|8@1+ (1,0) [0|0] "" Vector__XXX
-
-CM_ BO_ 2323819011 "BMS_Precond_Status for Ioniq 6 (extended ID 0x0A82AA03). Same byte-1 state semantics as 0x2AD on Ioniq 5 / EV6.";
-CM_ SG_ 2323819011 Battery_Precond_State "byte 1 state";
-
-VAL_ 2323819011 Battery_Precond_State 1 "Off" 5 "Preparing" 21 "On" ;
-
 BO_ 1256 Distance_Flag_Display: 8 Vector__XXX
 	SG_ Distance_Unit : 0|4@1+ (1,0) [0|0] "" Vector__XXX
 	SG_ Distance_Tenths : 4|4@1+ (1,0) [0|0] "" Vector__XXX
@@ -435,6 +427,3 @@ VAL_ 1618 AVN_Media 0 "Release" 1 "Press" 12 "Release" 13 "Press" ;
 VAL_ 1618 AVN_Map_Nav 0 "Release" 1 "Nav Press" 3 "Release" 4 "Map Press" 7 "Map Press" 12 "Release" 13 "Nav Press" ;
 VAL_ 1618 AVN_Star 0 "Release" 3 "Release" 4 "Press" 7 "Press" ;
 VAL_ 1618 AVN_Tuner_Up_Down 0 "Release" 1 "Down Press" 3 "Release" 4 "Up Press" 7 "Up Press" 12 "Release" 13 "Down Press" ;
-
-BA_DEF_ BO_  "VFrameFormat" ENUM  "StandardCAN","ExtendedCAN";
-BA_ "VFrameFormat" BO_ 2323819011 1;
