@@ -1,0 +1,1619 @@
+VERSION "1.0"
+
+NS_ :
+	NS_DESC_
+	CM_
+	BA_DEF_
+	BA_
+	VAL_
+	CAT_DEF_
+	CAT_
+	FILTER
+	BA_DEF_DEF_
+	EV_DATA_
+	ENVVAR_DATA_
+	SGTYPE_
+	SGTYPE_VAL_
+	BA_DEF_SGTYPE_
+	BA_SGTYPE_
+	SIG_TYPE_REF_
+	VAL_TABLE_
+	SIG_GROUP_
+	SIG_VALTYPE_
+	VAL_TABLE_EXT_
+	SIG_MUX_VAL_
+	SIG_MUX_VAL_EXT_
+	SG_MUL_VAL_
+	BA_DEF_REL_
+	BA_REL_
+	BA_DEF_DEF_REL_
+	BU_SG_REL_
+	BU_EV_REL_
+	BU_BO_REL_
+	SG_MUL_VAL_
+
+BS_:
+
+BU_: Vector__XXX ABS ACU ADAS AFS AMP APSB APSM BAT BCM BMS CCM CLU DATC DVRS Drv EPB ESC FR IAU IBU ICSC ICU IEB IFS LDC MCU MDPS MFSW OBC ODS PSM PTGM RR RVM SAS SCM SVM TMU TPMS VCMS VCU WHL YRS
+
+BO_ 523 ACU_01_100ms_1: 8 ACU
+ SG_ DATA : 0|64@1+ (1,0) [0|0] "" ACU
+
+BO_ 524 ACU_01_100ms_2: 8 ACU
+ SG_ DATA : 0|64@1+ (1,0) [0|0] "" ACU
+
+BO_ 16 ACU_02_00ms: 8 ACU
+ SG_ DATA : 0|64@1+ (1,0) [0|0] "" ACU
+
+BO_ 353 ADAS_CMD_10_20ms_1: 8 ADAS
+ SG_ DATA : 0|64@1+ (1,0) [0|0] "" ADAS
+
+BO_ 354 ADAS_CMD_10_20ms_2: 8 ADAS
+ SG_ DATA : 0|64@1+ (1,0) [0|0] "" ADAS
+
+BO_ 417 ADAS_CMD_20_20ms_1: 8 ADAS
+ SG_ DATA : 0|64@1+ (1,0) [0|0] "" ADAS
+
+BO_ 418 ADAS_CMD_20_20ms_2: 8 ADAS
+ SG_ DATA : 0|64@1+ (1,0) [0|0] "" ADAS
+
+BO_ 419 ADAS_CMD_20_20ms_3: 8 ADAS
+ SG_ DATA : 0|64@1+ (1,0) [0|0] "" ADAS
+
+BO_ 420 ADAS_CMD_20_20ms_4: 8 ADAS
+ SG_ DATA : 0|64@1+ (1,0) [0|0] "" ADAS
+
+BO_ 512 ADAS_CMD_21_50ms: 8 ADAS
+ SG_ DATA : 0|64@1+ (1,0) [0|0] "" ADAS
+
+BO_ 299 ADAS_CMD_30_10ms_1: 8 ADAS
+ SG_ DATA : 0|64@1+ (1,0) [0|0] "" ADAS
+
+BO_ 300 ADAS_CMD_30_10ms_2: 8 ADAS
+ SG_ DATA : 0|64@1+ (1,0) [0|0] "" ADAS
+
+BO_ 481 ADAS_CMD_31_50ms_1: 8 ADAS
+ SG_ DATA : 0|64@1+ (1,0) [0|0] "" ADAS
+
+BO_ 482 ADAS_CMD_31_50ms_2: 8 ADAS
+ SG_ DATA : 0|64@1+ (1,0) [0|0] "" ADAS
+
+BO_ 491 ADAS_CMD_32_50ms_1: 8 ADAS
+ SG_ DATA : 0|64@1+ (1,0) [0|0] "" ADAS
+
+BO_ 492 ADAS_CMD_32_50ms_2: 8 ADAS
+ SG_ DATA : 0|64@1+ (1,0) [0|0] "" ADAS
+
+BO_ 493 ADAS_CMD_32_50ms_3: 8 ADAS
+ SG_ DATA : 0|64@1+ (1,0) [0|0] "" ADAS
+
+BO_ 494 ADAS_CMD_32_50ms_4: 8 ADAS
+ SG_ DATA : 0|64@1+ (1,0) [0|0] "" ADAS
+
+BO_ 310 BAT_01_10ms_1: 8 BAT
+ SG_ DATA : 0|64@1+ (1,0) [0|0] "" BAT
+
+BO_ 311 BAT_01_10ms_2: 8 BAT
+ SG_ DATA : 0|64@1+ (1,0) [0|0] "" BAT
+
+BO_ 1050 BCM_07_200ms: 8 BCM
+ SG_ DATA : 0|64@1+ (1,0) [0|0] "" BCM
+
+BO_ 1051 BCM_08_200ms: 8 BCM
+ SG_ DATA : 0|64@1+ (1,0) [0|0] "" BCM
+
+BO_ 1052 BCM_09_200ms: 8 BCM
+ SG_ DATA : 0|64@1+ (1,0) [0|0] "" BCM
+
+BO_ 1058 BCM_10_200ms: 8 BCM
+ SG_ DATA : 0|64@1+ (1,0) [0|0] "" BCM
+
+BO_ 1074 BCM_11_200ms: 8 BCM
+ SG_ DATA : 0|64@1+ (1,0) [0|0] "" BCM
+
+BO_ 1090 BCM_12_200ms: 8 BCM
+ SG_ DATA : 0|64@1+ (1,0) [0|0] "" BCM
+
+BO_ 427 CLU_01_20ms_1: 8 CLU
+ SG_ DATA : 0|64@1+ (1,0) [0|0] "" CLU
+
+BO_ 428 CLU_01_20ms_2: 8 CLU
+ SG_ DATA : 0|64@1+ (1,0) [0|0] "" CLU
+
+BO_ 550 CLU_02_100ms_1: 8 CLU
+ SG_ DATA : 0|64@1+ (1,0) [0|0] "" CLU
+
+BO_ 551 CLU_02_100ms_2: 8 CLU
+ SG_ DATA : 0|64@1+ (1,0) [0|0] "" CLU
+
+BO_ 907 CLU_03_200ms_1: 8 CLU
+ SG_ DATA : 0|64@1+ (1,0) [0|0] "" CLU
+
+BO_ 908 CLU_03_200ms_2: 8 CLU
+ SG_ DATA : 0|64@1+ (1,0) [0|0] "" CLU
+
+BO_ 1235 CLU_07_00ms: 8 CLU
+ SG_ DATA : 0|64@1+ (1,0) [0|0] "" CLU
+
+BO_ 1236 CLU_08_00ms: 8 CLU
+ SG_ DATA : 0|64@1+ (1,0) [0|0] "" CLU
+
+BO_ 1242 CLU_09_00ms: 8 CLU
+ SG_ DATA : 0|64@1+ (1,0) [0|0] "" CLU
+
+BO_ 1145 CLU_12_00ms: 8 CLU
+ SG_ DATA : 0|64@1+ (1,0) [0|0] "" CLU
+
+BO_ 1135 CLU_13_00ms: 8 CLU
+ SG_ DATA : 0|64@1+ (1,0) [0|0] "" CLU
+
+BO_ 384 CLU_17_20ms: 8 CLU
+ SG_ DATA : 0|64@1+ (1,0) [0|0] "" CLU
+
+BO_ 389 CLU_18_20ms: 8 CLU
+ SG_ DATA : 0|64@1+ (1,0) [0|0] "" CLU
+
+BO_ 326 DATC_01_20ms_1: 8 DATC
+ SG_ DATA : 0|64@1+ (1,0) [0|0] "" DATC
+
+BO_ 327 DATC_01_20ms_2: 8 DATC
+ SG_ DATA : 0|64@1+ (1,0) [0|0] "" DATC
+
+BO_ 328 DATC_01_20ms_3: 8 DATC
+ SG_ DATA : 0|64@1+ (1,0) [0|0] "" DATC
+
+BO_ 329 DATC_01_20ms_4: 8 DATC
+ SG_ DATA : 0|64@1+ (1,0) [0|0] "" DATC
+
+BO_ 896 DATC_03_200ms: 8 DATC
+ SG_ DATA : 0|64@1+ (1,0) [0|0] "" DATC
+
+BO_ 897 DATC_04_200ms: 8 DATC
+ SG_ DATA : 0|64@1+ (1,0) [0|0] "" DATC
+
+BO_ 898 DATC_05_200ms: 8 DATC
+ SG_ DATA : 0|64@1+ (1,0) [0|0] "" DATC
+
+BO_ 945 DATC_09_200ms: 8 DATC
+ SG_ DATA : 0|64@1+ (1,0) [0|0] "" DATC
+
+BO_ 1065 DATC_12_200ms: 8 DATC
+ SG_ DATA : 0|64@1+ (1,0) [0|0] "" DATC
+
+BO_ 795 DATC_31_1000ms_1: 8 DATC
+ SG_ DATA : 0|64@1+ (1,0) [0|0] "" DATC
+
+BO_ 796 DATC_31_1000ms_2: 8 DATC
+ SG_ DATA : 0|64@1+ (1,0) [0|0] "" DATC
+
+BO_ 797 DATC_31_1000ms_3: 8 DATC
+ SG_ DATA : 0|64@1+ (1,0) [0|0] "" DATC
+
+BO_ 798 DATC_31_1000ms_4: 8 DATC
+ SG_ DATA : 0|64@1+ (1,0) [0|0] "" DATC
+
+BO_ 97 ESC_01_10ms_1: 8 ESC
+ SG_ DATA : 0|64@1+ (1,0) [0|0] "" ESC
+
+BO_ 98 ESC_01_10ms_2: 8 ESC
+ SG_ DATA : 0|64@1+ (1,0) [0|0] "" ESC
+
+BO_ 99 ESC_01_10ms_3: 8 ESC
+ SG_ DATA : 0|64@1+ (1,0) [0|0] "" ESC
+
+BO_ 100 ESC_01_10ms_4: 8 ESC
+ SG_ DATA : 0|64@1+ (1,0) [0|0] "" ESC
+
+BO_ 230 ESC_02_10ms_1: 8 ESC
+ SG_ DATA : 0|64@1+ (1,0) [0|0] "" ESC
+
+BO_ 231 ESC_02_10ms_2: 8 ESC
+ SG_ DATA : 0|64@1+ (1,0) [0|0] "" ESC
+
+BO_ 232 ESC_02_10ms_3: 8 ESC
+ SG_ DATA : 0|64@1+ (1,0) [0|0] "" ESC
+
+BO_ 233 ESC_02_10ms_4: 8 ESC
+ SG_ DATA : 0|64@1+ (1,0) [0|0] "" ESC
+
+BO_ 374 ESC_03_20ms_1: 8 ESC
+ SG_ DATA : 0|64@1+ (1,0) [0|0] "" ESC
+
+BO_ 375 ESC_03_20ms_2: 8 ESC
+ SG_ DATA : 0|64@1+ (1,0) [0|0] "" ESC
+
+BO_ 376 ESC_03_20ms_3: 8 ESC
+ SG_ DATA : 0|64@1+ (1,0) [0|0] "" ESC
+
+BO_ 235 MDPS_01_10ms_1: 8 MDPS
+ SG_ DATA : 0|64@1+ (1,0) [0|0] "" MDPS
+
+BO_ 236 MDPS_01_10ms_2: 8 MDPS
+ SG_ DATA : 0|64@1+ (1,0) [0|0] "" MDPS
+
+BO_ 237 MDPS_01_10ms_3: 8 MDPS
+ SG_ DATA : 0|64@1+ (1,0) [0|0] "" MDPS
+
+BO_ 369 ADAS_PRK_10_20ms_1: 8 ADAS
+ SG_ DATA : 0|64@1+ (1,0) [0|0] "" ADAS
+
+BO_ 370 ADAS_PRK_10_20ms_2: 8 ADAS
+ SG_ DATA : 0|64@1+ (1,0) [0|0] "" ADAS
+
+BO_ 358 ADAS_PRK_20_20ms_1: 8 ADAS
+ SG_ DATA : 0|64@1+ (1,0) [0|0] "" ADAS
+
+BO_ 359 ADAS_PRK_20_20ms_2: 8 ADAS
+ SG_ DATA : 0|64@1+ (1,0) [0|0] "" ADAS
+
+BO_ 360 ADAS_PRK_20_20ms_3: 8 ADAS
+ SG_ DATA : 0|64@1+ (1,0) [0|0] "" ADAS
+
+BO_ 363 ADAS_PRK_21_20ms_1: 8 ADAS
+ SG_ DATA : 0|64@1+ (1,0) [0|0] "" ADAS
+
+BO_ 364 ADAS_PRK_21_20ms_2: 8 ADAS
+ SG_ DATA : 0|64@1+ (1,0) [0|0] "" ADAS
+
+BO_ 365 ADAS_PRK_21_20ms_3: 8 ADAS
+ SG_ DATA : 0|64@1+ (1,0) [0|0] "" ADAS
+
+BO_ 366 ADAS_PRK_21_20ms_4: 8 ADAS
+ SG_ DATA : 0|64@1+ (1,0) [0|0] "" ADAS
+
+BO_ 294 SAS_01_10ms_1: 8 SAS
+ SG_ DATA : 0|64@1+ (1,0) [0|0] "" SAS
+
+BO_ 295 SAS_01_10ms_2: 8 SAS
+ SG_ DATA : 0|64@1+ (1,0) [0|0] "" SAS
+
+BO_ 929 TPMS_01_200ms_1: 8 TPMS
+ SG_ DATA : 0|64@1+ (1,0) [0|0] "" TPMS
+
+BO_ 930 TPMS_01_200ms_2: 8 TPMS
+ SG_ DATA : 0|64@1+ (1,0) [0|0] "" TPMS
+
+BO_ 161 WHL_01_10ms_1: 8 WHL
+ SG_ DATA : 0|64@1+ (1,0) [0|0] "" WHL
+
+BO_ 162 WHL_01_10ms_2: 8 WHL
+ SG_ DATA : 0|64@1+ (1,0) [0|0] "" WHL
+
+BO_ 163 WHL_01_10ms_3: 8 WHL
+ SG_ DATA : 0|64@1+ (1,0) [0|0] "" WHL
+
+BO_ 75 YRS_01_10ms_1: 8 YRS
+ SG_ DATA : 0|64@1+ (1,0) [0|0] "" YRS
+
+BO_ 76 YRS_01_10ms_2: 8 YRS
+ SG_ DATA : 0|64@1+ (1,0) [0|0] "" YRS
+
+BO_ 77 YRS_01_10ms_3: 8 YRS
+ SG_ DATA : 0|64@1+ (1,0) [0|0] "" YRS
+
+BO_ 78 YRS_01_10ms_4: 8 YRS
+ SG_ DATA : 0|64@1+ (1,0) [0|0] "" YRS
+
+BO_ 342 APSB_01_10ms_1: 8 APSB
+ SG_ DATA : 0|64@1+ (1,0) [0|0] "" APSB
+
+BO_ 343 APSB_01_10ms_2: 8 APSB
+ SG_ DATA : 0|64@1+ (1,0) [0|0] "" APSB
+
+BO_ 1031 APSM_02_200ms: 8 APSM
+ SG_ DATA : 0|64@1+ (1,0) [0|0] "" APSM
+
+BO_ 1174 Drv_SHVU_01_200ms: 8 Drv
+ SG_ DATA : 0|64@1+ (1,0) [0|0] "" Drv
+
+BO_ 1180 FR_SHVU_02_00ms: 8 FR
+ SG_ DATA : 0|64@1+ (1,0) [0|0] "" FR
+
+BO_ 1002 DVRS_HU_PE_00: 8 DVRS
+ SG_ DATA : 0|64@1+ (1,0) [0|0] "" DVRS
+
+BO_ 283 FR_CMR_01_10ms_1: 8 FR
+ SG_ DATA : 0|64@1+ (1,0) [0|0] "" FR
+
+BO_ 284 FR_CMR_01_10ms_2: 8 FR
+ SG_ DATA : 0|64@1+ (1,0) [0|0] "" FR
+
+BO_ 507 FR_CMR_02_100ms_1: 8 FR
+ SG_ DATA : 0|64@1+ (1,0) [0|0] "" FR
+
+BO_ 508 FR_CMR_02_100ms_2: 8 FR
+ SG_ DATA : 0|64@1+ (1,0) [0|0] "" FR
+
+BO_ 509 FR_CMR_02_100ms_3: 8 FR
+ SG_ DATA : 0|64@1+ (1,0) [0|0] "" FR
+
+BO_ 510 FR_CMR_02_100ms_4: 8 FR
+ SG_ DATA : 0|64@1+ (1,0) [0|0] "" FR
+
+BO_ 438 FR_CMR_03_50ms_1: 8 FR
+ SG_ DATA : 0|64@1+ (1,0) [0|0] "" FR
+
+BO_ 439 FR_CMR_03_50ms_2: 8 FR
+ SG_ DATA : 0|64@1+ (1,0) [0|0] "" FR
+
+BO_ 440 FR_CMR_03_50ms_3: 8 FR
+ SG_ DATA : 0|64@1+ (1,0) [0|0] "" FR
+
+BO_ 441 FR_CMR_03_50ms_4: 8 FR
+ SG_ DATA : 0|64@1+ (1,0) [0|0] "" FR
+
+BO_ 699 FR_CMR_04_40ms_1: 8 FR
+ SG_ DATA : 0|64@1+ (1,0) [0|0] "" FR
+
+BO_ 700 FR_CMR_04_40ms_2: 8 FR
+ SG_ DATA : 0|64@1+ (1,0) [0|0] "" FR
+
+BO_ 701 FR_CMR_04_40ms_3: 8 FR
+ SG_ DATA : 0|64@1+ (1,0) [0|0] "" FR
+
+BO_ 702 FR_CMR_04_40ms_4: 8 FR
+ SG_ DATA : 0|64@1+ (1,0) [0|0] "" FR
+
+BO_ 315 FR_CMR_05_00ms_1: 8 FR
+ SG_ DATA : 0|64@1+ (1,0) [0|0] "" FR
+
+BO_ 316 FR_CMR_05_00ms_2: 8 FR
+ SG_ DATA : 0|64@1+ (1,0) [0|0] "" FR
+
+BO_ 317 FR_CMR_05_00ms_3: 8 FR
+ SG_ DATA : 0|64@1+ (1,0) [0|0] "" FR
+
+BO_ 318 FR_CMR_05_00ms_4: 8 FR
+ SG_ DATA : 0|64@1+ (1,0) [0|0] "" FR
+
+BO_ 320 FR_RDR_01_10ms: 8 FR
+ SG_ DATA : 0|64@1+ (1,0) [0|0] "" FR
+
+BO_ 486 RR_C_RDR_01_50ms_1: 8 RR
+ SG_ DATA : 0|64@1+ (1,0) [0|0] "" RR
+
+BO_ 487 RR_C_RDR_01_50ms_2: 8 RR
+ SG_ DATA : 0|64@1+ (1,0) [0|0] "" RR
+
+BO_ 443 RR_C_RDR_02_50ms_1: 8 RR
+ SG_ DATA : 0|64@1+ (1,0) [0|0] "" RR
+
+BO_ 444 RR_C_RDR_02_50ms_2: 8 RR
+ SG_ DATA : 0|64@1+ (1,0) [0|0] "" RR
+
+BO_ 445 RR_C_RDR_02_50ms_3: 8 RR
+ SG_ DATA : 0|64@1+ (1,0) [0|0] "" RR
+
+BO_ 961 MFSW_01_200ms: 8 MFSW
+ SG_ DATA : 0|64@1+ (1,0) [0|0] "" MFSW
+
+BO_ 962 MFSW_02_200ms: 8 MFSW
+ SG_ DATA : 0|64@1+ (1,0) [0|0] "" MFSW
+
+BO_ 518 ICSC_02_100ms_1: 8 ICSC
+ SG_ DATA : 0|64@1+ (1,0) [0|0] "" ICSC
+
+BO_ 519 ICSC_02_100ms_2: 8 ICSC
+ SG_ DATA : 0|64@1+ (1,0) [0|0] "" ICSC
+
+BO_ 520 ICSC_02_100ms_3: 8 ICSC
+ SG_ DATA : 0|64@1+ (1,0) [0|0] "" ICSC
+
+BO_ 934 PTGM_01_200ms: 8 PTGM
+ SG_ DATA : 0|64@1+ (1,0) [0|0] "" PTGM
+
+BO_ 1041 ICU_02_200ms: 8 ICU
+ SG_ DATA : 0|64@1+ (1,0) [0|0] "" ICU
+
+BO_ 1042 ICU_03_200ms: 8 ICU
+ SG_ DATA : 0|64@1+ (1,0) [0|0] "" ICU
+
+BO_ 1043 ICU_04_200ms: 8 ICU
+ SG_ DATA : 0|64@1+ (1,0) [0|0] "" ICU
+
+BO_ 1046 ICU_06_200ms: 8 ICU
+ SG_ DATA : 0|64@1+ (1,0) [0|0] "" ICU
+
+BO_ 1047 ICU_07_200ms: 8 ICU
+ SG_ DATA : 0|64@1+ (1,0) [0|0] "" ICU
+
+BO_ 1048 ICU_08_200ms: 8 ICU
+ SG_ DATA : 0|64@1+ (1,0) [0|0] "" ICU
+
+BO_ 1040 ICU_10_200ms: 8 ICU
+ SG_ DATA : 0|64@1+ (1,0) [0|0] "" ICU
+
+BO_ 1163 ODS_01_1000ms_1: 8 ODS
+ SG_ DATA : 0|64@1+ (1,0) [0|0] "" ODS
+
+BO_ 1164 ODS_01_1000ms_2: 8 ODS
+ SG_ DATA : 0|64@1+ (1,0) [0|0] "" ODS
+
+BO_ 1227 PSM_01_00ms: 8 PSM
+ SG_ DATA : 0|64@1+ (1,0) [0|0] "" PSM
+
+BO_ 1067 SCM_01_200ms: 8 SCM
+ SG_ DATA : 0|64@1+ (1,0) [0|0] "" SCM
+
+BO_ 1143 SVM_02_600ms: 8 SVM
+ SG_ DATA : 0|64@1+ (1,0) [0|0] "" SVM
+
+BO_ 566 BMS_01_100ms_1: 8 BMS
+ SG_ DATA : 0|64@1+ (1,0) [0|0] "" BMS
+
+BO_ 567 BMS_01_100ms_2: 8 BMS
+ SG_ DATA : 0|64@1+ (1,0) [0|0] "" BMS
+
+BO_ 568 BMS_01_100ms_3: 8 BMS
+ SG_ DATA : 0|64@1+ (1,0) [0|0] "" BMS
+
+BO_ 569 BMS_01_100ms_4: 8 BMS
+ SG_ DATA : 0|64@1+ (1,0) [0|0] "" BMS
+
+BO_ 763 BMS_02_100ms_1: 8 BMS
+ SG_ DATA : 0|64@1+ (1,0) [0|0] "" BMS
+
+BO_ 764 BMS_02_100ms_2: 8 BMS
+ SG_ DATA : 0|64@1+ (1,0) [0|0] "" BMS
+
+BO_ 765 BMS_02_100ms_3: 8 BMS
+ SG_ DATA : 0|64@1+ (1,0) [0|0] "" BMS
+
+BO_ 766 BMS_02_100ms_4: 8 BMS
+ SG_ DATA : 0|64@1+ (1,0) [0|0] "" BMS
+
+BO_ 865 BMS_03_100ms_1: 8 BMS
+ SG_ DATA : 0|64@1+ (1,0) [0|0] "" BMS
+
+BO_ 866 BMS_03_100ms_2: 8 BMS
+ SG_ DATA : 0|64@1+ (1,0) [0|0] "" BMS
+
+BO_ 867 BMS_03_100ms_3: 8 BMS
+ SG_ DATA : 0|64@1+ (1,0) [0|0] "" BMS
+
+BO_ 868 BMS_03_100ms_4: 8 BMS
+ SG_ DATA : 0|64@1+ (1,0) [0|0] "" BMS
+
+BO_ 603 BMS_04_100ms_1: 8 BMS
+ SG_ DATA : 0|64@1+ (1,0) [0|0] "" BMS
+
+BO_ 604 BMS_04_100ms_2: 8 BMS
+ SG_ DATA : 0|64@1+ (1,0) [0|0] "" BMS
+
+BO_ 605 BMS_04_100ms_3: 8 BMS
+ SG_ DATA : 0|64@1+ (1,0) [0|0] "" BMS
+
+BO_ 606 BMS_04_100ms_4: 8 BMS
+ SG_ DATA : 0|64@1+ (1,0) [0|0] "" BMS
+
+BO_ 817 BMS_05_100ms_1: 8 BMS
+ SG_ DATA : 0|64@1+ (1,0) [0|0] "" BMS
+
+BO_ 818 BMS_05_100ms_2: 8 BMS
+ SG_ DATA : 0|64@1+ (1,0) [0|0] "" BMS
+
+BO_ 819 BMS_05_100ms_3: 8 BMS
+ SG_ DATA : 0|64@1+ (1,0) [0|0] "" BMS
+
+BO_ 820 BMS_05_100ms_4: 8 BMS
+ SG_ DATA : 0|64@1+ (1,0) [0|0] "" BMS
+
+BO_ 806 BMS_06_100ms_1: 8 BMS
+ SG_ DATA : 0|64@1+ (1,0) [0|0] "" BMS
+
+BO_ 807 BMS_06_100ms_2: 8 BMS
+ SG_ DATA : 0|64@1+ (1,0) [0|0] "" BMS
+
+BO_ 808 BMS_06_100ms_3: 8 BMS
+ SG_ DATA : 0|64@1+ (1,0) [0|0] "" BMS
+
+BO_ 809 BMS_06_100ms_4: 8 BMS
+ SG_ DATA : 0|64@1+ (1,0) [0|0] "" BMS
+
+BO_ 822 BMS_07_100ms_1: 8 BMS
+ SG_ DATA : 0|64@1+ (1,0) [0|0] "" BMS
+
+BO_ 823 BMS_07_100ms_2: 8 BMS
+ SG_ DATA : 0|64@1+ (1,0) [0|0] "" BMS
+
+BO_ 824 BMS_07_100ms_3: 8 BMS
+ SG_ DATA : 0|64@1+ (1,0) [0|0] "" BMS
+
+BO_ 825 BMS_07_100ms_4: 8 BMS
+ SG_ DATA : 0|64@1+ (1,0) [0|0] "" BMS
+
+BO_ 502 BMS_08_100ms_1: 8 BMS
+ SG_ DATA : 0|64@1+ (1,0) [0|0] "" BMS
+
+BO_ 503 BMS_08_100ms_2: 8 BMS
+ SG_ DATA : 0|64@1+ (1,0) [0|0] "" BMS
+
+BO_ 504 BMS_08_100ms_3: 8 BMS
+ SG_ DATA : 0|64@1+ (1,0) [0|0] "" BMS
+
+BO_ 505 BMS_08_100ms_4: 8 BMS
+ SG_ DATA : 0|64@1+ (1,0) [0|0] "" BMS
+
+BO_ 870 BMS_09_100ms_1: 8 BMS
+ SG_ DATA : 0|64@1+ (1,0) [0|0] "" BMS
+
+BO_ 871 BMS_09_100ms_2: 8 BMS
+ SG_ DATA : 0|64@1+ (1,0) [0|0] "" BMS
+
+BO_ 872 BMS_09_100ms_3: 8 BMS
+ SG_ DATA : 0|64@1+ (1,0) [0|0] "" BMS
+
+BO_ 873 BMS_09_100ms_4: 8 BMS
+ SG_ DATA : 0|64@1+ (1,0) [0|0] "" BMS
+
+BO_ 337 BMS_10_100ms_1: 8 BMS
+ SG_ DATA : 0|64@1+ (1,0) [0|0] "" BMS
+
+BO_ 338 BMS_10_100ms_2: 8 BMS
+ SG_ DATA : 0|64@1+ (1,0) [0|0] "" BMS
+
+BO_ 339 BMS_10_100ms_3: 8 BMS
+ SG_ DATA : 0|64@1+ (1,0) [0|0] "" BMS
+
+BO_ 340 BMS_10_100ms_4: 8 BMS
+ SG_ DATA : 0|64@1+ (1,0) [0|0] "" BMS
+
+BO_ 955 BMS_11_10ms_1: 8 BMS
+ SG_ DATA : 0|64@1+ (1,0) [0|0] "" BMS
+
+BO_ 956 BMS_11_10ms_2: 8 BMS
+ SG_ DATA : 0|64@1+ (1,0) [0|0] "" BMS
+
+BO_ 957 BMS_11_10ms_3: 8 BMS
+ SG_ DATA : 0|64@1+ (1,0) [0|0] "" BMS
+
+BO_ 958 BMS_11_10ms_4: 8 BMS
+ SG_ DATA : 0|64@1+ (1,0) [0|0] "" BMS
+
+BO_ 1014 BMS_12_1000ms_1: 8 BMS
+ SG_ DATA : 0|64@1+ (1,0) [0|0] "" BMS
+
+BO_ 1015 BMS_12_1000ms_2: 8 BMS
+ SG_ DATA : 0|64@1+ (1,0) [0|0] "" BMS
+
+BO_ 1016 BMS_12_1000ms_3: 8 BMS
+ SG_ DATA : 0|64@1+ (1,0) [0|0] "" BMS
+
+BO_ 1017 BMS_12_1000ms_4: 8 BMS
+ SG_ DATA : 0|64@1+ (1,0) [0|0] "" BMS
+
+BO_ 827 CCM_01_100ms_1: 8 CCM
+ SG_ DATA : 0|64@1+ (1,0) [0|0] "" CCM
+
+BO_ 828 CCM_01_100ms_2: 8 CCM
+ SG_ DATA : 0|64@1+ (1,0) [0|0] "" CCM
+
+BO_ 829 CCM_01_100ms_3: 8 CCM
+ SG_ DATA : 0|64@1+ (1,0) [0|0] "" CCM
+
+BO_ 830 CCM_01_100ms_4: 8 CCM
+ SG_ DATA : 0|64@1+ (1,0) [0|0] "" CCM
+
+BO_ 849 CCM_02_100ms_1: 8 CCM
+ SG_ DATA : 0|64@1+ (1,0) [0|0] "" CCM
+
+BO_ 850 CCM_02_100ms_2: 8 CCM
+ SG_ DATA : 0|64@1+ (1,0) [0|0] "" CCM
+
+BO_ 851 CCM_02_100ms_3: 8 CCM
+ SG_ DATA : 0|64@1+ (1,0) [0|0] "" CCM
+
+BO_ 852 CCM_02_100ms_4: 8 CCM
+ SG_ DATA : 0|64@1+ (1,0) [0|0] "" CCM
+
+BO_ 598 LDC_01_100ms_1: 8 LDC
+ SG_ DATA : 0|64@1+ (1,0) [0|0] "" LDC
+
+BO_ 599 LDC_01_100ms_2: 8 LDC
+ SG_ DATA : 0|64@1+ (1,0) [0|0] "" LDC
+
+BO_ 600 LDC_01_100ms_3: 8 LDC
+ SG_ DATA : 0|64@1+ (1,0) [0|0] "" LDC
+
+BO_ 601 LDC_01_100ms_4: 8 LDC
+ SG_ DATA : 0|64@1+ (1,0) [0|0] "" LDC
+
+BO_ 267 MCU_01_10ms_1: 8 MCU
+ SG_ DATA : 0|64@1+ (1,0) [0|0] "" MCU
+
+BO_ 268 MCU_01_10ms_2: 8 MCU
+ SG_ DATA : 0|64@1+ (1,0) [0|0] "" MCU
+
+BO_ 269 MCU_01_10ms_3: 8 MCU
+ SG_ DATA : 0|64@1+ (1,0) [0|0] "" MCU
+
+BO_ 270 MCU_01_10ms_4: 8 MCU
+ SG_ DATA : 0|64@1+ (1,0) [0|0] "" MCU
+
+BO_ 289 MCU_02_10ms_1: 8 MCU
+ SG_ DATA : 0|64@1+ (1,0) [0|0] "" MCU
+
+BO_ 290 MCU_02_10ms_2: 8 MCU
+ SG_ DATA : 0|64@1+ (1,0) [0|0] "" MCU
+
+BO_ 291 MCU_02_10ms_3: 8 MCU
+ SG_ DATA : 0|64@1+ (1,0) [0|0] "" MCU
+
+BO_ 292 MCU_02_10ms_4: 8 MCU
+ SG_ DATA : 0|64@1+ (1,0) [0|0] "" MCU
+
+BO_ 593 MCU_03_100ms_1: 8 MCU
+ SG_ DATA : 0|64@1+ (1,0) [0|0] "" MCU
+
+BO_ 594 MCU_03_100ms_2: 8 MCU
+ SG_ DATA : 0|64@1+ (1,0) [0|0] "" MCU
+
+BO_ 595 MCU_03_100ms_3: 8 MCU
+ SG_ DATA : 0|64@1+ (1,0) [0|0] "" MCU
+
+BO_ 918 MCU_04_200ms_1: 8 MCU
+ SG_ DATA : 0|64@1+ (1,0) [0|0] "" MCU
+
+BO_ 919 MCU_04_200ms_2: 8 MCU
+ SG_ DATA : 0|64@1+ (1,0) [0|0] "" MCU
+
+BO_ 920 MCU_04_200ms_3: 8 MCU
+ SG_ DATA : 0|64@1+ (1,0) [0|0] "" MCU
+
+BO_ 1153 MCU_05_1000ms_1: 8 MCU
+ SG_ DATA : 0|64@1+ (1,0) [0|0] "" MCU
+
+BO_ 1154 MCU_05_1000ms_2: 8 MCU
+ SG_ DATA : 0|64@1+ (1,0) [0|0] "" MCU
+
+BO_ 1155 MCU_05_1000ms_3: 8 MCU
+ SG_ DATA : 0|64@1+ (1,0) [0|0] "" MCU
+
+BO_ 1156 MCU_05_1000ms_4: 8 MCU
+ SG_ DATA : 0|64@1+ (1,0) [0|0] "" MCU
+
+BO_ 774 MCU_09_1000ms_1: 8 MCU
+ SG_ DATA : 0|64@1+ (1,0) [0|0] "" MCU
+
+BO_ 775 MCU_09_1000ms_2: 8 MCU
+ SG_ DATA : 0|64@1+ (1,0) [0|0] "" MCU
+
+BO_ 776 MCU_09_1000ms_3: 8 MCU
+ SG_ DATA : 0|64@1+ (1,0) [0|0] "" MCU
+
+BO_ 777 MCU_09_1000ms_4: 8 MCU
+ SG_ DATA : 0|64@1+ (1,0) [0|0] "" MCU
+
+BO_ 742 OBC_01_100ms_1: 8 OBC
+ SG_ DATA : 0|64@1+ (1,0) [0|0] "" OBC
+
+BO_ 743 OBC_01_100ms_2: 8 OBC
+ SG_ DATA : 0|64@1+ (1,0) [0|0] "" OBC
+
+BO_ 744 OBC_01_100ms_3: 8 OBC
+ SG_ DATA : 0|64@1+ (1,0) [0|0] "" OBC
+
+BO_ 745 OBC_01_100ms_4: 8 OBC
+ SG_ DATA : 0|64@1+ (1,0) [0|0] "" OBC
+
+BO_ 950 OBC_02_200ms_1: 8 OBC
+ SG_ DATA : 0|64@1+ (1,0) [0|0] "" OBC
+
+BO_ 951 OBC_02_200ms_2: 8 OBC
+ SG_ DATA : 0|64@1+ (1,0) [0|0] "" OBC
+
+BO_ 952 OBC_02_200ms_3: 8 OBC
+ SG_ DATA : 0|64@1+ (1,0) [0|0] "" OBC
+
+BO_ 953 OBC_02_200ms_4: 8 OBC
+ SG_ DATA : 0|64@1+ (1,0) [0|0] "" OBC
+
+BO_ 54 VCU_01_10ms_1: 8 VCU
+ SG_ DATA : 0|64@1+ (1,0) [0|0] "" VCU
+
+BO_ 55 VCU_01_10ms_2: 8 VCU
+ SG_ DATA : 0|64@1+ (1,0) [0|0] "" VCU
+
+BO_ 56 VCU_01_10ms_3: 8 VCU
+ SG_ DATA : 0|64@1+ (1,0) [0|0] "" VCU
+
+BO_ 111 ABS_ESC_01_10ms: 8 ABS
+ SG_ DATA : 0|64@1+ (1,0) [0|0] "" ABS
+
+BO_ 859 AFS_01_100ms: 8 AFS
+ SG_ DATA : 0|64@1+ (1,0) [0|0] "" AFS
+
+BO_ 433 DATC_02_20ms_1: 8 DATC
+ SG_ DATA : 0|64@1+ (1,0) [0|0] "" DATC
+
+BO_ 899 DATC_06_200ms: 8 DATC
+ SG_ DATA : 0|64@1+ (1,0) [0|0] "" DATC
+
+BO_ 900 DATC_07_200ms: 8 DATC
+ SG_ DATA : 0|64@1+ (1,0) [0|0] "" DATC
+
+BO_ 497 EPB_01_50ms_1: 8 EPB
+ SG_ DATA : 0|64@1+ (1,0) [0|0] "" EPB
+
+BO_ 923 TMU_01_200ms: 8 TMU
+ SG_ DATA : 0|64@1+ (1,0) [0|0] "" TMU
+
+BO_ 779 VCMS_02_100ms_1: 8 VCMS
+ SG_ DATA : 0|64@1+ (1,0) [0|0] "" VCMS
+
+BO_ 684 VCU_04_100ms_2: 8 VCU
+ SG_ DATA : 0|64@1+ (1,0) [0|0] "" VCU
+
+BO_ 685 VCU_04_100ms_3: 8 VCU
+ SG_ DATA : 0|64@1+ (1,0) [0|0] "" VCU
+
+BO_ 694 VCU_05_100ms_1: 8 VCU
+ SG_ DATA : 0|64@1+ (1,0) [0|0] "" VCU
+
+BO_ 695 VCU_05_100ms_2: 8 VCU
+ SG_ DATA : 0|64@1+ (1,0) [0|0] "" VCU
+
+BO_ 781 VCMS_02_100ms_3: 8 VCMS
+ SG_ DATA : 0|64@1+ (1,0) [0|0] "" VCMS
+
+BO_ 246 VCU_02_10ms_1: 8 VCU
+ SG_ DATA : 0|64@1+ (1,0) [0|0] "" VCU
+
+BO_ 247 VCU_02_10ms_2: 8 VCU
+ SG_ DATA : 0|64@1+ (1,0) [0|0] "" VCU
+
+BO_ 248 VCU_02_10ms_3: 8 VCU
+ SG_ DATA : 0|64@1+ (1,0) [0|0] "" VCU
+
+BO_ 249 VCU_02_10ms_4: 8 VCU
+ SG_ DATA : 0|64@1+ (1,0) [0|0] "" VCU
+
+BO_ 582 BMS_23_500ms_1: 8 BMS
+ SG_ DATA : 0|64@1+ (1,0) [0|0] "" BMS
+
+BO_ 583 BMS_23_500ms_2: 8 BMS
+ SG_ DATA : 0|64@1+ (1,0) [0|0] "" BMS
+
+BO_ 584 BMS_23_500ms_3: 8 BMS
+ SG_ DATA : 0|64@1+ (1,0) [0|0] "" BMS
+
+BO_ 585 BMS_23_500ms_4: 8 BMS
+ SG_ DATA : 0|64@1+ (1,0) [0|0] "" BMS
+
+BO_ 630 BMS_24_500ms_1: 8 BMS
+ SG_ DATA : 0|64@1+ (1,0) [0|0] "" BMS
+
+BO_ 631 BMS_24_500ms_2: 8 BMS
+ SG_ DATA : 0|64@1+ (1,0) [0|0] "" BMS
+
+BO_ 632 BMS_24_500ms_3: 8 BMS
+ SG_ DATA : 0|64@1+ (1,0) [0|0] "" BMS
+
+BO_ 633 BMS_24_500ms_4: 8 BMS
+ SG_ DATA : 0|64@1+ (1,0) [0|0] "" BMS
+
+BO_ 978 BMS_25_500ms_1: 8 BMS
+ SG_ DATA : 0|64@1+ (1,0) [0|0] "" BMS
+
+BO_ 979 BMS_25_500ms_2: 8 BMS
+ SG_ DATA : 0|64@1+ (1,0) [0|0] "" BMS
+
+BO_ 980 BMS_25_500ms_3: 8 BMS
+ SG_ DATA : 0|64@1+ (1,0) [0|0] "" BMS
+
+BO_ 981 BMS_25_500ms_4: 8 BMS
+ SG_ DATA : 0|64@1+ (1,0) [0|0] "" BMS
+
+BO_ 57 VCU_01_10ms_4: 8 VCU
+ SG_ DATA : 0|64@1+ (1,0) [0|0] "" VCU
+
+BO_ 102 IEB_01_10ms_1: 8 IEB
+ SG_ DATA : 0|64@1+ (1,0) [0|0] "" IEB
+
+BO_ 103 IEB_01_10ms_2: 8 IEB
+ SG_ DATA : 0|64@1+ (1,0) [0|0] "" IEB
+
+BO_ 104 IEB_01_10ms_3: 8 IEB
+ SG_ DATA : 0|64@1+ (1,0) [0|0] "" IEB
+
+BO_ 105 IEB_01_10ms_4: 8 IEB
+ SG_ DATA : 0|64@1+ (1,0) [0|0] "" IEB
+
+BO_ 683 VCU_04_100ms_1: 8 VCU
+ SG_ DATA : 0|64@1+ (1,0) [0|0] "" VCU
+
+BO_ 686 VCU_04_100ms_4: 8 VCU
+ SG_ DATA : 0|64@1+ (1,0) [0|0] "" VCU
+
+BO_ 411 VCMS_01_10ms_1: 8 VCMS
+ SG_ DATA : 0|64@1+ (1,0) [0|0] "" VCMS
+
+BO_ 412 VCMS_01_10ms_2: 8 VCMS
+ SG_ DATA : 0|64@1+ (1,0) [0|0] "" VCMS
+
+BO_ 413 VCMS_01_10ms_3: 8 VCMS
+ SG_ DATA : 0|64@1+ (1,0) [0|0] "" VCMS
+
+BO_ 414 VCMS_01_10ms_4: 8 VCMS
+ SG_ DATA : 0|64@1+ (1,0) [0|0] "" VCMS
+
+BO_ 780 VCMS_02_100ms_2: 8 VCMS
+ SG_ DATA : 0|64@1+ (1,0) [0|0] "" VCMS
+
+BO_ 782 VCMS_02_100ms_4: 8 VCMS
+ SG_ DATA : 0|64@1+ (1,0) [0|0] "" VCMS
+
+BO_ 801 VCMS_03_100ms_1: 8 VCMS
+ SG_ DATA : 0|64@1+ (1,0) [0|0] "" VCMS
+
+BO_ 802 VCMS_03_100ms_2: 8 VCMS
+ SG_ DATA : 0|64@1+ (1,0) [0|0] "" VCMS
+
+BO_ 803 VCMS_03_100ms_3: 8 VCMS
+ SG_ DATA : 0|64@1+ (1,0) [0|0] "" VCMS
+
+BO_ 804 VCMS_03_100ms_4: 8 VCMS
+ SG_ DATA : 0|64@1+ (1,0) [0|0] "" VCMS
+
+BO_ 86 BMS_26_500ms_1: 8 BMS
+ SG_ DATA : 0|64@1+ (1,0) [0|0] "" BMS
+
+BO_ 87 BMS_26_500ms_2: 8 BMS
+ SG_ DATA : 0|64@1+ (1,0) [0|0] "" BMS
+
+BO_ 88 BMS_26_500ms_3: 8 BMS
+ SG_ DATA : 0|64@1+ (1,0) [0|0] "" BMS
+
+BO_ 89 BMS_26_500ms_4: 8 BMS
+ SG_ DATA : 0|64@1+ (1,0) [0|0] "" BMS
+
+BO_ 406 ADAS_CMD_33_10ms_1: 8 ADAS
+ SG_ DATA : 0|64@1+ (1,0) [0|0] "" ADAS
+
+BO_ 407 ADAS_CMD_33_10ms_2: 8 ADAS
+ SG_ DATA : 0|64@1+ (1,0) [0|0] "" ADAS
+
+BO_ 408 ADAS_CMD_33_10ms_3: 8 ADAS
+ SG_ DATA : 0|64@1+ (1,0) [0|0] "" ADAS
+
+BO_ 409 ADAS_CMD_33_10ms_4: 8 ADAS
+ SG_ DATA : 0|64@1+ (1,0) [0|0] "" ADAS
+
+BO_ 395 ADAS_PRK_22_20ms_1: 8 ADAS
+ SG_ DATA : 0|64@1+ (1,0) [0|0] "" ADAS
+
+BO_ 396 ADAS_PRK_22_20ms_2: 8 ADAS
+ SG_ DATA : 0|64@1+ (1,0) [0|0] "" ADAS
+
+BO_ 397 ADAS_PRK_22_20ms_3: 8 ADAS
+ SG_ DATA : 0|64@1+ (1,0) [0|0] "" ADAS
+
+BO_ 398 ADAS_PRK_22_20ms_4: 8 ADAS
+ SG_ DATA : 0|64@1+ (1,0) [0|0] "" ADAS
+
+BO_ 831 ADAS_PRK_RVM_01_600ms: 8 ADAS
+ SG_ DATA : 0|64@1+ (1,0) [0|0] "" ADAS
+
+BO_ 1548 AMP_HU_PE_01: 8 AMP
+ SG_ DATA : 0|64@1+ (1,0) [0|0] "" AMP
+
+BO_ 1549 AMP_HU_PE_02: 8 AMP
+ SG_ DATA : 0|64@1+ (1,0) [0|0] "" AMP
+
+BO_ 1550 AMP_HU_PE_03: 8 AMP
+ SG_ DATA : 0|64@1+ (1,0) [0|0] "" AMP
+
+BO_ 1551 AMP_HU_PE_04: 8 AMP
+ SG_ DATA : 0|64@1+ (1,0) [0|0] "" AMP
+
+BO_ 434 DATC_02_20ms_2: 8 DATC
+ SG_ DATA : 0|64@1+ (1,0) [0|0] "" DATC
+
+BO_ 435 DATC_02_20ms_3: 8 DATC
+ SG_ DATA : 0|64@1+ (1,0) [0|0] "" DATC
+
+BO_ 436 DATC_02_20ms_4: 8 DATC
+ SG_ DATA : 0|64@1+ (1,0) [0|0] "" DATC
+
+BO_ 145 DATC_19_100ms_1: 8 DATC
+ SG_ DATA : 0|64@1+ (1,0) [0|0] "" DATC
+
+BO_ 146 DATC_19_100ms_2: 8 DATC
+ SG_ DATA : 0|64@1+ (1,0) [0|0] "" DATC
+
+BO_ 147 DATC_19_100ms_3: 8 DATC
+ SG_ DATA : 0|64@1+ (1,0) [0|0] "" DATC
+
+BO_ 148 DATC_19_100ms_4: 8 DATC
+ SG_ DATA : 0|64@1+ (1,0) [0|0] "" DATC
+
+BO_ 1251 IAU_13_00ms: 8 IAU
+ SG_ DATA : 0|64@1+ (1,0) [0|0] "" IAU
+
+BO_ 1076 IAU_16_200ms: 8 IAU
+ SG_ DATA : 0|64@1+ (1,0) [0|0] "" IAU
+
+BO_ 210 IAU_26_200ms: 8 IAU
+ SG_ DATA : 0|64@1+ (1,0) [0|0] "" IAU
+
+BO_ 1049 ICU_09_200ms: 8 ICU
+ SG_ DATA : 0|64@1+ (1,0) [0|0] "" ICU
+
+BO_ 1167 ICU_11_1000ms: 8 ICU
+ SG_ DATA : 0|64@1+ (1,0) [0|0] "" ICU
+
+BO_ 1231 IFS_01_200ms: 8 IFS
+ SG_ DATA : 0|64@1+ (1,0) [0|0] "" IFS
+
+BO_ 726 MCU_06_200ms_1: 8 MCU
+ SG_ DATA : 0|64@1+ (1,0) [0|0] "" MCU
+
+BO_ 727 MCU_06_200ms_2: 8 MCU
+ SG_ DATA : 0|64@1+ (1,0) [0|0] "" MCU
+
+BO_ 728 MCU_06_200ms_3: 8 MCU
+ SG_ DATA : 0|64@1+ (1,0) [0|0] "" MCU
+
+BO_ 729 MCU_06_200ms_4: 8 MCU
+ SG_ DATA : 0|64@1+ (1,0) [0|0] "" MCU
+
+BO_ 1045 RVM_01_600ms: 8 RVM
+ SG_ DATA : 0|64@1+ (1,0) [0|0] "" RVM
+
+BO_ 936 SVM_05_600ms: 8 SVM
+ SG_ DATA : 0|64@1+ (1,0) [0|0] "" SVM
+
+BO_ 737 VCU_03_100ms_1: 8 VCU
+ SG_ DATA : 0|64@1+ (1,0) [0|0] "" VCU
+
+BO_ 738 VCU_03_100ms_2: 8 VCU
+ SG_ DATA : 0|64@1+ (1,0) [0|0] "" VCU
+
+BO_ 739 VCU_03_100ms_3: 8 VCU
+ SG_ DATA : 0|64@1+ (1,0) [0|0] "" VCU
+
+BO_ 740 VCU_03_100ms_4: 8 VCU
+ SG_ DATA : 0|64@1+ (1,0) [0|0] "" VCU
+
+BO_ 696 VCU_05_100ms_3: 8 VCU
+ SG_ DATA : 0|64@1+ (1,0) [0|0] "" VCU
+
+BO_ 697 VCU_05_100ms_4: 8 VCU
+ SG_ DATA : 0|64@1+ (1,0) [0|0] "" VCU
+
+BO_ 1161 IBU_MFSW_02_200ms: 8 IBU
+ SG_ DATA : 0|64@1+ (1,0) [0|0] "" IBU
+
+CM_ BO_ 523 "ACU ACU_01_100ms_1";
+CM_ BO_ 524 "ACU ACU_01_100ms_2";
+CM_ BO_ 16 "ACU ACU_02_00ms";
+CM_ BO_ 353 "ADAS ADAS_CMD_10_20ms_1";
+CM_ BO_ 354 "ADAS ADAS_CMD_10_20ms_2";
+CM_ BO_ 417 "ADAS ADAS_CMD_20_20ms_1";
+CM_ BO_ 418 "ADAS ADAS_CMD_20_20ms_2";
+CM_ BO_ 419 "ADAS ADAS_CMD_20_20ms_3";
+CM_ BO_ 420 "ADAS ADAS_CMD_20_20ms_4";
+CM_ BO_ 512 "ADAS ADAS_CMD_21_50ms";
+CM_ BO_ 299 "ADAS ADAS_CMD_30_10ms_1";
+CM_ BO_ 300 "ADAS ADAS_CMD_30_10ms_2";
+CM_ BO_ 481 "ADAS ADAS_CMD_31_50ms_1";
+CM_ BO_ 482 "ADAS ADAS_CMD_31_50ms_2";
+CM_ BO_ 491 "ADAS ADAS_CMD_32_50ms_1";
+CM_ BO_ 492 "ADAS ADAS_CMD_32_50ms_2";
+CM_ BO_ 493 "ADAS ADAS_CMD_32_50ms_3";
+CM_ BO_ 494 "ADAS ADAS_CMD_32_50ms_4";
+CM_ BO_ 310 "BAT BAT_01_10ms_1";
+CM_ BO_ 311 "BAT BAT_01_10ms_2";
+CM_ BO_ 1050 "BCM BCM_07_200ms";
+CM_ BO_ 1051 "BCM BCM_08_200ms";
+CM_ BO_ 1052 "BCM BCM_09_200ms";
+CM_ BO_ 1058 "BCM BCM_10_200ms";
+CM_ BO_ 1074 "BCM BCM_11_200ms";
+CM_ BO_ 1090 "BCM BCM_12_200ms";
+CM_ BO_ 427 "CLU CLU_01_20ms_1";
+CM_ BO_ 428 "CLU CLU_01_20ms_2";
+CM_ BO_ 550 "CLU CLU_02_100ms_1";
+CM_ BO_ 551 "CLU CLU_02_100ms_2";
+CM_ BO_ 907 "CLU CLU_03_200ms_1";
+CM_ BO_ 908 "CLU CLU_03_200ms_2";
+CM_ BO_ 1235 "CLU CLU_07_00ms";
+CM_ BO_ 1236 "CLU CLU_08_00ms";
+CM_ BO_ 1242 "CLU CLU_09_00ms";
+CM_ BO_ 1145 "CLU CLU_12_00ms";
+CM_ BO_ 1135 "CLU CLU_13_00ms";
+CM_ BO_ 384 "CLU CLU_17_20ms";
+CM_ BO_ 389 "CLU CLU_18_20ms";
+CM_ BO_ 326 "DATC DATC_01_20ms_1";
+CM_ BO_ 327 "DATC DATC_01_20ms_2";
+CM_ BO_ 328 "DATC DATC_01_20ms_3";
+CM_ BO_ 329 "DATC DATC_01_20ms_4";
+CM_ BO_ 896 "DATC DATC_03_200ms";
+CM_ BO_ 897 "DATC DATC_04_200ms";
+CM_ BO_ 898 "DATC DATC_05_200ms";
+CM_ BO_ 945 "DATC DATC_09_200ms";
+CM_ BO_ 1065 "DATC DATC_12_200ms";
+CM_ BO_ 795 "DATC DATC_31_1000ms_1";
+CM_ BO_ 796 "DATC DATC_31_1000ms_2";
+CM_ BO_ 797 "DATC DATC_31_1000ms_3";
+CM_ BO_ 798 "DATC DATC_31_1000ms_4";
+CM_ BO_ 97 "ESC ESC_01_10ms_1";
+CM_ BO_ 98 "ESC ESC_01_10ms_2";
+CM_ BO_ 99 "ESC ESC_01_10ms_3";
+CM_ BO_ 100 "ESC ESC_01_10ms_4";
+CM_ BO_ 230 "ESC ESC_02_10ms_1";
+CM_ BO_ 231 "ESC ESC_02_10ms_2";
+CM_ BO_ 232 "ESC ESC_02_10ms_3";
+CM_ BO_ 233 "ESC ESC_02_10ms_4";
+CM_ BO_ 374 "ESC ESC_03_20ms_1";
+CM_ BO_ 375 "ESC ESC_03_20ms_2";
+CM_ BO_ 376 "ESC ESC_03_20ms_3";
+CM_ BO_ 235 "MDPS MDPS_01_10ms_1";
+CM_ BO_ 236 "MDPS MDPS_01_10ms_2";
+CM_ BO_ 237 "MDPS MDPS_01_10ms_3";
+CM_ BO_ 369 "ADAS ADAS_PRK_10_20ms_1";
+CM_ BO_ 370 "ADAS ADAS_PRK_10_20ms_2";
+CM_ BO_ 358 "ADAS ADAS_PRK_20_20ms_1";
+CM_ BO_ 359 "ADAS ADAS_PRK_20_20ms_2";
+CM_ BO_ 360 "ADAS ADAS_PRK_20_20ms_3";
+CM_ BO_ 363 "ADAS ADAS_PRK_21_20ms_1";
+CM_ BO_ 364 "ADAS ADAS_PRK_21_20ms_2";
+CM_ BO_ 365 "ADAS ADAS_PRK_21_20ms_3";
+CM_ BO_ 366 "ADAS ADAS_PRK_21_20ms_4";
+CM_ BO_ 294 "SAS SAS_01_10ms_1";
+CM_ BO_ 295 "SAS SAS_01_10ms_2";
+CM_ BO_ 929 "TPMS TPMS_01_200ms_1";
+CM_ BO_ 930 "TPMS TPMS_01_200ms_2";
+CM_ BO_ 161 "WHL WHL_01_10ms_1";
+CM_ BO_ 162 "WHL WHL_01_10ms_2";
+CM_ BO_ 163 "WHL WHL_01_10ms_3";
+CM_ BO_ 75 "YRS YRS_01_10ms_1";
+CM_ BO_ 76 "YRS YRS_01_10ms_2";
+CM_ BO_ 77 "YRS YRS_01_10ms_3";
+CM_ BO_ 78 "YRS YRS_01_10ms_4";
+CM_ BO_ 342 "APSB APSB_01_10ms_1";
+CM_ BO_ 343 "APSB APSB_01_10ms_2";
+CM_ BO_ 1031 "APSM APSM_02_200ms";
+CM_ BO_ 1174 "Drv Drv_SHVU_01_200ms";
+CM_ BO_ 1180 "FR FR_SHVU_02_00ms";
+CM_ BO_ 1002 "DVRS DVRS_HU_PE_00";
+CM_ BO_ 283 "FR FR_CMR_01_10ms_1";
+CM_ BO_ 284 "FR FR_CMR_01_10ms_2";
+CM_ BO_ 507 "FR FR_CMR_02_100ms_1";
+CM_ BO_ 508 "FR FR_CMR_02_100ms_2";
+CM_ BO_ 509 "FR FR_CMR_02_100ms_3";
+CM_ BO_ 510 "FR FR_CMR_02_100ms_4";
+CM_ BO_ 438 "FR FR_CMR_03_50ms_1";
+CM_ BO_ 439 "FR FR_CMR_03_50ms_2";
+CM_ BO_ 440 "FR FR_CMR_03_50ms_3";
+CM_ BO_ 441 "FR FR_CMR_03_50ms_4";
+CM_ BO_ 699 "FR FR_CMR_04_40ms_1";
+CM_ BO_ 700 "FR FR_CMR_04_40ms_2";
+CM_ BO_ 701 "FR FR_CMR_04_40ms_3";
+CM_ BO_ 702 "FR FR_CMR_04_40ms_4";
+CM_ BO_ 315 "FR FR_CMR_05_00ms_1";
+CM_ BO_ 316 "FR FR_CMR_05_00ms_2";
+CM_ BO_ 317 "FR FR_CMR_05_00ms_3";
+CM_ BO_ 318 "FR FR_CMR_05_00ms_4";
+CM_ BO_ 320 "FR FR_RDR_01_10ms";
+CM_ BO_ 486 "RR RR_C_RDR_01_50ms_1";
+CM_ BO_ 487 "RR RR_C_RDR_01_50ms_2";
+CM_ BO_ 443 "RR RR_C_RDR_02_50ms_1";
+CM_ BO_ 444 "RR RR_C_RDR_02_50ms_2";
+CM_ BO_ 445 "RR RR_C_RDR_02_50ms_3";
+CM_ BO_ 961 "MFSW MFSW_01_200ms";
+CM_ BO_ 962 "MFSW MFSW_02_200ms";
+CM_ BO_ 518 "ICSC ICSC_02_100ms_1";
+CM_ BO_ 519 "ICSC ICSC_02_100ms_2";
+CM_ BO_ 520 "ICSC ICSC_02_100ms_3";
+CM_ BO_ 934 "PTGM PTGM_01_200ms";
+CM_ BO_ 1041 "ICU ICU_02_200ms";
+CM_ BO_ 1042 "ICU ICU_03_200ms";
+CM_ BO_ 1043 "ICU ICU_04_200ms";
+CM_ BO_ 1046 "ICU ICU_06_200ms";
+CM_ BO_ 1047 "ICU ICU_07_200ms";
+CM_ BO_ 1048 "ICU ICU_08_200ms";
+CM_ BO_ 1040 "ICU ICU_10_200ms";
+CM_ BO_ 1163 "ODS ODS_01_1000ms_1";
+CM_ BO_ 1164 "ODS ODS_01_1000ms_2";
+CM_ BO_ 1227 "PSM PSM_01_00ms";
+CM_ BO_ 1067 "SCM SCM_01_200ms";
+CM_ BO_ 1143 "SVM SVM_02_600ms";
+CM_ BO_ 566 "BMS BMS_01_100ms_1";
+CM_ BO_ 567 "BMS BMS_01_100ms_2";
+CM_ BO_ 568 "BMS BMS_01_100ms_3";
+CM_ BO_ 569 "BMS BMS_01_100ms_4";
+CM_ BO_ 763 "BMS BMS_02_100ms_1";
+CM_ BO_ 764 "BMS BMS_02_100ms_2";
+CM_ BO_ 765 "BMS BMS_02_100ms_3";
+CM_ BO_ 766 "BMS BMS_02_100ms_4";
+CM_ BO_ 865 "BMS BMS_03_100ms_1";
+CM_ BO_ 866 "BMS BMS_03_100ms_2";
+CM_ BO_ 867 "BMS BMS_03_100ms_3";
+CM_ BO_ 868 "BMS BMS_03_100ms_4";
+CM_ BO_ 603 "BMS BMS_04_100ms_1";
+CM_ BO_ 604 "BMS BMS_04_100ms_2";
+CM_ BO_ 605 "BMS BMS_04_100ms_3";
+CM_ BO_ 606 "BMS BMS_04_100ms_4";
+CM_ BO_ 817 "BMS BMS_05_100ms_1";
+CM_ BO_ 818 "BMS BMS_05_100ms_2";
+CM_ BO_ 819 "BMS BMS_05_100ms_3";
+CM_ BO_ 820 "BMS BMS_05_100ms_4";
+CM_ BO_ 806 "BMS BMS_06_100ms_1";
+CM_ BO_ 807 "BMS BMS_06_100ms_2";
+CM_ BO_ 808 "BMS BMS_06_100ms_3";
+CM_ BO_ 809 "BMS BMS_06_100ms_4";
+CM_ BO_ 822 "BMS BMS_07_100ms_1";
+CM_ BO_ 823 "BMS BMS_07_100ms_2";
+CM_ BO_ 824 "BMS BMS_07_100ms_3";
+CM_ BO_ 825 "BMS BMS_07_100ms_4";
+CM_ BO_ 502 "BMS BMS_08_100ms_1";
+CM_ BO_ 503 "BMS BMS_08_100ms_2";
+CM_ BO_ 504 "BMS BMS_08_100ms_3";
+CM_ BO_ 505 "BMS BMS_08_100ms_4";
+CM_ BO_ 870 "BMS BMS_09_100ms_1";
+CM_ BO_ 871 "BMS BMS_09_100ms_2";
+CM_ BO_ 872 "BMS BMS_09_100ms_3";
+CM_ BO_ 873 "BMS BMS_09_100ms_4";
+CM_ BO_ 337 "BMS BMS_10_100ms_1";
+CM_ BO_ 338 "BMS BMS_10_100ms_2";
+CM_ BO_ 339 "BMS BMS_10_100ms_3";
+CM_ BO_ 340 "BMS BMS_10_100ms_4";
+CM_ BO_ 955 "BMS BMS_11_10ms_1";
+CM_ BO_ 956 "BMS BMS_11_10ms_2";
+CM_ BO_ 957 "BMS BMS_11_10ms_3";
+CM_ BO_ 958 "BMS BMS_11_10ms_4";
+CM_ BO_ 1014 "BMS BMS_12_1000ms_1";
+CM_ BO_ 1015 "BMS BMS_12_1000ms_2";
+CM_ BO_ 1016 "BMS BMS_12_1000ms_3";
+CM_ BO_ 1017 "BMS BMS_12_1000ms_4";
+CM_ BO_ 827 "CCM CCM_01_100ms_1";
+CM_ BO_ 828 "CCM CCM_01_100ms_2";
+CM_ BO_ 829 "CCM CCM_01_100ms_3";
+CM_ BO_ 830 "CCM CCM_01_100ms_4";
+CM_ BO_ 849 "CCM CCM_02_100ms_1";
+CM_ BO_ 850 "CCM CCM_02_100ms_2";
+CM_ BO_ 851 "CCM CCM_02_100ms_3";
+CM_ BO_ 852 "CCM CCM_02_100ms_4";
+CM_ BO_ 598 "LDC LDC_01_100ms_1";
+CM_ BO_ 599 "LDC LDC_01_100ms_2";
+CM_ BO_ 600 "LDC LDC_01_100ms_3";
+CM_ BO_ 601 "LDC LDC_01_100ms_4";
+CM_ BO_ 267 "MCU MCU_01_10ms_1";
+CM_ BO_ 268 "MCU MCU_01_10ms_2";
+CM_ BO_ 269 "MCU MCU_01_10ms_3";
+CM_ BO_ 270 "MCU MCU_01_10ms_4";
+CM_ BO_ 289 "MCU MCU_02_10ms_1";
+CM_ BO_ 290 "MCU MCU_02_10ms_2";
+CM_ BO_ 291 "MCU MCU_02_10ms_3";
+CM_ BO_ 292 "MCU MCU_02_10ms_4";
+CM_ BO_ 593 "MCU MCU_03_100ms_1";
+CM_ BO_ 594 "MCU MCU_03_100ms_2";
+CM_ BO_ 595 "MCU MCU_03_100ms_3";
+CM_ BO_ 918 "MCU MCU_04_200ms_1";
+CM_ BO_ 919 "MCU MCU_04_200ms_2";
+CM_ BO_ 920 "MCU MCU_04_200ms_3";
+CM_ BO_ 1153 "MCU MCU_05_1000ms_1";
+CM_ BO_ 1154 "MCU MCU_05_1000ms_2";
+CM_ BO_ 1155 "MCU MCU_05_1000ms_3";
+CM_ BO_ 1156 "MCU MCU_05_1000ms_4";
+CM_ BO_ 774 "MCU MCU_09_1000ms_1";
+CM_ BO_ 775 "MCU MCU_09_1000ms_2";
+CM_ BO_ 776 "MCU MCU_09_1000ms_3";
+CM_ BO_ 777 "MCU MCU_09_1000ms_4";
+CM_ BO_ 742 "OBC OBC_01_100ms_1";
+CM_ BO_ 743 "OBC OBC_01_100ms_2";
+CM_ BO_ 744 "OBC OBC_01_100ms_3";
+CM_ BO_ 745 "OBC OBC_01_100ms_4";
+CM_ BO_ 950 "OBC OBC_02_200ms_1";
+CM_ BO_ 951 "OBC OBC_02_200ms_2";
+CM_ BO_ 952 "OBC OBC_02_200ms_3";
+CM_ BO_ 953 "OBC OBC_02_200ms_4";
+CM_ BO_ 54 "VCU VCU_01_10ms_1";
+CM_ BO_ 55 "VCU VCU_01_10ms_2";
+CM_ BO_ 56 "VCU VCU_01_10ms_3";
+CM_ BO_ 111 "ABS ABS_ESC_01_10ms";
+CM_ BO_ 859 "AFS AFS_01_100ms";
+CM_ BO_ 433 "DATC DATC_02_20ms_1";
+CM_ BO_ 899 "DATC DATC_06_200ms";
+CM_ BO_ 900 "DATC DATC_07_200ms";
+CM_ BO_ 497 "EPB EPB_01_50ms_1";
+CM_ BO_ 923 "TMU TMU_01_200ms";
+CM_ BO_ 779 "VCMS VCMS_02_100ms_1";
+CM_ BO_ 684 "VCU VCU_04_100ms_2";
+CM_ BO_ 685 "VCU VCU_04_100ms_3";
+CM_ BO_ 694 "VCU VCU_05_100ms_1";
+CM_ BO_ 695 "VCU VCU_05_100ms_2";
+CM_ BO_ 781 "VCMS VCMS_02_100ms_3";
+CM_ BO_ 246 "VCU VCU_02_10ms_1";
+CM_ BO_ 247 "VCU VCU_02_10ms_2";
+CM_ BO_ 248 "VCU VCU_02_10ms_3";
+CM_ BO_ 249 "VCU VCU_02_10ms_4";
+CM_ BO_ 582 "BMS BMS_23_500ms_1";
+CM_ BO_ 583 "BMS BMS_23_500ms_2";
+CM_ BO_ 584 "BMS BMS_23_500ms_3";
+CM_ BO_ 585 "BMS BMS_23_500ms_4";
+CM_ BO_ 630 "BMS BMS_24_500ms_1";
+CM_ BO_ 631 "BMS BMS_24_500ms_2";
+CM_ BO_ 632 "BMS BMS_24_500ms_3";
+CM_ BO_ 633 "BMS BMS_24_500ms_4";
+CM_ BO_ 978 "BMS BMS_25_500ms_1";
+CM_ BO_ 979 "BMS BMS_25_500ms_2";
+CM_ BO_ 980 "BMS BMS_25_500ms_3";
+CM_ BO_ 981 "BMS BMS_25_500ms_4";
+CM_ BO_ 57 "VCU VCU_01_10ms_4";
+CM_ BO_ 102 "IEB IEB_01_10ms_1";
+CM_ BO_ 103 "IEB IEB_01_10ms_2";
+CM_ BO_ 104 "IEB IEB_01_10ms_3";
+CM_ BO_ 105 "IEB IEB_01_10ms_4";
+CM_ BO_ 683 "VCU VCU_04_100ms_1";
+CM_ BO_ 686 "VCU VCU_04_100ms_4";
+CM_ BO_ 411 "VCMS VCMS_01_10ms_1";
+CM_ BO_ 412 "VCMS VCMS_01_10ms_2";
+CM_ BO_ 413 "VCMS VCMS_01_10ms_3";
+CM_ BO_ 414 "VCMS VCMS_01_10ms_4";
+CM_ BO_ 780 "VCMS VCMS_02_100ms_2";
+CM_ BO_ 782 "VCMS VCMS_02_100ms_4";
+CM_ BO_ 801 "VCMS VCMS_03_100ms_1";
+CM_ BO_ 802 "VCMS VCMS_03_100ms_2";
+CM_ BO_ 803 "VCMS VCMS_03_100ms_3";
+CM_ BO_ 804 "VCMS VCMS_03_100ms_4";
+CM_ BO_ 86 "BMS BMS_26_500ms_1";
+CM_ BO_ 87 "BMS BMS_26_500ms_2";
+CM_ BO_ 88 "BMS BMS_26_500ms_3";
+CM_ BO_ 89 "BMS BMS_26_500ms_4";
+CM_ BO_ 406 "ADAS ADAS_CMD_33_10ms_1";
+CM_ BO_ 407 "ADAS ADAS_CMD_33_10ms_2";
+CM_ BO_ 408 "ADAS ADAS_CMD_33_10ms_3";
+CM_ BO_ 409 "ADAS ADAS_CMD_33_10ms_4";
+CM_ BO_ 395 "ADAS ADAS_PRK_22_20ms_1";
+CM_ BO_ 396 "ADAS ADAS_PRK_22_20ms_2";
+CM_ BO_ 397 "ADAS ADAS_PRK_22_20ms_3";
+CM_ BO_ 398 "ADAS ADAS_PRK_22_20ms_4";
+CM_ BO_ 831 "ADAS ADAS_PRK_RVM_01_600ms";
+CM_ BO_ 1548 "AMP AMP_HU_PE_01";
+CM_ BO_ 1549 "AMP AMP_HU_PE_02";
+CM_ BO_ 1550 "AMP AMP_HU_PE_03";
+CM_ BO_ 1551 "AMP AMP_HU_PE_04";
+CM_ BO_ 434 "DATC DATC_02_20ms_2";
+CM_ BO_ 435 "DATC DATC_02_20ms_3";
+CM_ BO_ 436 "DATC DATC_02_20ms_4";
+CM_ BO_ 145 "DATC DATC_19_100ms_1";
+CM_ BO_ 146 "DATC DATC_19_100ms_2";
+CM_ BO_ 147 "DATC DATC_19_100ms_3";
+CM_ BO_ 148 "DATC DATC_19_100ms_4";
+CM_ BO_ 1251 "IAU IAU_13_00ms";
+CM_ BO_ 1076 "IAU IAU_16_200ms";
+CM_ BO_ 210 "IAU IAU_26_200ms";
+CM_ BO_ 1049 "ICU ICU_09_200ms";
+CM_ BO_ 1167 "ICU ICU_11_1000ms";
+CM_ BO_ 1231 "IFS IFS_01_200ms";
+CM_ BO_ 726 "MCU MCU_06_200ms_1";
+CM_ BO_ 727 "MCU MCU_06_200ms_2";
+CM_ BO_ 728 "MCU MCU_06_200ms_3";
+CM_ BO_ 729 "MCU MCU_06_200ms_4";
+CM_ BO_ 1045 "RVM RVM_01_600ms";
+CM_ BO_ 936 "SVM SVM_05_600ms";
+CM_ BO_ 737 "VCU VCU_03_100ms_1";
+CM_ BO_ 738 "VCU VCU_03_100ms_2";
+CM_ BO_ 739 "VCU VCU_03_100ms_3";
+CM_ BO_ 740 "VCU VCU_03_100ms_4";
+CM_ BO_ 696 "VCU VCU_05_100ms_3";
+CM_ BO_ 697 "VCU VCU_05_100ms_4";
+CM_ BO_ 1161 "IBU IBU_MFSW_02_200ms";
+
+BA_DEF_ BO_ "GenMsgCycleTime" INT 0 10000;
+BA_DEF_DEF_ "GenMsgCycleTime" 0;
+
+BA_ "GenMsgCycleTime" BO_ 523 100;
+BA_ "GenMsgCycleTime" BO_ 524 100;
+BA_ "GenMsgCycleTime" BO_ 16 0;
+BA_ "GenMsgCycleTime" BO_ 353 20;
+BA_ "GenMsgCycleTime" BO_ 354 20;
+BA_ "GenMsgCycleTime" BO_ 417 20;
+BA_ "GenMsgCycleTime" BO_ 418 20;
+BA_ "GenMsgCycleTime" BO_ 419 20;
+BA_ "GenMsgCycleTime" BO_ 420 20;
+BA_ "GenMsgCycleTime" BO_ 512 50;
+BA_ "GenMsgCycleTime" BO_ 299 10;
+BA_ "GenMsgCycleTime" BO_ 300 10;
+BA_ "GenMsgCycleTime" BO_ 481 50;
+BA_ "GenMsgCycleTime" BO_ 482 50;
+BA_ "GenMsgCycleTime" BO_ 491 50;
+BA_ "GenMsgCycleTime" BO_ 492 50;
+BA_ "GenMsgCycleTime" BO_ 493 50;
+BA_ "GenMsgCycleTime" BO_ 494 50;
+BA_ "GenMsgCycleTime" BO_ 310 10;
+BA_ "GenMsgCycleTime" BO_ 311 10;
+BA_ "GenMsgCycleTime" BO_ 1050 200;
+BA_ "GenMsgCycleTime" BO_ 1051 200;
+BA_ "GenMsgCycleTime" BO_ 1052 200;
+BA_ "GenMsgCycleTime" BO_ 1058 200;
+BA_ "GenMsgCycleTime" BO_ 1074 200;
+BA_ "GenMsgCycleTime" BO_ 1090 200;
+BA_ "GenMsgCycleTime" BO_ 427 20;
+BA_ "GenMsgCycleTime" BO_ 428 20;
+BA_ "GenMsgCycleTime" BO_ 550 100;
+BA_ "GenMsgCycleTime" BO_ 551 100;
+BA_ "GenMsgCycleTime" BO_ 907 200;
+BA_ "GenMsgCycleTime" BO_ 908 200;
+BA_ "GenMsgCycleTime" BO_ 1235 0;
+BA_ "GenMsgCycleTime" BO_ 1236 0;
+BA_ "GenMsgCycleTime" BO_ 1242 0;
+BA_ "GenMsgCycleTime" BO_ 1145 0;
+BA_ "GenMsgCycleTime" BO_ 1135 0;
+BA_ "GenMsgCycleTime" BO_ 384 20;
+BA_ "GenMsgCycleTime" BO_ 389 20;
+BA_ "GenMsgCycleTime" BO_ 326 20;
+BA_ "GenMsgCycleTime" BO_ 327 20;
+BA_ "GenMsgCycleTime" BO_ 328 20;
+BA_ "GenMsgCycleTime" BO_ 329 20;
+BA_ "GenMsgCycleTime" BO_ 896 200;
+BA_ "GenMsgCycleTime" BO_ 897 200;
+BA_ "GenMsgCycleTime" BO_ 898 200;
+BA_ "GenMsgCycleTime" BO_ 945 200;
+BA_ "GenMsgCycleTime" BO_ 1065 200;
+BA_ "GenMsgCycleTime" BO_ 795 1000;
+BA_ "GenMsgCycleTime" BO_ 796 1000;
+BA_ "GenMsgCycleTime" BO_ 797 1000;
+BA_ "GenMsgCycleTime" BO_ 798 1000;
+BA_ "GenMsgCycleTime" BO_ 97 10;
+BA_ "GenMsgCycleTime" BO_ 98 10;
+BA_ "GenMsgCycleTime" BO_ 99 10;
+BA_ "GenMsgCycleTime" BO_ 100 10;
+BA_ "GenMsgCycleTime" BO_ 230 10;
+BA_ "GenMsgCycleTime" BO_ 231 10;
+BA_ "GenMsgCycleTime" BO_ 232 10;
+BA_ "GenMsgCycleTime" BO_ 233 10;
+BA_ "GenMsgCycleTime" BO_ 374 20;
+BA_ "GenMsgCycleTime" BO_ 375 20;
+BA_ "GenMsgCycleTime" BO_ 376 20;
+BA_ "GenMsgCycleTime" BO_ 235 10;
+BA_ "GenMsgCycleTime" BO_ 236 10;
+BA_ "GenMsgCycleTime" BO_ 237 10;
+BA_ "GenMsgCycleTime" BO_ 369 20;
+BA_ "GenMsgCycleTime" BO_ 370 20;
+BA_ "GenMsgCycleTime" BO_ 358 20;
+BA_ "GenMsgCycleTime" BO_ 359 20;
+BA_ "GenMsgCycleTime" BO_ 360 20;
+BA_ "GenMsgCycleTime" BO_ 363 20;
+BA_ "GenMsgCycleTime" BO_ 364 20;
+BA_ "GenMsgCycleTime" BO_ 365 20;
+BA_ "GenMsgCycleTime" BO_ 366 20;
+BA_ "GenMsgCycleTime" BO_ 294 10;
+BA_ "GenMsgCycleTime" BO_ 295 10;
+BA_ "GenMsgCycleTime" BO_ 929 200;
+BA_ "GenMsgCycleTime" BO_ 930 200;
+BA_ "GenMsgCycleTime" BO_ 161 10;
+BA_ "GenMsgCycleTime" BO_ 162 10;
+BA_ "GenMsgCycleTime" BO_ 163 10;
+BA_ "GenMsgCycleTime" BO_ 75 10;
+BA_ "GenMsgCycleTime" BO_ 76 10;
+BA_ "GenMsgCycleTime" BO_ 77 10;
+BA_ "GenMsgCycleTime" BO_ 78 10;
+BA_ "GenMsgCycleTime" BO_ 342 10;
+BA_ "GenMsgCycleTime" BO_ 343 10;
+BA_ "GenMsgCycleTime" BO_ 1031 200;
+BA_ "GenMsgCycleTime" BO_ 1174 200;
+BA_ "GenMsgCycleTime" BO_ 1180 0;
+BA_ "GenMsgCycleTime" BO_ 283 10;
+BA_ "GenMsgCycleTime" BO_ 284 10;
+BA_ "GenMsgCycleTime" BO_ 507 100;
+BA_ "GenMsgCycleTime" BO_ 508 100;
+BA_ "GenMsgCycleTime" BO_ 509 100;
+BA_ "GenMsgCycleTime" BO_ 510 100;
+BA_ "GenMsgCycleTime" BO_ 438 50;
+BA_ "GenMsgCycleTime" BO_ 439 50;
+BA_ "GenMsgCycleTime" BO_ 440 50;
+BA_ "GenMsgCycleTime" BO_ 441 50;
+BA_ "GenMsgCycleTime" BO_ 699 40;
+BA_ "GenMsgCycleTime" BO_ 700 40;
+BA_ "GenMsgCycleTime" BO_ 701 40;
+BA_ "GenMsgCycleTime" BO_ 702 40;
+BA_ "GenMsgCycleTime" BO_ 315 0;
+BA_ "GenMsgCycleTime" BO_ 316 0;
+BA_ "GenMsgCycleTime" BO_ 317 0;
+BA_ "GenMsgCycleTime" BO_ 318 0;
+BA_ "GenMsgCycleTime" BO_ 320 10;
+BA_ "GenMsgCycleTime" BO_ 486 50;
+BA_ "GenMsgCycleTime" BO_ 487 50;
+BA_ "GenMsgCycleTime" BO_ 443 50;
+BA_ "GenMsgCycleTime" BO_ 444 50;
+BA_ "GenMsgCycleTime" BO_ 445 50;
+BA_ "GenMsgCycleTime" BO_ 961 200;
+BA_ "GenMsgCycleTime" BO_ 962 200;
+BA_ "GenMsgCycleTime" BO_ 518 100;
+BA_ "GenMsgCycleTime" BO_ 519 100;
+BA_ "GenMsgCycleTime" BO_ 520 100;
+BA_ "GenMsgCycleTime" BO_ 934 200;
+BA_ "GenMsgCycleTime" BO_ 1041 200;
+BA_ "GenMsgCycleTime" BO_ 1042 200;
+BA_ "GenMsgCycleTime" BO_ 1043 200;
+BA_ "GenMsgCycleTime" BO_ 1046 200;
+BA_ "GenMsgCycleTime" BO_ 1047 200;
+BA_ "GenMsgCycleTime" BO_ 1048 200;
+BA_ "GenMsgCycleTime" BO_ 1040 200;
+BA_ "GenMsgCycleTime" BO_ 1163 1000;
+BA_ "GenMsgCycleTime" BO_ 1164 1000;
+BA_ "GenMsgCycleTime" BO_ 1227 0;
+BA_ "GenMsgCycleTime" BO_ 1067 200;
+BA_ "GenMsgCycleTime" BO_ 1143 600;
+BA_ "GenMsgCycleTime" BO_ 566 100;
+BA_ "GenMsgCycleTime" BO_ 567 100;
+BA_ "GenMsgCycleTime" BO_ 568 100;
+BA_ "GenMsgCycleTime" BO_ 569 100;
+BA_ "GenMsgCycleTime" BO_ 763 100;
+BA_ "GenMsgCycleTime" BO_ 764 100;
+BA_ "GenMsgCycleTime" BO_ 765 100;
+BA_ "GenMsgCycleTime" BO_ 766 100;
+BA_ "GenMsgCycleTime" BO_ 865 100;
+BA_ "GenMsgCycleTime" BO_ 866 100;
+BA_ "GenMsgCycleTime" BO_ 867 100;
+BA_ "GenMsgCycleTime" BO_ 868 100;
+BA_ "GenMsgCycleTime" BO_ 603 100;
+BA_ "GenMsgCycleTime" BO_ 604 100;
+BA_ "GenMsgCycleTime" BO_ 605 100;
+BA_ "GenMsgCycleTime" BO_ 606 100;
+BA_ "GenMsgCycleTime" BO_ 817 100;
+BA_ "GenMsgCycleTime" BO_ 818 100;
+BA_ "GenMsgCycleTime" BO_ 819 100;
+BA_ "GenMsgCycleTime" BO_ 820 100;
+BA_ "GenMsgCycleTime" BO_ 806 100;
+BA_ "GenMsgCycleTime" BO_ 807 100;
+BA_ "GenMsgCycleTime" BO_ 808 100;
+BA_ "GenMsgCycleTime" BO_ 809 100;
+BA_ "GenMsgCycleTime" BO_ 822 100;
+BA_ "GenMsgCycleTime" BO_ 823 100;
+BA_ "GenMsgCycleTime" BO_ 824 100;
+BA_ "GenMsgCycleTime" BO_ 825 100;
+BA_ "GenMsgCycleTime" BO_ 502 100;
+BA_ "GenMsgCycleTime" BO_ 503 100;
+BA_ "GenMsgCycleTime" BO_ 504 100;
+BA_ "GenMsgCycleTime" BO_ 505 100;
+BA_ "GenMsgCycleTime" BO_ 870 100;
+BA_ "GenMsgCycleTime" BO_ 871 100;
+BA_ "GenMsgCycleTime" BO_ 872 100;
+BA_ "GenMsgCycleTime" BO_ 873 100;
+BA_ "GenMsgCycleTime" BO_ 337 100;
+BA_ "GenMsgCycleTime" BO_ 338 100;
+BA_ "GenMsgCycleTime" BO_ 339 100;
+BA_ "GenMsgCycleTime" BO_ 340 100;
+BA_ "GenMsgCycleTime" BO_ 955 10;
+BA_ "GenMsgCycleTime" BO_ 956 10;
+BA_ "GenMsgCycleTime" BO_ 957 10;
+BA_ "GenMsgCycleTime" BO_ 958 10;
+BA_ "GenMsgCycleTime" BO_ 1014 1000;
+BA_ "GenMsgCycleTime" BO_ 1015 1000;
+BA_ "GenMsgCycleTime" BO_ 1016 1000;
+BA_ "GenMsgCycleTime" BO_ 1017 1000;
+BA_ "GenMsgCycleTime" BO_ 827 100;
+BA_ "GenMsgCycleTime" BO_ 828 100;
+BA_ "GenMsgCycleTime" BO_ 829 100;
+BA_ "GenMsgCycleTime" BO_ 830 100;
+BA_ "GenMsgCycleTime" BO_ 849 100;
+BA_ "GenMsgCycleTime" BO_ 850 100;
+BA_ "GenMsgCycleTime" BO_ 851 100;
+BA_ "GenMsgCycleTime" BO_ 852 100;
+BA_ "GenMsgCycleTime" BO_ 598 100;
+BA_ "GenMsgCycleTime" BO_ 599 100;
+BA_ "GenMsgCycleTime" BO_ 600 100;
+BA_ "GenMsgCycleTime" BO_ 601 100;
+BA_ "GenMsgCycleTime" BO_ 267 10;
+BA_ "GenMsgCycleTime" BO_ 268 10;
+BA_ "GenMsgCycleTime" BO_ 269 10;
+BA_ "GenMsgCycleTime" BO_ 270 10;
+BA_ "GenMsgCycleTime" BO_ 289 10;
+BA_ "GenMsgCycleTime" BO_ 290 10;
+BA_ "GenMsgCycleTime" BO_ 291 10;
+BA_ "GenMsgCycleTime" BO_ 292 10;
+BA_ "GenMsgCycleTime" BO_ 593 100;
+BA_ "GenMsgCycleTime" BO_ 594 100;
+BA_ "GenMsgCycleTime" BO_ 595 100;
+BA_ "GenMsgCycleTime" BO_ 918 200;
+BA_ "GenMsgCycleTime" BO_ 919 200;
+BA_ "GenMsgCycleTime" BO_ 920 200;
+BA_ "GenMsgCycleTime" BO_ 1153 1000;
+BA_ "GenMsgCycleTime" BO_ 1154 1000;
+BA_ "GenMsgCycleTime" BO_ 1155 1000;
+BA_ "GenMsgCycleTime" BO_ 1156 1000;
+BA_ "GenMsgCycleTime" BO_ 774 1000;
+BA_ "GenMsgCycleTime" BO_ 775 1000;
+BA_ "GenMsgCycleTime" BO_ 776 1000;
+BA_ "GenMsgCycleTime" BO_ 777 1000;
+BA_ "GenMsgCycleTime" BO_ 742 100;
+BA_ "GenMsgCycleTime" BO_ 743 100;
+BA_ "GenMsgCycleTime" BO_ 744 100;
+BA_ "GenMsgCycleTime" BO_ 745 100;
+BA_ "GenMsgCycleTime" BO_ 950 200;
+BA_ "GenMsgCycleTime" BO_ 951 200;
+BA_ "GenMsgCycleTime" BO_ 952 200;
+BA_ "GenMsgCycleTime" BO_ 953 200;
+BA_ "GenMsgCycleTime" BO_ 54 10;
+BA_ "GenMsgCycleTime" BO_ 55 10;
+BA_ "GenMsgCycleTime" BO_ 56 10;
+BA_ "GenMsgCycleTime" BO_ 111 10;
+BA_ "GenMsgCycleTime" BO_ 859 100;
+BA_ "GenMsgCycleTime" BO_ 433 20;
+BA_ "GenMsgCycleTime" BO_ 899 200;
+BA_ "GenMsgCycleTime" BO_ 900 200;
+BA_ "GenMsgCycleTime" BO_ 497 50;
+BA_ "GenMsgCycleTime" BO_ 923 200;
+BA_ "GenMsgCycleTime" BO_ 779 100;
+BA_ "GenMsgCycleTime" BO_ 684 100;
+BA_ "GenMsgCycleTime" BO_ 685 100;
+BA_ "GenMsgCycleTime" BO_ 694 100;
+BA_ "GenMsgCycleTime" BO_ 695 100;
+BA_ "GenMsgCycleTime" BO_ 781 100;
+BA_ "GenMsgCycleTime" BO_ 246 10;
+BA_ "GenMsgCycleTime" BO_ 247 10;
+BA_ "GenMsgCycleTime" BO_ 248 10;
+BA_ "GenMsgCycleTime" BO_ 249 10;
+BA_ "GenMsgCycleTime" BO_ 582 500;
+BA_ "GenMsgCycleTime" BO_ 583 500;
+BA_ "GenMsgCycleTime" BO_ 584 500;
+BA_ "GenMsgCycleTime" BO_ 585 500;
+BA_ "GenMsgCycleTime" BO_ 630 500;
+BA_ "GenMsgCycleTime" BO_ 631 500;
+BA_ "GenMsgCycleTime" BO_ 632 500;
+BA_ "GenMsgCycleTime" BO_ 633 500;
+BA_ "GenMsgCycleTime" BO_ 978 500;
+BA_ "GenMsgCycleTime" BO_ 979 500;
+BA_ "GenMsgCycleTime" BO_ 980 500;
+BA_ "GenMsgCycleTime" BO_ 981 500;
+BA_ "GenMsgCycleTime" BO_ 57 10;
+BA_ "GenMsgCycleTime" BO_ 102 10;
+BA_ "GenMsgCycleTime" BO_ 103 10;
+BA_ "GenMsgCycleTime" BO_ 104 10;
+BA_ "GenMsgCycleTime" BO_ 105 10;
+BA_ "GenMsgCycleTime" BO_ 683 100;
+BA_ "GenMsgCycleTime" BO_ 686 100;
+BA_ "GenMsgCycleTime" BO_ 411 10;
+BA_ "GenMsgCycleTime" BO_ 412 10;
+BA_ "GenMsgCycleTime" BO_ 413 10;
+BA_ "GenMsgCycleTime" BO_ 414 10;
+BA_ "GenMsgCycleTime" BO_ 780 100;
+BA_ "GenMsgCycleTime" BO_ 782 100;
+BA_ "GenMsgCycleTime" BO_ 801 100;
+BA_ "GenMsgCycleTime" BO_ 802 100;
+BA_ "GenMsgCycleTime" BO_ 803 100;
+BA_ "GenMsgCycleTime" BO_ 804 100;
+BA_ "GenMsgCycleTime" BO_ 86 500;
+BA_ "GenMsgCycleTime" BO_ 87 500;
+BA_ "GenMsgCycleTime" BO_ 88 500;
+BA_ "GenMsgCycleTime" BO_ 89 500;
+BA_ "GenMsgCycleTime" BO_ 406 10;
+BA_ "GenMsgCycleTime" BO_ 407 10;
+BA_ "GenMsgCycleTime" BO_ 408 10;
+BA_ "GenMsgCycleTime" BO_ 409 10;
+BA_ "GenMsgCycleTime" BO_ 395 20;
+BA_ "GenMsgCycleTime" BO_ 396 20;
+BA_ "GenMsgCycleTime" BO_ 397 20;
+BA_ "GenMsgCycleTime" BO_ 398 20;
+BA_ "GenMsgCycleTime" BO_ 831 600;
+BA_ "GenMsgCycleTime" BO_ 434 20;
+BA_ "GenMsgCycleTime" BO_ 435 20;
+BA_ "GenMsgCycleTime" BO_ 436 20;
+BA_ "GenMsgCycleTime" BO_ 145 100;
+BA_ "GenMsgCycleTime" BO_ 146 100;
+BA_ "GenMsgCycleTime" BO_ 147 100;
+BA_ "GenMsgCycleTime" BO_ 148 100;
+BA_ "GenMsgCycleTime" BO_ 1251 0;
+BA_ "GenMsgCycleTime" BO_ 1076 200;
+BA_ "GenMsgCycleTime" BO_ 210 200;
+BA_ "GenMsgCycleTime" BO_ 1049 200;
+BA_ "GenMsgCycleTime" BO_ 1167 1000;
+BA_ "GenMsgCycleTime" BO_ 1231 200;
+BA_ "GenMsgCycleTime" BO_ 726 200;
+BA_ "GenMsgCycleTime" BO_ 727 200;
+BA_ "GenMsgCycleTime" BO_ 728 200;
+BA_ "GenMsgCycleTime" BO_ 729 200;
+BA_ "GenMsgCycleTime" BO_ 1045 600;
+BA_ "GenMsgCycleTime" BO_ 936 600;
+BA_ "GenMsgCycleTime" BO_ 737 100;
+BA_ "GenMsgCycleTime" BO_ 738 100;
+BA_ "GenMsgCycleTime" BO_ 739 100;
+BA_ "GenMsgCycleTime" BO_ 740 100;
+BA_ "GenMsgCycleTime" BO_ 696 100;
+BA_ "GenMsgCycleTime" BO_ 697 100;
+BA_ "GenMsgCycleTime" BO_ 1161 200;
+
+VAL_TABLE_ GenMsgCycleTime 0 "Event/On-change" 1 "1 ms" 2 "2 ms" 10 "10 ms" 20 "20 ms" 40 "40 ms" 50 "50 ms" 100 "100 ms" 200 "200 ms" 500 "500 ms" 600 "600 ms" 1000 "1000 ms";
