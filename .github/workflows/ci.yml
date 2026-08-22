@@ -1,0 +1,30 @@
+name: validate-dbcs
+
+on:
+  push:
+    paths:
+      - '*.dbc'
+      - 'scripts/validate_dbcs.py'
+      - '.github/workflows/ci.yml'
+  pull_request:
+    paths:
+      - '*.dbc'
+      - 'scripts/validate_dbcs.py'
+      - '.github/workflows/ci.yml'
+  workflow_dispatch:
+
+jobs:
+  validate-dbcs:
+    runs-on: ubuntu-latest
+    steps:
+      - uses: actions/checkout@v4
+
+      - uses: actions/setup-python@v5
+        with:
+          python-version: '3.12'
+
+      - name: Install cantools
+        run: pip install cantools
+
+      - name: Validate DBC files
+        run: python scripts/validate_dbcs.py
