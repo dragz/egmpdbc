@@ -40,10 +40,10 @@ BA_DEF_ BO_  "VFrameFormat" ENUM  "StandardCAN","ExtendedCAN";
 BO_ 56 Power_Status: 8 Vector__XXX
 	SG_ Power_Status_Ready : 0|4@1+ (1,0) [0|0] "" Vector__XXX
 
-CM_ BO_ 56 "POWER_STATUS (0x038) power/READY frame. LS nibble of byte 0 == 0x04 indicates the car is in READY.";
+CM_ BO_ 56 "POWER_STATUS (0x038) power/READY frame. LS nibble of byte 0: 0x01 = awake but off (with some lag), 0x04 = READY.";
 CM_ SG_ 56 Power_Status_Ready "LS nibble of byte 0";
 
-VAL_ 56 Power_Status_Ready 4 "Ready" ;
+VAL_ 56 Power_Status_Ready 1 "Awake_Not_Ready" 4 "Ready" ;
 
 BO_ 199 Toggle_Battery_Preconditioning: 8 Vector__XXX
 	SG_ Battery_Preconditioning_0 : 24|8@1+ (1,0) [0|0] "" Vector__XXX
@@ -141,13 +141,13 @@ BO_ 1618 AVN_Buttons_652: 8 Vector__XXX
 	SG_ AVN_Star : 8|4@1+ (1,0) [0|0] "" Vector__XXX
 	SG_ AVN_Tuner_Up_Down : 24|4@1+ (1,0) [0|0] "" Vector__XXX
 
-CM_ BO_ 1618 "AVN (head unit) button events (0x652); event frames sent only on press/release. byte0 MS nibble = MAP/NAV, LS = MEDIA; byte1 LS = STAR; byte3 LS = TUNER UP/DOWN.";
-CM_ SG_ 1618 AVN_Media "byte 0 LS nibble (mask 0x0F)";
-CM_ SG_ 1618 AVN_Map_Nav "byte 0 MS nibble (mask 0xF0)";
-CM_ SG_ 1618 AVN_Star "byte 1 LS nibble (mask 0x0F)";
-CM_ SG_ 1618 AVN_Tuner_Up_Down "byte 3 LS nibble (mask 0x0F)";
+CM_ BO_ 1618 "AVN (head unit) button events (0x652). Per-byte nibble encoding: D1(byte0) MS=MAP/NAV LS=MEDIA; D2(byte1) LS=STAR; D4(byte3) LS=TUNER UP/DOWN. Seek/Call/Home/Mode signals are EV6-specific (see fluxer notes).";
+CM_ SG_ 1618 AVN_Media "byte 0 LS nibble (mask 0x0F). 1=Media, 4=Radio (start radio, unconfirmed per fluxer notes)";
+CM_ SG_ 1618 AVN_Map_Nav "byte 0 MS nibble (mask 0xF0). 1=Nav, 4=Map";
+CM_ SG_ 1618 AVN_Star "byte 1 LS nibble (mask 0x0F). 4=Star";
+CM_ SG_ 1618 AVN_Tuner_Up_Down "byte 3 LS nibble (mask 0x0F). 1=Down, 4=Up";
 
-VAL_ 1618 AVN_Media 0 "Release" 1 "Press" 12 "Release" 13 "Press" ;
+VAL_ 1618 AVN_Media 0 "Release" 1 "Press" 4 "Radio" 12 "Release" 13 "Press" ;
 VAL_ 1618 AVN_Map_Nav 0 "Release" 1 "Nav Press" 3 "Release" 4 "Map Press" 7 "Map Press" 12 "Release" 13 "Nav Press" ;
 VAL_ 1618 AVN_Star 0 "Release" 3 "Release" 4 "Press" 7 "Press" ;
 VAL_ 1618 AVN_Tuner_Up_Down 0 "Release" 1 "Down Press" 3 "Release" 4 "Up Press" 7 "Up Press" 12 "Release" 13 "Down Press" ;

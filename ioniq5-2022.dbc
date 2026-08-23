@@ -126,7 +126,7 @@ BO_ 795 Climate_Status: 8 Vector__XXX
  SG_ Climate_Airflow_Direction  : 28|4@1+ (1,0) [0|15] "" Vector__XXX
  SG_ Climate_Recirculation_State: 34|1@1+ (1,0) [0|1]  "" Vector__XXX
 
-CM_ "FrameID: 0x380";
+CM_ BO_ 896 "First three bytes are a rolling counter (byte 0/1 non-monotonic, byte 2 increments with temp step).";
 BO_ 896 Climate_Temperature: 8 Vector__XXX
  SG_ Driver_Temp_Raw    : 24|8@1+ (0.5,14) [14|32] "C" Vector__XXX
  SG_ Passenger_Temp_Raw : 32|8@1+ (0.5,14) [14|32] "C" Vector__XXX
@@ -366,10 +366,10 @@ CM_ BO_ 1096 "Steering-wheel buttons (0x448): star, mode, speak, call, volume, s
 BO_ 56 Power_Status: 8 Vector__XXX
 	SG_ Power_Status_Ready : 0|4@1+ (1,0) [0|0] "" Vector__XXX
 
-CM_ BO_ 56 "POWER_STATUS (0x038) power/READY frame. LS nibble of byte 0 == 0x04 indicates the car is in READY.";
+CM_ BO_ 56 "POWER_STATUS (0x038) power/READY frame. LS nibble of byte 0: 0x01 = awake but off (with some lag), 0x04 = READY.";
 CM_ SG_ 56 Power_Status_Ready "LS nibble of byte 0";
 
-VAL_ 56 Power_Status_Ready 4 "Ready" ;
+VAL_ 56 Power_Status_Ready 1 "Awake_Not_Ready" 4 "Ready" ;
 
 BO_ 1256 Distance_Flag_Display: 8 Vector__XXX
 	SG_ Distance_Unit : 0|4@1+ (1,0) [0|0] "" Vector__XXX
@@ -416,15 +416,72 @@ BO_ 1618 AVN_Buttons_652: 8 Vector__XXX
 	SG_ AVN_Media : 0|4@1+ (1,0) [0|0] "" Vector__XXX
 	SG_ AVN_Map_Nav : 4|4@1+ (1,0) [0|0] "" Vector__XXX
 	SG_ AVN_Star : 8|4@1+ (1,0) [0|0] "" Vector__XXX
+	SG_ AVN_Seek : 12|4@1+ (1,0) [0|0] "" Vector__XXX
+	SG_ AVN_Call_Home : 20|4@1+ (1,0) [0|0] "" Vector__XXX
+	SG_ AVN_Mode_Switch : 28|4@1+ (1,0) [0|0] "" Vector__XXX
 	SG_ AVN_Tuner_Up_Down : 24|4@1+ (1,0) [0|0] "" Vector__XXX
 
-CM_ BO_ 1618 "AVN (head unit) button events (0x652); event frames sent only on press/release. byte0 MS nibble = MAP/NAV, LS = MEDIA; byte1 LS = STAR; byte3 LS = TUNER UP/DOWN.";
-CM_ SG_ 1618 AVN_Media "byte 0 LS nibble (mask 0x0F)";
-CM_ SG_ 1618 AVN_Map_Nav "byte 0 MS nibble (mask 0xF0)";
-CM_ SG_ 1618 AVN_Star "byte 1 LS nibble (mask 0x0F)";
-CM_ SG_ 1618 AVN_Tuner_Up_Down "byte 3 LS nibble (mask 0x0F)";
+CM_ BO_ 1618 "AVN (head unit) button events (0x652). Per-byte nibble encoding: D1(byte0) MS=MAP/NAV LS=MEDIA; D2(byte1) MS=SEEK LS=STAR; D3(byte2) MS=CALL/HOME; D4(byte3) MS=MODE LS=TUNER UP/DOWN. Brute-force source: 0x652 button list. NOTE: Seek/Call/Home/Mode signals are EV6-specific per fluxer notes; presence on Ioniq 5 unconfirmed.";
+CM_ SG_ 1618 AVN_Media "byte 0 LS nibble (mask 0x0F). 1=Media, 4=Radio (start radio, unconfirmed per fluxer notes)";
+CM_ SG_ 1618 AVN_Map_Nav "byte 0 MS nibble (mask 0xF0). 1=Nav, 4=Map";
+CM_ SG_ 1618 AVN_Star "byte 1 LS nibble (mask 0x0F). 4=Star";
+CM_ SG_ 1618 AVN_Seek "byte 1 MS nibble (mask 0xF0). 1=Seek Right, 4=Seek Left (EV6 confirmed, assumed platform)";
+CM_ SG_ 1618 AVN_Call_Home "byte 2 MS nibble (mask 0xF0). 1=Call, 4=Home (unconfirmed)";
+CM_ SG_ 1618 AVN_Mode_Switch "byte 3 MS nibble (mask 0xF0). Transitions: 5F->4F->7F->FF = climate-to-media, BF->FF = media-to-climate (EV6 observed, assumed platform)";
+CM_ SG_ 1618 AVN_Tuner_Up_Down "byte 3 LS nibble (mask 0x0F). 1=Down, 4=Up";
 
-VAL_ 1618 AVN_Media 0 "Release" 1 "Press" 12 "Release" 13 "Press" ;
+VAL_ 1618 AVN_Media 0 "Release" 1 "Press" 4 "Radio" 12 "Release" 13 "Press" ;
 VAL_ 1618 AVN_Map_Nav 0 "Release" 1 "Nav Press" 3 "Release" 4 "Map Press" 7 "Map Press" 12 "Release" 13 "Nav Press" ;
 VAL_ 1618 AVN_Star 0 "Release" 3 "Release" 4 "Press" 7 "Press" ;
+VAL_ 1618 AVN_Seek 0 "Release" 1 "Seek Right" 4 "Seek Left" 3 "Release" 12 "Release" ;
+VAL_ 1618 AVN_Call_Home 0 "Release" 1 "Call" 4 "Home" ;
+VAL_ 1618 AVN_Mode_Switch 4 "Mode_Media_?" 5 "Climate_To_Media_Step" 7 "Mode_Change_Complete_?" 11 "Media_To_Climate_Request" 15 "Idle" ;
 VAL_ 1618 AVN_Tuner_Up_Down 0 "Release" 1 "Down Press" 3 "Release" 4 "Up Press" 7 "Up Press" 12 "Release" 13 "Down Press" ;
+
+BO_ 57 Power_State_Aux: 8 Vector__XXX
+	SG_ Power_State_Aux_Raw : 0|8@1+ (1,0) [0|255] "" Vector__XXX
+
+CM_ BO_ 57 "Power_State_Aux (0x039): byte 0 value 0x09 = power-up transition (fires 4x when going up). 0x05/0x07 = possible door wake bursts. Runs at 20Hz when car is awake.";
+CM_ SG_ 57 Power_State_Aux_Raw "byte 0 raw";
+
+VAL_ 57 Power_State_Aux_Raw 5 "Door_Wake_Burst_05" 7 "Door_Wake_Burst_07" 9 "Powering_Up" ;
+
+BO_ 782 Charging_Power: 8 Vector__XXX
+	SG_ Charging_Power_kW : 48|8@1+ (1,0) [0|255] "kW" Vector__XXX
+
+CM_ BO_ 782 "Charging_Power (0x30E): byte 6 = charging power in kW.";
+
+BO_ 1053 Climate_Driver_Only_Control: 8 Vector__XXX
+	SG_ Driver_Only_Request : 32|8@1+ (1,0) [0|255] "" Vector__XXX
+
+CM_ BO_ 1053 "Climate_Driver_Only_Control (0x41D): byte 4 (D5) toggles 0x0D->0x0F for on, 0x0C->0x0F for off. Heat toggle also on this frame (unspecified bits). Head-unit-generated climate control.";
+CM_ SG_ 1053 Driver_Only_Request "byte 4 (D5): 0x0C=Driver_Only_Off, 0x0D=Driver_Only_On, 0x0F=Applied";
+
+VAL_ 1053 Driver_Only_Request 12 "Driver_Only_Off" 13 "Driver_Only_On" 15 "Applied" ;
+
+BO_ 1183 Climate_Temp_Control: 8 Vector__XXX
+	SG_ Temp_Control : 0|8@1+ (1,0) [0|255] "" Vector__XXX
+
+CM_ BO_ 1183 "Climate_Temp_Control (0x49F): byte 0 (D1). 0x70->0xF0 = Driver Temp Up, 0xB0->0xF0 = Driver Down, 0xD0->0xF0 = Passenger Up, 0xE0->0xF0 = Passenger Down. 0xF0 = released/idle. Also contains AC toggle and auto toggle (unspecified bits). Head-unit-generated.";
+CM_ SG_ 1183 Temp_Control "byte 0 (D1): high nibble encodes direction, F0=idle";
+
+VAL_ 1183 Temp_Control 112 "Driver_Temp_Up" 176 "Driver_Temp_Down" 208 "Passenger_Temp_Up" 224 "Passenger_Temp_Down" 240 "Idle" ;
+
+BO_ 1184 Climate_Sync_Control: 8 Vector__XXX
+	SG_ Sync_Request : 24|8@1+ (1,0) [0|255] "" Vector__XXX
+
+CM_ BO_ 1184 "Climate_Sync_Control (0x4A0): byte 3 (D4). 0x0B->0x0F = Sync On, 0x07->0x0F = Sync Off. 0x0F = applied/idle.";
+CM_ SG_ 1184 Sync_Request "byte 3 (D4): 0x07=Sync_Off, 0x0B=Sync_On, 0x0F=Applied";
+
+VAL_ 1184 Sync_Request 7 "Sync_Off" 11 "Sync_On" 15 "Applied" ;
+
+BO_ 1186 Seat_Heat_Vent_Control: 8 Vector__XXX
+	SG_ Seat_Level_Passenger : 32|4@1+ (1,0) [0|15] "" Vector__XXX
+	SG_ Seat_Level_Driver    : 36|4@1+ (1,0) [0|15] "" Vector__XXX
+
+CM_ BO_ 1186 "Seat_Heat_Vent_Control (0x4A2): D5 (byte 4). High nibble = driver, low nibble = passenger. F = idle/no-change. Ioniq5 values: 8=High, 7=Medium, 6=Low, 2=Off.";
+CM_ SG_ 1186 Seat_Level_Driver "byte 4 high nibble (mask 0xF0): 2=Off, 6=Low, 7=Med, 8=High, F=Idle";
+CM_ SG_ 1186 Seat_Level_Passenger "byte 4 low nibble (mask 0x0F): same codes as driver, F=Idle";
+
+VAL_ 1186 Seat_Level_Driver 2 "Off" 6 "Low" 7 "Medium" 8 "High" 15 "Idle" ;
+VAL_ 1186 Seat_Level_Passenger 2 "Off" 6 "Low" 7 "Medium" 8 "High" 15 "Idle" ;

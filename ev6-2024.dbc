@@ -40,10 +40,10 @@ BA_DEF_ BO_  "VFrameFormat" ENUM  "StandardCAN","ExtendedCAN";
 BO_ 56 Power_Status: 8 Vector__XXX
 	SG_ Power_Status_Ready : 0|4@1+ (1,0) [0|0] "" Vector__XXX
 
-CM_ BO_ 56 "POWER_STATUS (0x038) power/READY frame. LS nibble of byte 0 == 0x04 indicates the car is in READY.";
+CM_ BO_ 56 "POWER_STATUS (0x038) power/READY frame. LS nibble of byte 0: 0x01 = awake but off (with some lag), 0x04 = READY.";
 CM_ SG_ 56 Power_Status_Ready "LS nibble of byte 0";
 
-VAL_ 56 Power_Status_Ready 4 "Ready" ;
+VAL_ 56 Power_Status_Ready 1 "Awake_Not_Ready" 4 "Ready" ;
 
 BO_ 199 Toggle_Battery_Preconditioning: 8 Vector__XXX
 	SG_ Battery_Preconditioning_0 : 24|8@1+ (1,0) [0|0] "" Vector__XXX
@@ -114,15 +114,32 @@ CM_ SG_ 338 Battery_Temperature_Max "byte 1, signed deg C";
 
 
 BO_ 1096 Steering_Wheel_Buttons: 8 Vector__XXX
-	SG_ Steering_Wheel_Other_Button : 16|8@1+ (1,0) [0|0] "" Vector__XXX
-	SG_ Steering_Wheel_Star_Button : 40|8@1+ (1,0) [0|0] "" Vector__XXX
+	SG_ Steering_Wheel_Speak_Button      : 16|1@1+ (1,0) [0|1] "" Vector__XXX
+	SG_ Steering_Wheel_Call_Button       : 18|1@1+ (1,0) [0|1] "" Vector__XXX
+	SG_ Steering_Wheel_Mode_Button       : 22|1@1+ (1,0) [0|1] "" Vector__XXX
+	SG_ Steering_Wheel_Mute_Button       : 24|1@1+ (1,0) [0|1] "" Vector__XXX
+	SG_ Steering_Wheel_Skip_Down_Button  : 26|1@1+ (1,0) [0|1] "" Vector__XXX
+	SG_ Steering_Wheel_Skip_Up_Button    : 28|1@1+ (1,0) [0|1] "" Vector__XXX
+	SG_ Steering_Wheel_Vol_Down_Button   : 30|1@1+ (1,0) [0|1] "" Vector__XXX
+	SG_ Steering_Wheel_Vol_Up_Button     : 32|1@1+ (1,0) [0|1] "" Vector__XXX
+	SG_ Steering_Wheel_Star_Button       : 44|1@1+ (1,0) [0|1] "" Vector__XXX
+	SG_ Steering_Wheel_Menu_Down_Button  : 48|1@1+ (1,0) [0|1] "" Vector__XXX
+	SG_ Steering_Wheel_Menu_Up_Button    : 50|1@1+ (1,0) [0|1] "" Vector__XXX
+	SG_ Steering_Wheel_Menu_Press_Button : 52|1@1+ (1,0) [0|1] "" Vector__XXX
 
-CM_ BO_ 1096 "Steering-wheel buttons (0x448): star, mode, speak, call, volume, skip, OK buttons.";
-CM_ SG_ 1096 Steering_Wheel_Other_Button "byte 2";
-CM_ SG_ 1096 Steering_Wheel_Star_Button "byte 5";
-
-VAL_ 1096 Steering_Wheel_Other_Button 0 "None_Pressed" 1 "Speak_Pressed" 4 "Phone_Pressed" 64 "Mode_Pressed" ;
-VAL_ 1096 Steering_Wheel_Star_Button 0 "Not_Pressed" 16 "Pressed" ;
+CM_ BO_ 1096 "Steering_Wheel_Buttons (0x448): bit-level individual button signals.";
+CM_ SG_ 1096 Steering_Wheel_Speak_Button "byte 2 bit 0";
+CM_ SG_ 1096 Steering_Wheel_Call_Button "byte 2 bit 2";
+CM_ SG_ 1096 Steering_Wheel_Mode_Button "byte 2 bit 6";
+CM_ SG_ 1096 Steering_Wheel_Mute_Button "byte 3 bit 0";
+CM_ SG_ 1096 Steering_Wheel_Skip_Down_Button "byte 3 bit 2";
+CM_ SG_ 1096 Steering_Wheel_Skip_Up_Button "byte 3 bit 4";
+CM_ SG_ 1096 Steering_Wheel_Vol_Down_Button "byte 3 bit 6";
+CM_ SG_ 1096 Steering_Wheel_Vol_Up_Button "byte 4 bit 0";
+CM_ SG_ 1096 Steering_Wheel_Star_Button "byte 5 bit 4";
+CM_ SG_ 1096 Steering_Wheel_Menu_Down_Button "byte 6 bit 0";
+CM_ SG_ 1096 Steering_Wheel_Menu_Up_Button "byte 6 bit 2";
+CM_ SG_ 1096 Steering_Wheel_Menu_Press_Button "byte 6 bit 4";
 
 BO_ 1617 AVN_Buttons_651: 8 Vector__XXX
 	SG_ AVN_Vol_In : 12|4@1+ (1,0) [0|0] "" Vector__XXX
@@ -139,17 +156,26 @@ BO_ 1618 AVN_Buttons_652: 8 Vector__XXX
 	SG_ AVN_Media : 0|4@1+ (1,0) [0|0] "" Vector__XXX
 	SG_ AVN_Map_Nav : 4|4@1+ (1,0) [0|0] "" Vector__XXX
 	SG_ AVN_Star_Setup : 8|4@1+ (1,0) [0|0] "" Vector__XXX
+	SG_ AVN_Seek : 12|4@1+ (1,0) [0|0] "" Vector__XXX
+	SG_ AVN_Call_Home : 20|4@1+ (1,0) [0|0] "" Vector__XXX
+	SG_ AVN_Mode_Switch : 28|4@1+ (1,0) [0|0] "" Vector__XXX
 	SG_ AVN_Tuner_Up_Down : 24|4@1+ (1,0) [0|0] "" Vector__XXX
 
-CM_ BO_ 1618 "AVN (head unit) button events (0x652); event frames sent only on press/release. byte0 MS nibble = MAP/NAV, LS = MEDIA; byte1 LS = STAR; byte3 LS = TUNER UP/DOWN.";
-CM_ SG_ 1618 AVN_Media "byte 0 LS nibble (mask 0x0F)";
-CM_ SG_ 1618 AVN_Map_Nav "byte 0 MS nibble (mask 0xF0)";
-CM_ SG_ 1618 AVN_Star_Setup "byte 1 LS nibble (mask 0x0F); Star or Setup";
-CM_ SG_ 1618 AVN_Tuner_Up_Down "byte 3 LS nibble (mask 0x0F)";
+CM_ BO_ 1618 "AVN (head unit) button events (0x652). Per-byte nibble encoding: D1(byte0) MS=MAP/NAV LS=MEDIA; D2(byte1) MS=SEEK LS=STAR/SETUP; D3(byte2) MS=CALL/HOME; D4(byte3) MS=MODE LS=TUNER UP/DOWN. Brute-force source: 0x652 button list.";
+CM_ SG_ 1618 AVN_Media "byte 0 LS nibble (mask 0x0F). 1=Media, 4=Radio (start radio, unconfirmed per fluxer notes)";
+CM_ SG_ 1618 AVN_Map_Nav "byte 0 MS nibble (mask 0xF0). 1=Nav, 4=Map";
+CM_ SG_ 1618 AVN_Star_Setup "byte 1 LS nibble (mask 0x0F). 1=Setup, 4=Star";
+CM_ SG_ 1618 AVN_Seek "byte 1 MS nibble (mask 0xF0). 1=Seek Right, 4=Seek Left (EV6)";
+CM_ SG_ 1618 AVN_Call_Home "byte 2 MS nibble (mask 0xF0). 1=Call, 4=Home (unconfirmed)";
+CM_ SG_ 1618 AVN_Mode_Switch "byte 3 MS nibble (mask 0xF0). Transitions: 5F->4F->7F->FF = climate-to-media, BF->FF = media-to-climate (beeps, no action). EV6 only.";
+CM_ SG_ 1618 AVN_Tuner_Up_Down "byte 3 LS nibble (mask 0x0F). 1=Down, 4=Up";
 
-VAL_ 1618 AVN_Media 0 "Release" 1 "Press" 12 "Release" 13 "Press" ;
+VAL_ 1618 AVN_Media 0 "Release" 1 "Press" 4 "Radio" 12 "Release" 13 "Press" ;
 VAL_ 1618 AVN_Map_Nav 0 "Release" 1 "Nav Press" 3 "Release" 4 "Map Press" 7 "Map Press" 12 "Release" 13 "Nav Press" ;
 VAL_ 1618 AVN_Star_Setup 0 "Release" 1 "Setup Press" 3 "Release" 4 "Star Press" 7 "Star Press" 12 "Release" 13 "Setup Press" ;
+VAL_ 1618 AVN_Seek 0 "Release" 1 "Seek Right" 4 "Seek Left" 3 "Release" 12 "Release" ;
+VAL_ 1618 AVN_Call_Home 0 "Release" 1 "Call" 4 "Home" ;
+VAL_ 1618 AVN_Mode_Switch 4 "Mode_Media_?" 5 "Climate_To_Media_Step" 7 "Mode_Change_Complete_?" 11 "Media_To_Climate_Request" 15 "Idle" ;
 VAL_ 1618 AVN_Tuner_Up_Down 0 "Release" 1 "Down Press" 3 "Release" 4 "Up Press" 7 "Up Press" 12 "Release" 13 "Down Press" ;
 
 CM_ "FrameID: 0x475";
@@ -162,5 +188,194 @@ BO_ 1174 Driver_Seat_Heating: 8 Vector__XXX
 
 VAL_ 1141 Passenger_Seat_Heating_State 18 "Off" 50 "Low" 58 "Medium" 66 "High" ;
 VAL_ 1174 Driver_Seat_Heating_State    18 "Off" 50 "Low" 58 "Medium" 66 "High" ;
+
+BO_ 162 Wheel_Speeds: 8 Vector__XXX
+	SG_ Wheel_Speed_1 : 0|16@1+ (0.03125,0) [0|2047.96] "kph" Vector__XXX
+	SG_ Wheel_Speed_2 : 16|16@1+ (0.03125,0) [0|2047.96] "kph" Vector__XXX
+	SG_ Wheel_Speed_3 : 32|16@1+ (0.03125,0) [0|2047.96] "kph" Vector__XXX
+	SG_ Wheel_Speed_4 : 48|16@1+ (0.03125,0) [0|2047.96] "kph" Vector__XXX
+
+CM_ BO_ 162 "Wheel_Speeds (0x0A2): four 16-bit unsigned wheel speeds, 0.03125 kph/tick.";
+
+BO_ 428 Cluster_Info: 8 Vector__XXX
+	SG_ Speed_kph : 0|8@1+ (1,0) [0|255] "kph" Vector__XXX
+
+CM_ BO_ 428 "Cluster_Info (0x1AC): byte 0 = vehicle speed in kph.";
+
+BO_ 550 Ambient_Temperature: 8 Vector__XXX
+	SG_ Outdoor_Temperature : 24|8@1+ (1,-40) [-40|215] "C" Vector__XXX
+
+CM_ BO_ 550 "Ambient_Temperature (0x226): byte 3 = outdoor temp, offset -40, deg C.";
+
+BO_ 551 Odometer: 8 Vector__XXX
+	SG_ Odometer : 8|24@1+ (0.1,0) [0|1677721] "km" Vector__XXX
+
+CM_ BO_ 551 "Odometer (0x227): bytes 1-3 = 24-bit odometer in 0.1 km.";
+
+BO_ 764 Battery_Info: 8 Vector__XXX
+	SG_ State_Of_Charge : 56|8@1+ (0.5,0) [0|100] "%" Vector__XXX
+
+CM_ BO_ 764 "Battery_Info (0x2FC): byte 7 = SOC, factor 0.5, 0-100%.";
+
+BO_ 782 Charging_Power: 8 Vector__XXX
+	SG_ Charging_Power_kW : 48|8@1+ (1,0) [0|255] "kW" Vector__XXX
+
+CM_ BO_ 782 "Charging_Power (0x30E): byte 6 = charging power in kW.";
+
+BO_ 795 Climate_Status: 8 Vector__XXX
+	SG_ Climate_Fan_Speed           : 24|4@1+ (1,0) [0|15] "" Vector__XXX
+	SG_ Climate_Airflow_Direction   : 28|4@1+ (1,0) [0|15] "" Vector__XXX
+	SG_ Climate_Recirculation_State : 34|1@1+ (1,0) [0|1]  "" Vector__XXX
+
+CM_ BO_ 795 "Climate_Status (0x31B): fan speed, airflow direction, recirculation.";
+CM_ SG_ 795 Climate_Fan_Speed "byte 3 LS nibble (mask 0x0F): 0=Off, 2-9=Speeds 1-8";
+CM_ SG_ 795 Climate_Airflow_Direction "byte 3 MS nibble (mask 0xF0): 0=Auto, 1=Body, 2=Body&Legs, 3=Legs, 4=Legs&Defog";
+CM_ SG_ 795 Climate_Recirculation_State "byte 4 bit2: 0=Off, 1=On";
+
+VAL_ 795 Climate_Fan_Speed 0 "Off" 2 "Speed_1" 3 "Speed_2" 4 "Speed_3" 5 "Speed_4" 6 "Speed_5" 7 "Speed_6" 8 "Speed_7" 9 "Speed_8" ;
+VAL_ 795 Climate_Airflow_Direction 0 "Auto" 1 "Body" 2 "Body_Legs" 3 "Legs" 4 "Legs_Defog" ;
+VAL_ 795 Climate_Recirculation_State 0 "Off" 1 "On" ;
+
+BO_ 896 Climate_Temperature: 8 Vector__XXX
+	SG_ Driver_Temp_Raw    : 24|8@1+ (0.5,14) [14|32] "C" Vector__XXX
+	SG_ Passenger_Temp_Raw : 32|8@1+ (0.5,14) [14|32] "C" Vector__XXX
+	SG_ Rear_Temp_1_Raw    : 40|8@1+ (0.5,14) [14|32] "C" Vector__XXX
+	SG_ Rear_Temp_2_Raw    : 48|8@1+ (0.5,14) [14|32] "C" Vector__XXX
+
+CM_ BO_ 896 "Climate_Temperature (0x380): bytes 3-6 = temps (factor 0.5, offset 14, 0=Off). Bytes 0-2 look like a rolling counter (per Ioniq 5 observation; EV6 dumps consistent).";
+
+VAL_ 896 Driver_Temp_Raw 0 "Off" ;
+VAL_ 896 Passenger_Temp_Raw 0 "Off" ;
+VAL_ 896 Rear_Temp_1_Raw 0 "Off" ;
+VAL_ 896 Rear_Temp_2_Raw 0 "Off" ;
+
+BO_ 900 Remote_Climate_Status: 8 Vector__XXX
+	SG_ Remote_Climate_State : 24|8@1+ (1,0) [0|255] "" Vector__XXX
+
+CM_ BO_ 900 "Remote_Climate_Status (0x384): byte 3 = remote climate. 0x00=Off, 0x0A=Active (EV6). EV9 uses 0x01. Researcher's plain 'byte N' phrasing is 0-indexed (cf. '0x038 byte 0').";
+
+VAL_ 900 Remote_Climate_State 0 "Off" 10 "Active" ;
+
+BO_ 938 Charge_Port_Door: 8 Vector__XXX
+	SG_ Port_Open : 33|1@1+ (1,0) [0|1] "" Vector__XXX
+
+CM_ BO_ 938 "Charge_Port_Door (0x3AA): byte 4 bit 1 = charge port open.";
+
+BO_ 1041 Body_Status: 8 Vector__XXX
+	SG_ Doors_Unlocked              : 22|1@1+ (1,0) [0|1] "" Vector__XXX
+	SG_ Driver_Door_Open            : 24|1@1+ (1,0) [0|1] "" Vector__XXX
+	SG_ Passenger_Door_Open         : 34|1@1+ (1,0) [0|1] "" Vector__XXX
+	SG_ Passenger_Seatbelt_Fastened : 36|1@1+ (1,0) [0|1] "" Vector__XXX
+	SG_ Driver_Seatbelt_Fastened    : 42|1@1+ (1,0) [0|1] "" Vector__XXX
+	SG_ Hood_Open                   : 44|1@1+ (1,0) [0|1] "" Vector__XXX
+	SG_ Rear_Left_Door_Open         : 52|1@1+ (1,0) [0|1] "" Vector__XXX
+	SG_ Rear_Right_Door_Open        : 56|1@1+ (1,0) [0|1] "" Vector__XXX
+
+CM_ BO_ 1041 "Body_Status (0x411): individual door/seatbelt/hood status bits.";
+
+BO_ 1042 Brake_Pedal_Status: 8 Vector__XXX
+	SG_ Brake_Pedal : 48|8@1+ (1,0) [0|255] "" Vector__XXX
+
+CM_ BO_ 1042 "Brake_Pedal_Status (0x412): byte 6 = 0 Not Pressed, 4 Pressed.";
+VAL_ 1042 Brake_Pedal 0 "Not_Pressed" 4 "Pressed" ;
+
+BO_ 1044 Trunk_Status: 8 Vector__XXX
+	SG_ Trunk_Open : 24|1@1+ (1,0) [0|1] "" Vector__XXX
+
+CM_ BO_ 1044 "Trunk_Status (0x414): byte 3 bit 0 = trunk open.";
+
+BO_ 1077 Power_CAN_Status: 8 Vector__XXX
+	SG_ Power_State : 56|8@1+ (1,0) [0|255] "" Vector__XXX
+
+CM_ BO_ 1077 "Power_CAN_Status (0x435): byte 7. 0 = Car On, 255 = Car Off.";
+VAL_ 1077 Power_State 0 "Car_On" 255 "Car_Off" ;
+
+BO_ 1090 Sunroof_Status: 8 Vector__XXX
+	SG_ Sunroof_Glass_State : 48|8@1+ (1,0) [0|255] "" Vector__XXX
+	SG_ Sunroof_Cover_State : 56|8@1+ (1,0) [0|255] "" Vector__XXX
+
+CM_ BO_ 1090 "Sunroof_Status (0x442): observed D6/D7 pairs: 30 30=Cover Closed; 30 50=Cover Moving; 30 60=Cover Opened; 10 60=Glass Closed/Transition (also logged as Glass Tilting); 50 60=Glass Sliding; 60 60=Glass Opened; 10 50=Glass Closing; 00 60=Glass Tilted/Windbreak. Byte roles inferred: D6=glass values, D7=cover values.";
+CM_ SG_ 1090 Sunroof_Glass_State "byte 6 (D6): 0x00=Tilted/Windbreak, 0x10=Closed/Closing/Tilting/Transition, 0x30=Retracted (observed with cover closed, 0x30/0x30 pair), 0x50=Sliding, 0x60=Opened";
+CM_ SG_ 1090 Sunroof_Cover_State "byte 7 (D7): 0x30=Closed, 0x50=Moving?, 0x60=Opened";
+VAL_ 1090 Sunroof_Glass_State 0 "Tilted_Windbreak" 16 "Closed_Transition" 48 "Retracted" 80 "Sliding" 96 "Opened" ;
+VAL_ 1090 Sunroof_Cover_State 48 "Closed" 80 "Moving" 96 "Opened" ;
+
+BO_ 1125 Climate_Button_Status: 8 Vector__XXX
+	SG_ Climate_Driver_Only : 48|8@1+ (1,0) [0|255] "" Vector__XXX
+
+CM_ BO_ 1125 "Climate_Button_Status (0x465): byte 6 toggles 0x04/0x0C with driver-only button. Status only, does not itself change settings.";
+VAL_ 1125 Climate_Driver_Only 4 "Button_0x04" 12 "Button_0x0C" ;
+
+BO_ 1140 Cluster_Brightness_Button: 8 Vector__XXX
+	SG_ Brightness_Button : 56|8@1+ (1,0) [0|255] "" Vector__XXX
+
+CM_ BO_ 1140 "Cluster_Brightness_Button (0x474): byte 7. 0x0A=Idle, 0x4A=Up, 0x8A=Down.";
+VAL_ 1140 Brightness_Button 10 "Idle" 74 "Up" 138 "Down" ;
+
+BO_ 1142 Surround_View_Camera_Ctrl: 8 Vector__XXX
+	SG_ SVC_Ctrl_Byte2 : 16|8@1+ (1,0) [0|255] "" Vector__XXX
+
+CM_ BO_ 1142 "Surround_View_Camera_Ctrl (0x476): vehicle unconfirmed (likely EV6). Camera on/off control. Byte 2 toggles 0x42/0x52.";
+CM_ SG_ 1142 SVC_Ctrl_Byte2 "byte 2: 0x42=camera-off?, 0x52=camera-on?";
+
+BO_ 1143 Surround_View_Camera_Status: 8 Vector__XXX
+	SG_ SVC_Status_Byte0 : 0|8@1+ (1,0) [0|255] "" Vector__XXX
+
+CM_ BO_ 1143 "Surround_View_Camera_Status (0x477): vehicle unconfirmed (likely EV6). Byte 0 toggles 0x41/0x42 with camera state.";
+CM_ SG_ 1143 SVC_Status_Byte0 "byte 0: 0x41 or 0x42 depending on camera state";
+
+BO_ 1186 Seat_Heat_Vent_Control: 8 Vector__XXX
+	SG_ Seat_Level_Passenger : 32|4@1+ (1,0) [0|15] "" Vector__XXX
+	SG_ Seat_Level_Driver    : 36|4@1+ (1,0) [0|15] "" Vector__XXX
+
+CM_ BO_ 1186 "Seat_Heat_Vent_Control (0x4A2): D5 (byte 4). High nibble = driver, low nibble = passenger. F = idle/no-change. EV6 values: 5=Vent_High, 4=Vent_Med, 3=Vent_Low, 2=Clear_All.";
+CM_ SG_ 1186 Seat_Level_Driver "byte 4 high nibble (mask 0xF0): 2=Clear, 3=Vent_Low, 4=Vent_Med, 5=Vent_High, F=Idle";
+CM_ SG_ 1186 Seat_Level_Passenger "byte 4 low nibble (mask 0x0F): same codes as driver, F=Idle";
+
+VAL_ 1186 Seat_Level_Driver 2 "Clear" 3 "Vent_Low" 4 "Vent_Med" 5 "Vent_High" 15 "Idle" ;
+VAL_ 1186 Seat_Level_Passenger 2 "Clear" 3 "Vent_Low" 4 "Vent_Med" 5 "Vent_High" 15 "Idle" ;
+
+BO_ 1221 Charge_Limit_Control: 8 Vector__XXX
+	SG_ AC_Charge_Limit : 32|8@1+ (0.5,0) [0|100] "%" Vector__XXX
+	SG_ DC_Charge_Limit : 40|8@1+ (0.5,0) [0|100] "%" Vector__XXX
+
+CM_ BO_ 1221 "Charge_Limit_Control (0x4C5): D5 (byte 4) = AC limit, D6 (byte 5) = DC limit. Raw codes 0x64/0x78/0x8C/0xA0/0xB4/0xC8 = 50/60/70/80/90/100% (factor 0.5).";
+CM_ SG_ 1221 AC_Charge_Limit "byte 4 (D5)";
+CM_ SG_ 1221 DC_Charge_Limit "byte 5 (D6)";
+
+BO_ 1266 Display_Brightness: 8 Vector__XXX
+	SG_ Brightness_Flags : 48|8@1+ (1,0) [0|255] "" Vector__XXX
+	SG_ Brightness_Raw   : 56|8@1+ (1,0) [0|255] "" Vector__XXX
+
+CM_ BO_ 1266 "Display_Brightness (0x4F2): D7 (byte 6) alternates 0x00/0x80; D8 (byte 7) carries the level, observed range 0x19-0xFA.";
+CM_ SG_ 1266 Brightness_Flags "byte 6 (D7): 0x00 or 0x80";
+CM_ SG_ 1266 Brightness_Raw "byte 7 (D8): brightness level, 0x19-0xFA";
+
+BO_ 1624 Active_Sound_Design: 8 Vector__XXX
+	SG_ ASD_Byte0 : 0|8@1+ (1,0) [0|255] "" Vector__XXX
+	SG_ ASD_Byte1 : 8|8@1+ (1,0) [0|255] "" Vector__XXX
+	SG_ ASD_Byte2 : 16|8@1+ (1,0) [0|255] "" Vector__XXX
+
+CM_ BO_ 1624 "Active_Sound_Design (0x658). Largest Change: D2 FD->FF. Moderate: D1 FD->FF & D2 FD->FF. Smallest: D2 FC->FF. Off: D1 7F->FF & D2 FC->FF.";
+CM_ SG_ 1624 ASD_Byte0 "byte 0 (D1): 0x7F=Off, 0xFD=Moderate_Change, 0xFB=Custom_Style, 0x87=Stylish, 0x8B=Dynamic, 0x8F=Cyber";
+CM_ SG_ 1624 ASD_Byte1 "byte 1 (D2): 0xFD=Largest (or Moderate when paired with D1 FD), 0xFC=Smallest (or Off when paired with D1 7F), 0x7F=pairs with even Master Vol steps. Custom style: 0x87=Stylish, 0x8B=Dynamic, 0x8F=Cyber";
+CM_ SG_ 1624 ASD_Byte2 "byte 2 (D3): Response: 0x9F=Slow, 0xAF=Normal, 0xBF=Fast. Master Vol: byte = 0xF0 + floor(vol/2); even-numbered volume steps also set D2=0x7F";
+
+VAL_ 1624 ASD_Byte0 127 "Off" 135 "Stylish" 139 "Dynamic" 143 "Cyber" 251 "Custom_Style" 253 "Moderate_Change" ;
+VAL_ 1624 ASD_Byte1 127 "Volume_Even_Step" 135 "Custom_Stylish" 139 "Custom_Dynamic" 143 "Custom_Cyber" 252 "Smallest_Change" 253 "Largest_Change" ;
+VAL_ 1624 ASD_Byte2 159 "Response_Slow" 175 "Response_Normal" 191 "Response_Fast" 240 "Vol_0_1" 241 "Vol_2_3" 242 "Vol_4_5" 243 "Vol_6_7" 244 "Vol_8_9" 245 "Vol_10_11" 246 "Vol_12_13" 247 "Vol_14_15" 248 "Vol_16_17" 249 "Vol_18_19" 250 "Vol_20" ;
+
+BO_ 719 Cabin_Temp_Control: 8 Vector__XXX
+	SG_ Step_Cycle        : 0|8@1+ (1,0) [0|255] "" Vector__XXX
+	SG_ Driver_Temp_Cmd   : 8|8@1+ (1,0) [0|255] "" Vector__XXX
+	SG_ Passenger_Temp_Cmd : 16|8@1+ (1,0) [0|255] "" Vector__XXX
+
+CM_ BO_ 719 "Cabin_Temp_Control (0x2CF): head-unit climate temp up/down (EV6). D1 cycles 0x0F/0x1F/0x2F per step; D2 (byte1) 0x01=Driver Up, 0x80=Driver Down; D3 (byte2) 0x01=Passenger Up, 0x80=Passenger Down. Source notes this is UI-only for driver temp.";
+CM_ SG_ 719 Step_Cycle "byte 0 (D1): cycles 0x0F/0x1F/0x2F for each step (needed to advance another step)";
+CM_ SG_ 719 Driver_Temp_Cmd "byte 1 (D2): 0x01=Driver Up, 0x80=Driver Down";
+CM_ SG_ 719 Passenger_Temp_Cmd "byte 2 (D3): 0x01=Passenger Up, 0x80=Passenger Down";
+
+VAL_ 719 Driver_Temp_Cmd 1 "Driver_Up" 128 "Driver_Down" ;
+VAL_ 719 Passenger_Temp_Cmd 1 "Passenger_Up" 128 "Passenger_Down" ;
 
 BA_ "VFrameFormat" BO_ 2323819011 1;
