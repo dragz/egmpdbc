@@ -108,6 +108,7 @@ BO_ 428 Cluster_Info: 8 Vector__XXX
  SG_ Speed_kph : 0|8@1+ (1,0) [0|255] "kph" Vector__XXX
 
 CM_ "FrameID: 0x226";
+CM_ "Probably wrong: unsigned int, and this byte doesn't change in my logs. --TRH"
 BO_ 550 Ambient_Temperature: 8 Vector__XXX
  SG_ Outdoor_Temperature : 24|8@1+ (1,-40) [-40|215] "C" Vector__XXX
 
