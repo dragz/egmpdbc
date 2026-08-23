@@ -62,7 +62,7 @@ BO_ 685 BMS_Precond_Status: 8 Vector__XXX
 CM_ BO_ 685 "BMS_Precond_Status (0x2AD), Ioniq 5 / EV6. Byte 1 state: Ioniq 5 0x01 idle / 0x05 starting / 0x15 started; EV6 0x41 / 0x45 / 0x55. Ioniq 6 uses the extended ID 0x0A82AA03 instead.";
 CM_ SG_ 685 Battery_Precond_State "byte 1 state";
 
-VAL_ 685 Battery_Precond_State 65 "Off" 69 "Preparing" 85 "On" ;
+VAL_ 685 Battery_Precond_State 1 "Off" 5 "Preparing" 21 "On" ;
 
 BO_ 2323819011 BMS_Precond_Status_Ioniq6: 8 Vector__XXX
 	SG_ Battery_Precond_State : 8|8@1+ (1,0) [0|0] "" Vector__XXX
@@ -138,29 +138,18 @@ VAL_ 1617 AVN_Tuner_In 0 "Release" 3 "Release" 4 "Press" 7 "Press" ;
 BO_ 1618 AVN_Buttons_652: 8 Vector__XXX
 	SG_ AVN_Media : 0|4@1+ (1,0) [0|0] "" Vector__XXX
 	SG_ AVN_Map_Nav : 4|4@1+ (1,0) [0|0] "" Vector__XXX
-	SG_ AVN_Star_Setup : 8|4@1+ (1,0) [0|0] "" Vector__XXX
+	SG_ AVN_Star : 8|4@1+ (1,0) [0|0] "" Vector__XXX
 	SG_ AVN_Tuner_Up_Down : 24|4@1+ (1,0) [0|0] "" Vector__XXX
 
 CM_ BO_ 1618 "AVN (head unit) button events (0x652); event frames sent only on press/release. byte0 MS nibble = MAP/NAV, LS = MEDIA; byte1 LS = STAR; byte3 LS = TUNER UP/DOWN.";
 CM_ SG_ 1618 AVN_Media "byte 0 LS nibble (mask 0x0F)";
 CM_ SG_ 1618 AVN_Map_Nav "byte 0 MS nibble (mask 0xF0)";
-CM_ SG_ 1618 AVN_Star_Setup "byte 1 LS nibble (mask 0x0F); Star or Setup";
+CM_ SG_ 1618 AVN_Star "byte 1 LS nibble (mask 0x0F)";
 CM_ SG_ 1618 AVN_Tuner_Up_Down "byte 3 LS nibble (mask 0x0F)";
 
 VAL_ 1618 AVN_Media 0 "Release" 1 "Press" 12 "Release" 13 "Press" ;
 VAL_ 1618 AVN_Map_Nav 0 "Release" 1 "Nav Press" 3 "Release" 4 "Map Press" 7 "Map Press" 12 "Release" 13 "Nav Press" ;
-VAL_ 1618 AVN_Star_Setup 0 "Release" 1 "Setup Press" 3 "Release" 4 "Star Press" 7 "Star Press" 12 "Release" 13 "Setup Press" ;
+VAL_ 1618 AVN_Star 0 "Release" 3 "Release" 4 "Press" 7 "Press" ;
 VAL_ 1618 AVN_Tuner_Up_Down 0 "Release" 1 "Down Press" 3 "Release" 4 "Up Press" 7 "Up Press" 12 "Release" 13 "Down Press" ;
-
-CM_ "FrameID: 0x475";
-BO_ 1141 Passenger_Seat_Heating: 8 Vector__XXX
-	SG_ Passenger_Seat_Heating_State : 0|8@1+ (1,0) [0|255] "" Vector__XXX
-
-CM_ "FrameID: 0x496";
-BO_ 1174 Driver_Seat_Heating: 8 Vector__XXX
-	SG_ Driver_Seat_Heating_State : 0|8@1+ (1,0) [0|255] "" Vector__XXX
-
-VAL_ 1141 Passenger_Seat_Heating_State 18 "Off" 50 "Low" 58 "Medium" 66 "High" ;
-VAL_ 1174 Driver_Seat_Heating_State    18 "Off" 50 "Low" 58 "Medium" 66 "High" ;
 
 BA_ "VFrameFormat" BO_ 2323819011 1;
