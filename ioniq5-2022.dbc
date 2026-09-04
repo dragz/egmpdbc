@@ -485,3 +485,43 @@ CM_ SG_ 1186 Seat_Level_Passenger "byte 4 low nibble (mask 0x0F): same codes as 
 
 VAL_ 1186 Seat_Level_Driver 2 "Off" 6 "Low" 7 "Medium" 8 "High" 15 "Idle" ;
 VAL_ 1186 Seat_Level_Passenger 2 "Off" 6 "Low" 7 "Medium" 8 "High" 15 "Idle" ;
+
+CM_ "FrameID: 0x4C5 (Charge_Limit_Control). AC limit in byte 4 (D5), DC limit in byte 5 (D6); raw code = 2x percent (0x64=50, 0x8C=70, 0xA0=80, 0xB4=90, 0xC8=100), 0xFF = off. Same frame/signals as ev6-2024.dbc. MITM-injected on the M-CAN by wicant-i-precondition car_settings.c. The frames below (0x1F9/0x25D/0x329/0x333/0x334) are car-side charge-limit status echoes (~200 ms periodic): their bytes track the injected AC/DC values in the reply run (M-CAN_MITM_send_AC_DC_settings_80-90-80-90_AC_then_same_DC.csv) and stay put in the no-reply run (M-CAN_MITM_send_AC_DC_settings_no_reply.csv), so they are usable as an apply-acknowledgement.";
+CM_ BO_ 1221 "Charge_Limit_Control (0x4C5): byte 4 = AC charge limit %, byte 5 = DC charge limit %, factor 0.5. See also ev6-2024.dbc.";
+CM_ SG_ 1221 AC_Charge_Limit "byte 4 (D5)";
+CM_ SG_ 1221 DC_Charge_Limit "byte 5 (D6)";
+BO_ 1221 Charge_Limit_Control: 8 Vector__XXX
+ SG_ AC_Charge_Limit : 32|8@1+ (0.5,0) [0|100] "%" Vector__XXX
+ SG_ DC_Charge_Limit : 40|8@1+ (0.5,0) [0|100] "%" Vector__XXX
+
+CM_ "FrameID: 0x1F9";
+CM_ BO_ 505 "Car-side charge-limit status echo (~200 ms periodic). Byte 2 (D3) = AC charge limit %, byte 3 (D4) = DC charge limit % (factor 0.5). Reply-run baseline (no active 0x4C5) is D3=D4=0xB4 (90%); an injected AC 80% flips D3 to 0xA0 and an injected DC 80% flips D4 to 0xA0, both reverting when the 0x4C5 goes passive. The no-reply run's AC 80%/100% injections leave D3/D4 untouched (only a one-off 100->90 baseline step at ~t=25.1 s). Other bytes not mapped.";
+CM_ SG_ 505 AC_Charge_Limit "byte 2 (D3)";
+CM_ SG_ 505 DC_Charge_Limit "byte 3 (D4)";
+BO_ 505 Charge_Limit_Status_1F9: 8 Vector__XXX
+ SG_ AC_Charge_Limit : 16|8@1+ (0.5,0) [0|100] "%" Vector__XXX
+ SG_ DC_Charge_Limit : 24|8@1+ (0.5,0) [0|100] "%" Vector__XXX
+
+CM_ "FrameID: 0x25D";
+CM_ BO_ 605 "Car-side DC charge-limit status echo (~200 ms periodic). Byte 1 (D2) = DC charge limit %, factor 0.5 (0xA0=80%, 0xB4=90%). Mirrors 0x4C5 byte 5 (D6, DC) when accepted (reply run); it does not carry the AC limit and is untouched by the no-reply run's AC 80%/100% injections.";
+CM_ SG_ 605 DC_Charge_Limit "byte 1 (D2)";
+BO_ 605 Charge_Limit_DC_Status_25D: 8 Vector__XXX
+ SG_ DC_Charge_Limit : 8|8@1+ (0.5,0) [0|100] "%" Vector__XXX
+
+CM_ "FrameID: 0x329";
+CM_ BO_ 809 "Car-side AC charge-limit status echo (~200 ms periodic). Byte 0 (D1) = AC charge limit %, factor 0.5 (0xA0=80%, 0xB4=90%). Mirrors 0x4C5 byte 4 (D5, AC) when accepted (reply run); unchanged by the no-reply run's AC injections. Byte 1 toggles 0x90/0xC8 independently (not mapped).";
+CM_ SG_ 809 AC_Charge_Limit "byte 0 (D1)";
+BO_ 809 Charge_Limit_AC_Status_329: 8 Vector__XXX
+ SG_ AC_Charge_Limit : 0|8@1+ (0.5,0) [0|100] "%" Vector__XXX
+
+CM_ "FrameID: 0x333";
+CM_ BO_ 819 "Car-side AC charge-limit status echo (~200 ms periodic). Byte 7 (D8) = AC charge limit %, factor 0.5 (0xA0=80%, 0xB4=90%). Mirrors 0x4C5 byte 4 (D5, AC) when accepted (reply run); unchanged by the no-reply run's AC injections.";
+CM_ SG_ 819 AC_Charge_Limit "byte 7 (D8)";
+BO_ 819 Charge_Limit_AC_Status_333: 8 Vector__XXX
+ SG_ AC_Charge_Limit : 56|8@1+ (0.5,0) [0|100] "%" Vector__XXX
+
+CM_ "FrameID: 0x334";
+CM_ BO_ 820 "Car-side charge-limit status echo (~200 ms periodic). Byte 0 (D1) = DC charge limit %, factor 0.5 (0xA0=80%, 0xB4=90%). Mirrors 0x4C5 byte 5 (D6, DC) when accepted (reply run). While an AC 0x4C5 is accepted, bytes 4-5 flip 0x9A7F -> 0x4870; while a DC 0x4C5 is accepted, bytes 6-7 flip 0x9A7F -> 0x4870 (16-bit fields, semantics not mapped).";
+CM_ SG_ 820 DC_Charge_Limit "byte 0 (D1)";
+BO_ 820 Charge_Limit_Status_334: 8 Vector__XXX
+ SG_ DC_Charge_Limit : 0|8@1+ (0.5,0) [0|100] "%" Vector__XXX
