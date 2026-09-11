@@ -33,6 +33,7 @@ BS_:
 BU_: Vector__XXX Vector__XXX ABS ACU ADAS AFS AMP APSB APSM BAT BCM BMS CCM CLU DATC DVRS Drv EPB ESC FR IAU IBU ICSC ICU IEB IFS LDC MCU MDPS MFSW OBC ODS PSM PTGM RR RVM SAS SCM SVM TMU TPMS VCMS VCU WHL YRS
 CM_ "FrameID: 0xC7";
 BO_ 199 Toggle_Battery_Preconditioning: 8 Vector__XXX
+ SG_ Utility_Mode              : 16|8@1+ (1,0) [0|255] "" Vector__XXX
  SG_ Battery_Preconditioning_0 : 24|8@1+ (1,0) [0|255] "" Vector__XXX
  SG_ Battery_Preconditioning_1 : 32|8@1+ (1,0) [0|255] "" Vector__XXX
 
@@ -153,8 +154,10 @@ BO_ 1044 Trunk_Status: 8 Vector__XXX
  SG_ Trunk_Open : 24|1@1+ (1,0) [0|1] "" Vector__XXX
 
 
-VAL_ 199  Battery_Preconditioning_0    64 "On" 0 "Off";
-VAL_ 199  Battery_Preconditioning_1    3 "On" 0 "Off";
+VAL_ 199  Utility_Mode                 128 "Utility_Mode_Request" 0 "Not_Utility_Mode";
+VAL_ 199  Battery_Preconditioning_0    240 "Conditioning_Mode_Enable" 232 "Conditioning_Mode_Disable" 224 "Command_Trailer" 64 "Precond_Start" 16 "Conditioning_Mode_Enable_Alt" 0 "Stop_Phase1_Or_Idle";
+VAL_ 199  Battery_Preconditioning_1    7 "Trailer_Operand" 3 "Precond_Start_Operand" 0 "None";
+VAL_ 605  Conditioning_Mode_State      128 "Enabled" 64 "Disabled";
 VAL_ 1041 Driver_Door_Indicator      51 "Open" 50 "Closed" 0 "Locked";
 VAL_ 1041 Passenger_Seatbelt_Status  16 "Fastened" 0 "Unfastened";
 VAL_ 1041 Driver_Seatbelt_Status      4 "Fastened" 0 "Unfastened";
@@ -369,7 +372,10 @@ BO_ 996 VIN_Broadcast: 8 Vector__XXX
 CM_ BO_ 996 "VIN broadcast 0x3E4. Byte 0 = frame counter. VIN chars stored in reverse byte order (byte7=VIN[1], byte6=VIN[2]...). Frame 0x2A: VIN[1-7]=KMHKR81, Frame 0x4A: VIN[8-14]=CPNU058, Frame 0x6A: VIN[15-17]=627";
 
 VAL_ 996 VIN_Frame 42 "VIN_chars_01_07" 74 "VIN_chars_08_14" 106 "VIN_chars_15_17";
-CM_ BO_ 199 "Low level BMU control (preconditioning, utility mode activation; involved in start/stop).";
+CM_ BO_ 199 "Low level BMU control (0x0C7). Every command is 3 frames at 25 Hz followed by a 3-frame commit. Utility mode: D3=80 E0 07 then D3=00 E0 07. Conditioning mode enable: D4=F0 07 then D4=E0 07; disable: D4=E8 07 then D4=E0 07 (conditioning_mode_check.md, utility_mode.md). Preconditioning start: D4=40 03 then D4=E0 07; stop: D4=00 00 then D4=E0 07. A D4=10 00 pair also enabled conditioning mode in the 2026-09-07 MITM capture but is undocumented.";
+CM_ SG_ 199 Utility_Mode "byte 2 (D3): 0x80 = utility-mode request (paired with D4=E0 D5=07); 0x00 = commit phase / not utility mode";
+CM_ SG_ 199 Battery_Preconditioning_0 "byte 3 (D4) opcode: 0x00 stop phase 1, 0x10 undocumented conditioning-mode enable, 0x40 preconditioning start, 0xE0 command trailer, 0xE8 conditioning-mode disable, 0xF0 conditioning-mode enable";
+CM_ SG_ 199 Battery_Preconditioning_1 "byte 4 (D5) operand: 0x00 with D4=00/10, 0x03 preconditioning start, 0x07 utility mode / conditioning enable / disable and the 0xE0 command trailer";
 CM_ BO_ 685 "BMS_Precond_Status (0x2AD), Ioniq 5 / EV6. Byte 1 state: Ioniq 5 0x01 idle / 0x05 starting / 0x15 started; EV6 0x41 / 0x45 / 0x55. Ioniq 6 uses the extended ID 0x0A82AA03 instead.";
 CM_ BO_ 1261 "Navigation_Precond_Status (0x4ED): navigation distance to charger and precondition flag.";
 CM_ BO_ 1096 "Steering-wheel buttons (0x448): star, mode, speak, call, volume, skip, OK buttons.";
@@ -521,8 +527,10 @@ CM_ BO_ 505 "a.k.a. BMS BMS_08_100ms_4 in gen5w_hu_rx.dbc";
 CM_ "FrameID: 0x25D";
 CM_ BO_ 605 "Car-side DC charge-limit status echo (~200 ms periodic). Byte 1 (D2) = DC charge limit %, factor 0.5 (0xA0=80%, 0xB4=90%). Mirrors 0x4C5 byte 5 (D6, DC) when accepted (reply run); it does not carry the AC limit and is untouched by the no-reply run's AC 80%/100% injections.";
 CM_ SG_ 605 DC_Charge_Limit "byte 1 (D2)";
+CM_ SG_ 605 Conditioning_Mode_State "byte 5 (D6): latched battery conditioning mode, 0x80 = enabled / 0x40 = disabled. Flips within one frame period of a 0x0C7 D4=F0 (enable) or D4=E8 (disable) burst on bus 1; 7/7 commands in the 2026-09-07 MITM captures.";
 BO_ 605 Charge_Limit_DC_Status_25D: 8 Vector__XXX
  SG_ DC_Charge_Limit : 8|8@1+ (0.5,0) [0|100] "%" Vector__XXX
+ SG_ Conditioning_Mode_State : 40|8@1+ (1,0) [0|255] "" Vector__XXX
 CM_ BO_ 605 "a.k.a. BMS BMS_04_100ms_3 in gen5w_hu_rx.dbc";
 
 CM_ "FrameID: 0x329";
