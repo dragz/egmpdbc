@@ -3,12 +3,15 @@ DBC files for the E-GMP platform (Hyundai/KIA)
 
 **WARNING** Meddling with your canbus can harm your car or void your warranty!
 
-## The 29-bit extended ID scheme (2023+ ccNC cars: Ioniq 6, GV60, ...)
+## The 29-bit extended ID scheme (CCU CAN hub cars: Ioniq 6, GV60, ...)
 
 The classic 11-bit car-bus frames are re-addressed onto **29-bit extended IDs
 that encode the original 11-bit id**. The encoding is exact; it was recovered
 from an Ioniq 6 capture and verified against byte-identical payloads in the
 Ioniq 5 and GV60 logs.
+
+This is an **ICU CAN hub -> CCU CAN hub** change, not a ccNC head-unit
+feature: it predates ccNC head units, so do not call it "ccNC".
 
 ```
 prefix = 4 * (base >> 4)
@@ -42,6 +45,9 @@ convention for these frames: `BO_` = 0x80000000 | the 29-bit id.**
 
 ### Prefix table — `prefix == 4 * (base >> 4)` holds for every family seen
 
+Verified on **129 extended ids with 0 mismatches** (85 in the GV60 captures,
+44 in the Ioniq 6 capture).
+
 | family base | `0x035` | `0x08E` | `0x0A0` | `0x10A` | `0x1BA` | `0x1E5` | `0x20A` | `0x250` |
 |---|---|---|---|---|---|---|---|---|
 | prefix | `0x00C` | `0x020` | `0x028` | `0x040` | `0x06C` | `0x078` | `0x080` | `0x094` |
@@ -72,14 +78,17 @@ against `0x01` = awake-but-off on the Ioniq 6 capture.
 
 ### Consequences
 
-- Only the **car bus** of the ccNC cars uses this scheme; the head-unit bus
+- Only the **car bus** behind the CCU hub uses this scheme; the head-unit bus
   keeps plain 11-bit ids.
 - The 11-bit ids themselves are preserved, so `0x152` (`BMS_10_100ms_2`,
-  family base `0x150`, index 2) becomes **`0x05415002`**. That id is *not*
-  transmitted in the short Ioniq 6 capture in
-  `../Ioniq5_CAN/CAN_logs/other_cars/Ioniq 6.csv` — the whole `0x150` family is
-  absent there, so a capture with the car READY is needed to confirm it on the
-  wire.
+  family base `0x150`, index 2) would become **`0x05415002`** — but that id is
+  *unconfirmed* and no longer asserted anywhere: **no frame with family base
+  `0x150` is transmitted in any CCU-hub capture available** (the Ioniq 6
+  capture, or the three GV60 captures). The Ioniq 6 capture is an
+  awake-not-READY state, in which the Ioniq 5 also stops sending `0x152`
+  (`panda/I-CAN_nothing_on.csv`), so the frame is most likely simply not
+  broadcast there. Identifying the CCU-hub battery-temperature frame needs a
+  capture taken with the car in READY.
 - Ioniq 6 frames therefore appear under **two** forms: 11-bit for what stayed
   on the old numbering and 29-bit for the remapped set. Seeing a familiar
   11-bit id in an Ioniq 6 log does *not* mean the car kept the old frame plan.
