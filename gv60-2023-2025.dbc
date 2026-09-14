@@ -1,0 +1,920 @@
+VERSION ""
+
+NS_ :
+	NS_DESC_
+	CM_
+	BA_DEF_
+	BA_
+	VAL_
+	CAT_DEF_
+	CAT_
+	FILTER
+	BA_DEF_DEF_
+	EV_DATA_
+	ENVVAR_DATA_
+	SGTYPE_
+	SGTYPE_VAL_
+	BA_DEF_SGTYPE_
+	BA_SGTYPE_
+	SIG_TYPE_REF_
+	VAL_TABLE_
+	SIG_GROUP_
+	SIG_VALTYPE_
+	SIGTYPE_VALTYPE_
+	BO_TX_BU_
+	BA_DEF_REL_
+	BA_REL_
+	BA_DEF_SGTYPE_REL_
+	BU_SG_REL_
+	BU_EV_REL_
+	BU_BO_REL_
+
+BS_:
+
+BU_: ADAS CLU DATC ICSC MCU RR VCMS VCU Vector__XXX WHL YRS
+
+BA_DEF_ BO_  "VFrameFormat" ENUM  "StandardCAN","ExtendedCAN";
+BA_DEF_DEF_ "VFrameFormat" "StandardCAN";
+
+CM_ "GV60 (CCU CAN hub) frame ids. The CCU hub, which replaced the older ICU CAN hub, re-addresses classic 11-bit car-bus frames onto 29-bit extended ids that encode the original 11-bit id. This predates ccNC head units and is NOT a ccNC feature:";
+CM_ "    prefix = 4 * (base >> 4)";
+CM_ "    ext    = (prefix << 20) | (base << 8) | index        (id11 = base + index)";
+CM_ "base = min(11-bit id of the family) - 1, index = 1..N inside the family. Decode with base = (ext >> 8) & 0xFFF, index = ext & 0xFF, id11 = base + index.";
+CM_ "The prefix rule is verified on 129 extended ids with 0 mismatches: 85 in the GV60 captures and 44 in the Ioniq 6 capture.";
+CM_ "This file lists the frames seen in ../Ioniq5_CAN/CAN_logs/other_cars/M-CAN_GV60_*.csv: all 85 remapped 29-bit frames, plus the plain 11-bit frames that ioniq5-2022.dbc / ev6-2024.dbc do not already define (those are NOT duplicated here - load those DBCs alongside this one). Where a remapped frame also exists on the Ioniq 5 / EV6 its name and signals are copied from ioniq5-2022.dbc / ev6-2024.dbc (name suffixed _GV60), so the copied comments describe the shared frame; otherwise the message only carries a raw DATA signal.";
+CM_ "Note: the CCU-hub 29-bit id space is shared with ioniq6-2023-2025.dbc (e.g. 0x00C03503 Power_Status), so load this file for GV60 captures and that one for Ioniq 6 captures.";
+CM_ "DBC convention for extended frames: BO_ = 0x80000000 | ext, plus BA_ \"VFrameFormat\" BO_ <id> 1 (ExtendedCAN).";
+
+BO_ 156 GV60_x0000009C: 8 Vector__XXX
+	SG_ DATA : 0|64@1+ (1,0) [0|0] "" Vector__XXX
+
+CM_ BO_ 156 "Plain 11-bit id on the GV60, not remapped. Observed payload (most common): 50 15 01 52 F4 00 00 00.";
+CM_ BO_ 156 "No signal definition on the Ioniq 5 / EV6; raw DATA only.";
+
+BO_ 415 GV60_x0000019F: 8 Vector__XXX
+	SG_ DATA : 0|64@1+ (1,0) [0|0] "" Vector__XXX
+
+CM_ BO_ 415 "Plain 11-bit id on the GV60, not remapped. Observed payload (most common): 54 15 00 00 46 03 14 00.";
+CM_ BO_ 415 "No signal definition on the Ioniq 5 / EV6; raw DATA only.";
+
+BO_ 879 GV60_x0000036F: 8 Vector__XXX
+	SG_ DATA : 0|64@1+ (1,0) [0|0] "" Vector__XXX
+
+CM_ BO_ 879 "Plain 11-bit id on the GV60, not remapped. Observed payload (most common): F6 71 01 00 00 00 00 00.";
+CM_ BO_ 879 "No signal definition on the Ioniq 5 / EV6; raw DATA only.";
+
+BO_ 902 GV60_x00000386: 8 Vector__XXX
+	SG_ DATA : 0|64@1+ (1,0) [0|0] "" Vector__XXX
+
+CM_ BO_ 902 "Plain 11-bit id on the GV60, not remapped. Observed payload (most common): 02 02 00 29 38 28 48 00.";
+CM_ BO_ 902 "No signal definition on the Ioniq 5 / EV6; raw DATA only.";
+
+BO_ 903 GV60_x00000387: 8 Vector__XXX
+	SG_ DATA : 0|64@1+ (1,0) [0|0] "" Vector__XXX
+
+CM_ BO_ 903 "Plain 11-bit id on the GV60, not remapped. Observed payload (most common): 55 50 05 00 00 00 00 00.";
+CM_ BO_ 903 "No signal definition on the Ioniq 5 / EV6; raw DATA only.";
+
+BO_ 904 GV60_x00000388: 8 Vector__XXX
+	SG_ DATA : 0|64@1+ (1,0) [0|0] "" Vector__XXX
+
+CM_ BO_ 904 "Plain 11-bit id on the GV60, not remapped. Observed payload (most common): 00 01 31 30 32 00 00 00.";
+CM_ BO_ 904 "No signal definition on the Ioniq 5 / EV6; raw DATA only.";
+
+BO_ 939 GV60_x000003AB: 8 Vector__XXX
+	SG_ DATA : 0|64@1+ (1,0) [0|0] "" Vector__XXX
+
+CM_ BO_ 939 "Plain 11-bit id on the GV60, not remapped. Observed payload (most common): 93 B0 00 00 00 00 00 00.";
+CM_ BO_ 939 "No signal definition on the Ioniq 5 / EV6; raw DATA only.";
+
+BO_ 992 GV60_x000003E0: 8 Vector__XXX
+	SG_ DATA : 0|64@1+ (1,0) [0|0] "" Vector__XXX
+
+CM_ BO_ 992 "Plain 11-bit id on the GV60, not remapped. Observed payload (most common): DF 30 01 00 54 03 00 00.";
+CM_ BO_ 992 "No signal definition on the Ioniq 5 / EV6; raw DATA only.";
+
+BO_ 997 GV60_x000003E5: 8 Vector__XXX
+	SG_ DATA : 0|64@1+ (1,0) [0|0] "" Vector__XXX
+
+CM_ BO_ 997 "Plain 11-bit id on the GV60, not remapped. Observed payload (most common): D0 00 00 00 00 00 00 00.";
+CM_ BO_ 997 "No signal definition on the Ioniq 5 / EV6; raw DATA only.";
+
+BO_ 998 GV60_x000003E6: 8 Vector__XXX
+	SG_ DATA : 0|64@1+ (1,0) [0|0] "" Vector__XXX
+
+CM_ BO_ 998 "Plain 11-bit id on the GV60, not remapped. Observed payload (most common): 7F 00 00 00 00 00 00 00.";
+CM_ BO_ 998 "No signal definition on the Ioniq 5 / EV6; raw DATA only.";
+
+BO_ 1026 GV60_x00000402: 8 Vector__XXX
+	SG_ DATA : 0|64@1+ (1,0) [0|0] "" Vector__XXX
+
+CM_ BO_ 1026 "Plain 11-bit id on the GV60, not remapped. Observed payload (most common): C2 00 00 00 00 00 00 00.";
+CM_ BO_ 1026 "No signal definition on the Ioniq 5 / EV6; raw DATA only.";
+
+BO_ 1027 GV60_x00000403: 8 Vector__XXX
+	SG_ DATA : 0|64@1+ (1,0) [0|0] "" Vector__XXX
+
+CM_ BO_ 1027 "Plain 11-bit id on the GV60, not remapped. Observed payload (most common): 6F 20 00 00 00 31 00 00.";
+CM_ BO_ 1027 "No signal definition on the Ioniq 5 / EV6; raw DATA only.";
+
+BO_ 1029 GV60_x00000405: 8 Vector__XXX
+	SG_ DATA : 0|64@1+ (1,0) [0|0] "" Vector__XXX
+
+CM_ BO_ 1029 "Plain 11-bit id on the GV60, not remapped. Observed payload (most common): D2 10 00 00 00 01 00 00.";
+CM_ BO_ 1029 "No signal definition on the Ioniq 5 / EV6; raw DATA only.";
+
+BO_ 1085 GV60_x0000043D: 8 Vector__XXX
+	SG_ DATA : 0|64@1+ (1,0) [0|0] "" Vector__XXX
+
+CM_ BO_ 1085 "Plain 11-bit id on the GV60, not remapped. Observed payload (most common): A8 60 12 00 00 00 00 00.";
+CM_ BO_ 1085 "No signal definition on the Ioniq 5 / EV6; raw DATA only.";
+
+BO_ 1092 GV60_x00000444: 8 Vector__XXX
+	SG_ DATA : 0|64@1+ (1,0) [0|0] "" Vector__XXX
+
+CM_ BO_ 1092 "Plain 11-bit id on the GV60, not remapped. Observed payload (most common): 74 A0 20 50 55 50 00 00.";
+CM_ BO_ 1092 "No signal definition on the Ioniq 5 / EV6; raw DATA only.";
+
+BO_ 1093 GV60_x00000445: 8 Vector__XXX
+	SG_ DATA : 0|64@1+ (1,0) [0|0] "" Vector__XXX
+
+CM_ BO_ 1093 "Plain 11-bit id on the GV60, not remapped. Observed payload (most common): D3 50 08 00 00 10 00 02.";
+CM_ BO_ 1093 "No signal definition on the Ioniq 5 / EV6; raw DATA only.";
+
+BO_ 1105 GV60_x00000451: 8 Vector__XXX
+	SG_ DATA : 0|64@1+ (1,0) [0|0] "" Vector__XXX
+
+CM_ BO_ 1105 "Plain 11-bit id on the GV60, not remapped. Observed payload (most common): 55 04 04 00 00 00 00 00.";
+CM_ BO_ 1105 "No signal definition on the Ioniq 5 / EV6; raw DATA only.";
+
+BO_ 1124 GV60_x00000464: 8 Vector__XXX
+	SG_ DATA : 0|64@1+ (1,0) [0|0] "" Vector__XXX
+
+CM_ BO_ 1124 "Plain 11-bit id on the GV60, not remapped. Observed payload (most common): 7C 10 00 00 00 00 00 00.";
+CM_ BO_ 1124 "No signal definition on the Ioniq 5 / EV6; raw DATA only.";
+
+BO_ 1127 GV60_x00000467: 8 Vector__XXX
+	SG_ DATA : 0|64@1+ (1,0) [0|0] "" Vector__XXX
+
+CM_ BO_ 1127 "Plain 11-bit id on the GV60, not remapped. Observed payload (most common): 6A 00 00 00 00 00 00 00.";
+CM_ BO_ 1127 "No signal definition on the Ioniq 5 / EV6; raw DATA only.";
+
+BO_ 1128 GV60_x00000468: 8 Vector__XXX
+	SG_ DATA : 0|64@1+ (1,0) [0|0] "" Vector__XXX
+
+CM_ BO_ 1128 "Plain 11-bit id on the GV60, not remapped. Observed payload (most common): 43 00 00 00 00 00 00 00.";
+CM_ BO_ 1128 "No signal definition on the Ioniq 5 / EV6; raw DATA only.";
+
+BO_ 1130 GV60_x0000046A: 8 Vector__XXX
+	SG_ DATA : 0|64@1+ (1,0) [0|0] "" Vector__XXX
+
+CM_ BO_ 1130 "Plain 11-bit id on the GV60, not remapped. Observed payload (most common): 55 00 00 00 00 00 00 00.";
+CM_ BO_ 1130 "No signal definition on the Ioniq 5 / EV6; raw DATA only.";
+
+BO_ 1131 GV60_x0000046B: 8 Vector__XXX
+	SG_ DATA : 0|64@1+ (1,0) [0|0] "" Vector__XXX
+
+CM_ BO_ 1131 "Plain 11-bit id on the GV60, not remapped. Observed payload (most common): 05 00 00 00 00 00 00 00.";
+CM_ BO_ 1131 "No signal definition on the Ioniq 5 / EV6; raw DATA only.";
+
+BO_ 1132 GV60_x0000046C: 8 Vector__XXX
+	SG_ DATA : 0|64@1+ (1,0) [0|0] "" Vector__XXX
+
+CM_ BO_ 1132 "Plain 11-bit id on the GV60, not remapped. Observed payload (most common): 05 00 00 00 00 00 00 00.";
+CM_ BO_ 1132 "No signal definition on the Ioniq 5 / EV6; raw DATA only.";
+
+BO_ 1133 GV60_x0000046D: 8 Vector__XXX
+	SG_ DATA : 0|64@1+ (1,0) [0|0] "" Vector__XXX
+
+CM_ BO_ 1133 "Plain 11-bit id on the GV60, not remapped. Observed payload (most common): 02 12 00 00 00 00 00 00.";
+CM_ BO_ 1133 "No signal definition on the Ioniq 5 / EV6; raw DATA only.";
+
+BO_ 1134 GV60_x0000046E: 8 Vector__XXX
+	SG_ DATA : 0|64@1+ (1,0) [0|0] "" Vector__XXX
+
+CM_ BO_ 1134 "Plain 11-bit id on the GV60, not remapped. Observed payload (most common): 55 50 50 00 00 00 00 00.";
+CM_ BO_ 1134 "No signal definition on the Ioniq 5 / EV6; raw DATA only.";
+
+BO_ 1157 GV60_x00000485: 8 Vector__XXX
+	SG_ DATA : 0|64@1+ (1,0) [0|0] "" Vector__XXX
+
+CM_ BO_ 1157 "Plain 11-bit id on the GV60, not remapped. Observed payload (most common): 00 58 13 04 00 00 00 00.";
+CM_ BO_ 1157 "No signal definition on the Ioniq 5 / EV6; raw DATA only.";
+
+BO_ 1286 GV60_x00000506: 8 Vector__XXX
+	SG_ DATA : 0|64@1+ (1,0) [0|0] "" Vector__XXX
+
+CM_ BO_ 1286 "Plain 11-bit id on the GV60, not remapped. Observed payload (most common): 31 02 00 00 00 00 FF FF.";
+CM_ BO_ 1286 "No signal definition on the Ioniq 5 / EV6; raw DATA only.";
+
+BO_ 1329 GV60_x00000531: 8 Vector__XXX
+	SG_ DATA : 0|64@1+ (1,0) [0|0] "" Vector__XXX
+
+CM_ BO_ 1329 "Plain 11-bit id on the GV60, not remapped. Observed payload (most common): 39 02 00 00 00 00 FF FF.";
+CM_ BO_ 1329 "No signal definition on the Ioniq 5 / EV6; raw DATA only.";
+
+BO_ 1337 GV60_x00000539: 8 Vector__XXX
+	SG_ DATA : 0|64@1+ (1,0) [0|0] "" Vector__XXX
+
+CM_ BO_ 1337 "Plain 11-bit id on the GV60, not remapped. Observed payload (most common): 40 02 00 00 00 00 FF FF.";
+CM_ BO_ 1337 "No signal definition on the Ioniq 5 / EV6; raw DATA only.";
+
+BO_ 1344 GV60_x00000540: 8 Vector__XXX
+	SG_ DATA : 0|64@1+ (1,0) [0|0] "" Vector__XXX
+
+CM_ BO_ 1344 "Plain 11-bit id on the GV60, not remapped. Observed payload (most common): 42 02 00 00 00 00 FF FF.";
+CM_ BO_ 1344 "No signal definition on the Ioniq 5 / EV6; raw DATA only.";
+
+BO_ 1346 GV60_x00000542: 8 Vector__XXX
+	SG_ DATA : 0|64@1+ (1,0) [0|0] "" Vector__XXX
+
+CM_ BO_ 1346 "Plain 11-bit id on the GV60, not remapped. Observed payload (most common): 4F 02 00 00 00 00 FF FF.";
+CM_ BO_ 1346 "No signal definition on the Ioniq 5 / EV6; raw DATA only.";
+
+BO_ 1359 GV60_x0000054F: 8 Vector__XXX
+	SG_ DATA : 0|64@1+ (1,0) [0|0] "" Vector__XXX
+
+CM_ BO_ 1359 "Plain 11-bit id on the GV60, not remapped. Observed payload (most common): 55 12 00 00 00 00 FF FF.";
+CM_ BO_ 1359 "No signal definition on the Ioniq 5 / EV6; raw DATA only.";
+
+BO_ 1365 GV60_x00000555: 8 Vector__XXX
+	SG_ DATA : 0|64@1+ (1,0) [0|0] "" Vector__XXX
+
+CM_ BO_ 1365 "Plain 11-bit id on the GV60, not remapped. Observed payload (most common): 60 02 00 00 00 00 FF FF.";
+CM_ BO_ 1365 "No signal definition on the Ioniq 5 / EV6; raw DATA only.";
+
+BO_ 1376 GV60_x00000560: 8 Vector__XXX
+	SG_ DATA : 0|64@1+ (1,0) [0|0] "" Vector__XXX
+
+CM_ BO_ 1376 "Plain 11-bit id on the GV60, not remapped. Observed payload (most common): 65 02 00 00 00 00 FF FF.";
+CM_ BO_ 1376 "No signal definition on the Ioniq 5 / EV6; raw DATA only.";
+
+BO_ 1381 GV60_x00000565: 8 Vector__XXX
+	SG_ DATA : 0|64@1+ (1,0) [0|0] "" Vector__XXX
+
+CM_ BO_ 1381 "Plain 11-bit id on the GV60, not remapped. Observed payload (most common): 70 02 00 00 00 00 FF FF.";
+CM_ BO_ 1381 "No signal definition on the Ioniq 5 / EV6; raw DATA only.";
+
+BO_ 1392 GV60_x00000570: 8 Vector__XXX
+	SG_ DATA : 0|64@1+ (1,0) [0|0] "" Vector__XXX
+
+CM_ BO_ 1392 "Plain 11-bit id on the GV60, not remapped. Observed payload (most common): 06 02 00 00 00 00 FF FF.";
+CM_ BO_ 1392 "No signal definition on the Ioniq 5 / EV6; raw DATA only.";
+
+BO_ 1540 GV60_x00000604: 8 Vector__XXX
+	SG_ DATA : 0|64@1+ (1,0) [0|0] "" Vector__XXX
+
+CM_ BO_ 1540 "Plain 11-bit id on the GV60, not remapped. Observed payload (most common): 4B 14 14 FF FF FF 00 00.";
+CM_ BO_ 1540 "No signal definition on the Ioniq 5 / EV6; raw DATA only.";
+
+BO_ 1546 GV60_x0000060A: 8 Vector__XXX
+	SG_ DATA : 0|64@1+ (1,0) [0|0] "" Vector__XXX
+
+CM_ BO_ 1546 "Plain 11-bit id on the GV60, not remapped. Observed payload (most common): 02 00 40 00 05 46 40 88.";
+CM_ BO_ 1546 "No signal definition on the Ioniq 5 / EV6; raw DATA only.";
+
+BO_ 1547 GV60_x0000060B: 8 Vector__XXX
+	SG_ DATA : 0|64@1+ (1,0) [0|0] "" Vector__XXX
+
+CM_ BO_ 1547 "Plain 11-bit id on the GV60, not remapped. Observed payload (most common): A4 59 0E 15 02 FE 01 00.";
+CM_ BO_ 1547 "No signal definition on the Ioniq 5 / EV6; raw DATA only.";
+
+BO_ 1552 GV60_x00000610: 8 Vector__XXX
+	SG_ DATA : 0|64@1+ (1,0) [0|0] "" Vector__XXX
+
+CM_ BO_ 1552 "Plain 11-bit id on the GV60, not remapped. Observed payload (most common): FF FF FF 0A 0A 05 FF 03.";
+CM_ BO_ 1552 "No signal definition on the Ioniq 5 / EV6; raw DATA only.";
+
+BO_ 1553 GV60_x00000611: 8 Vector__XXX
+	SG_ DATA : 0|64@1+ (1,0) [0|0] "" Vector__XXX
+
+CM_ BO_ 1553 "Plain 11-bit id on the GV60, not remapped. Observed payload (most common): 0C 0C 59 FF FF FF 00 00.";
+CM_ BO_ 1553 "No signal definition on the Ioniq 5 / EV6; raw DATA only.";
+
+BO_ 2160080129 VCU_01_10ms_1_GV60: 8 VCU
+ SG_ DATA : 0|64@1+ (1,0) [0|0] "" VCU
+
+CM_ BO_ 2160080129 "VCU_01_10ms_1_GV60: 11-bit 0x036 as defined in ioniq5-2022.dbc (BO_ 54), signals copied verbatim.";
+CM_ BO_ 2160080129 "GV60 29-bit 0x00C03501 = CCU-hub remap of 11-bit 0x036 (family base 0x035, index 1), prefix 0x00C = 4 * (0x035 >> 4). Observed payload (most common): D1 61 28 51 00 00 25 05.";
+
+BO_ 2160080130 VCU_01_10ms_2_GV60: 8 VCU
+ SG_ DATA : 0|64@1+ (1,0) [0|0] "" VCU
+
+CM_ BO_ 2160080130 "VCU_01_10ms_2_GV60: 11-bit 0x037 as defined in ioniq5-2022.dbc (BO_ 55), signals copied verbatim.";
+CM_ BO_ 2160080130 "GV60 29-bit 0x00C03502 = CCU-hub remap of 11-bit 0x037 (family base 0x035, index 2), prefix 0x00C = 4 * (0x035 >> 4). Observed payload (most common): 00 00 00 10 00 40 00 00.";
+
+BO_ 2160080131 Power_Status_GV60: 8 Vector__XXX
+	SG_ Power_Status_Ready : 0|4@1+ (1,0) [0|0] "" Vector__XXX
+
+CM_ BO_ 2160080131 "Power_Status_GV60: 11-bit 0x038 as defined in ioniq5-2022.dbc (BO_ 56), signals copied verbatim.";
+CM_ BO_ 2160080131 "GV60 29-bit 0x00C03503 = CCU-hub remap of 11-bit 0x038 (family base 0x035, index 3), prefix 0x00C = 4 * (0x035 >> 4). Observed payload (most common): 04 00 00 00 90 38 95 D4.";
+CM_ SG_ 2160080131 Power_Status_Ready "LS nibble of byte 0";
+
+VAL_ 2160080131 Power_Status_Ready 1 "Awake_Not_Ready" 4 "Ready" ;
+
+BO_ 2160080132 Power_State_Aux_GV60: 8 Vector__XXX
+	SG_ Power_State_Aux_Raw : 0|8@1+ (1,0) [0|255] "" Vector__XXX
+
+CM_ BO_ 2160080132 "Power_State_Aux_GV60: 11-bit 0x039 as defined in ioniq5-2022.dbc (BO_ 57), signals copied verbatim.";
+CM_ BO_ 2160080132 "GV60 29-bit 0x00C03504 = CCU-hub remap of 11-bit 0x039 (family base 0x035, index 4), prefix 0x00C = 4 * (0x035 >> 4). Observed payload (most common): 00 00 00 00 00 00 00 00.";
+CM_ SG_ 2160080132 Power_State_Aux_Raw "byte 0 raw";
+
+VAL_ 2160080132 Power_State_Aux_Raw 5 "Door_Wake_Burst_05" 7 "Door_Wake_Burst_07" 9 "Powering_Up" ;
+
+BO_ 2164279809 YRS_01_10ms_1_GV60: 8 YRS
+ SG_ DATA : 0|64@1+ (1,0) [0|0] "" YRS
+
+CM_ BO_ 2164279809 "YRS_01_10ms_1_GV60: 11-bit 0x04B as defined in ioniq5-2022.dbc (BO_ 75), signals copied verbatim.";
+CM_ BO_ 2164279809 "GV60 29-bit 0x01004A01 = CCU-hub remap of 11-bit 0x04B (family base 0x04A, index 1), prefix 0x010 = 4 * (0x04A >> 4). Observed payload (most common): 79 34 37 00 00 00 08 00.";
+
+BO_ 2164279810 YRS_01_10ms_2_GV60: 8 YRS
+ SG_ DATA : 0|64@1+ (1,0) [0|0] "" YRS
+
+CM_ BO_ 2164279810 "YRS_01_10ms_2_GV60: 11-bit 0x04C as defined in ioniq5-2022.dbc (BO_ 76), signals copied verbatim.";
+CM_ BO_ 2164279810 "GV60 29-bit 0x01004A02 = CCU-hub remap of 11-bit 0x04C (family base 0x04A, index 2), prefix 0x010 = 4 * (0x04A >> 4). Observed payload (most common): F2 7F FA 7F 14 80 63 00.";
+
+BO_ 2164279811 YRS_01_10ms_3_GV60: 8 YRS
+ SG_ DATA : 0|64@1+ (1,0) [0|0] "" YRS
+
+CM_ BO_ 2164279811 "YRS_01_10ms_3_GV60: 11-bit 0x04D as defined in ioniq5-2022.dbc (BO_ 77), signals copied verbatim.";
+CM_ BO_ 2164279811 "GV60 29-bit 0x01004A03 = CCU-hub remap of 11-bit 0x04D (family base 0x04A, index 3), prefix 0x010 = 4 * (0x04A >> 4). Observed payload (most common): 38 37 37 34 4E 32 00 00.";
+
+BO_ 2164279812 YRS_01_10ms_4_GV60: 8 YRS
+ SG_ DATA : 0|64@1+ (1,0) [0|0] "" YRS
+
+CM_ BO_ 2164279812 "YRS_01_10ms_4_GV60: 11-bit 0x04E as defined in ioniq5-2022.dbc (BO_ 78), signals copied verbatim.";
+CM_ BO_ 2164279812 "GV60 29-bit 0x01004A04 = CCU-hub remap of 11-bit 0x04E (family base 0x04A, index 4), prefix 0x010 = 4 * (0x04A >> 4). Observed payload (most common): 46 80 89 9E 00 00 00 00.";
+
+BO_ 2189467649 WHL_01_10ms_1_GV60: 8 WHL
+ SG_ DATA : 0|64@1+ (1,0) [0|0] "" WHL
+
+CM_ BO_ 2189467649 "WHL_01_10ms_1_GV60: 11-bit 0x0A1 as defined in ioniq5-2022.dbc (BO_ 161), signals copied verbatim.";
+CM_ BO_ 2189467649 "GV60 29-bit 0x0280A001 = CCU-hub remap of 11-bit 0x0A1 (family base 0x0A0, index 1), prefix 0x028 = 4 * (0x0A0 >> 4). Observed payload (most common): D5 A3 FD 03 1A 00 00 00.";
+
+BO_ 2189467650 Wheel_Speeds_GV60: 8 Vector__XXX
+ SG_ Wheel_Speed_1 : 0|16@1+  (0.03125,0) [0|2047.96] "kph" Vector__XXX
+ SG_ Wheel_Speed_2 : 16|16@1+ (0.03125,0) [0|2047.96] "kph" Vector__XXX
+ SG_ Wheel_Speed_3 : 32|16@1+ (0.03125,0) [0|2047.96] "kph" Vector__XXX
+ SG_ Wheel_Speed_4 : 48|16@1+ (0.03125,0) [0|2047.96] "kph" Vector__XXX
+
+CM_ BO_ 2189467650 "Wheel_Speeds_GV60: 11-bit 0x0A2 as defined in ioniq5-2022.dbc (BO_ 162), signals copied verbatim.";
+CM_ BO_ 2189467650 "GV60 29-bit 0x0280A002 = CCU-hub remap of 11-bit 0x0A2 (family base 0x0A0, index 2), prefix 0x028 = 4 * (0x0A0 >> 4). Observed payload (most common): 00 00 00 00 00 00 00 00.";
+
+BO_ 2189467651 WHL_01_10ms_3_GV60: 8 WHL
+ SG_ DATA : 0|64@1+ (1,0) [0|0] "" WHL
+
+CM_ BO_ 2189467651 "WHL_01_10ms_3_GV60: 11-bit 0x0A3 as defined in ioniq5-2022.dbc (BO_ 163), signals copied verbatim.";
+CM_ BO_ 2189467651 "GV60 29-bit 0x0280A003 = CCU-hub remap of 11-bit 0x0A3 (family base 0x0A0, index 3), prefix 0x028 = 4 * (0x0A0 >> 4). Observed payload (most common): 00 40 01 00 00 00 00 00.";
+
+BO_ 2214660609 MCU_01_10ms_1_GV60: 8 MCU
+ SG_ DATA : 0|64@1+ (1,0) [0|0] "" MCU
+
+CM_ BO_ 2214660609 "MCU_01_10ms_1_GV60: 11-bit 0x10B as defined in ioniq5-2022.dbc (BO_ 267), signals copied verbatim.";
+CM_ BO_ 2214660609 "GV60 29-bit 0x04010A01 = CCU-hub remap of 11-bit 0x10B (family base 0x10A, index 1), prefix 0x040 = 4 * (0x10A >> 4). Observed payload (most common): 4C 64 22 00 00 00 00 05.";
+
+BO_ 2214660610 MCU_01_10ms_2_GV60: 8 MCU
+ SG_ DATA : 0|64@1+ (1,0) [0|0] "" MCU
+
+CM_ BO_ 2214660610 "MCU_01_10ms_2_GV60: 11-bit 0x10C as defined in ioniq5-2022.dbc (BO_ 268), signals copied verbatim.";
+CM_ BO_ 2214660610 "GV60 29-bit 0x04010A02 = CCU-hub remap of 11-bit 0x10C (family base 0x10A, index 2), prefix 0x040 = 4 * (0x10A >> 4). Observed payload (most common): FF F9 E7 1F 3D 3B 3D 3D.";
+
+BO_ 2214660611 MCU_01_10ms_3_GV60: 8 MCU
+ SG_ DATA : 0|64@1+ (1,0) [0|0] "" MCU
+
+CM_ BO_ 2214660611 "MCU_01_10ms_3_GV60: 11-bit 0x10D as defined in ioniq5-2022.dbc (BO_ 269), signals copied verbatim.";
+CM_ BO_ 2214660611 "GV60 29-bit 0x04010A03 = CCU-hub remap of 11-bit 0x10D (family base 0x10A, index 3), prefix 0x040 = 4 * (0x10A >> 4). Observed payload (most common): FB 02 00 00 00 00 01 35.";
+
+BO_ 2214660612 MCU_01_10ms_4_GV60: 8 MCU
+ SG_ DATA : 0|64@1+ (1,0) [0|0] "" MCU
+
+CM_ BO_ 2214660612 "MCU_01_10ms_4_GV60: 11-bit 0x10E as defined in ioniq5-2022.dbc (BO_ 270), signals copied verbatim.";
+CM_ BO_ 2214660612 "GV60 29-bit 0x04010A04 = CCU-hub remap of 11-bit 0x10E (family base 0x10A, index 4), prefix 0x040 = 4 * (0x10A >> 4). Observed payload (most common): 00 00 0A 00 00 C0 AB 57.";
+
+BO_ 2223054849 MCU_02_10ms_1_GV60: 8 MCU
+ SG_ DATA : 0|64@1+ (1,0) [0|0] "" MCU
+
+CM_ BO_ 2223054849 "MCU_02_10ms_1_GV60: 11-bit 0x121 as defined in ioniq5-2022.dbc (BO_ 289), signals copied verbatim.";
+CM_ BO_ 2223054849 "GV60 29-bit 0x04812001 = CCU-hub remap of 11-bit 0x121 (family base 0x120, index 1), prefix 0x048 = 4 * (0x120 >> 4). Observed payload (most common): 99 61 22 00 00 00 00 05.";
+
+BO_ 2223054850 MCU_02_10ms_2_GV60: 8 MCU
+ SG_ DATA : 0|64@1+ (1,0) [0|0] "" MCU
+
+CM_ BO_ 2223054850 "MCU_02_10ms_2_GV60: 11-bit 0x122 as defined in ioniq5-2022.dbc (BO_ 290), signals copied verbatim.";
+CM_ BO_ 2223054850 "GV60 29-bit 0x04812002 = CCU-hub remap of 11-bit 0x122 (family base 0x120, index 2), prefix 0x048 = 4 * (0x120 >> 4). Observed payload (most common): FF F9 E7 1F 3F 3B 3F 3F.";
+
+BO_ 2223054851 MCU_02_10ms_3_GV60: 8 MCU
+ SG_ DATA : 0|64@1+ (1,0) [0|0] "" MCU
+
+CM_ BO_ 2223054851 "MCU_02_10ms_3_GV60: 11-bit 0x123 as defined in ioniq5-2022.dbc (BO_ 291), signals copied verbatim.";
+CM_ BO_ 2223054851 "GV60 29-bit 0x04812003 = CCU-hub remap of 11-bit 0x123 (family base 0x120, index 3), prefix 0x048 = 4 * (0x120 >> 4). Observed payload (most common): FA 02 00 00 00 00 01 35.";
+
+BO_ 2223054852 MCU_02_10ms_4_GV60: 8 MCU
+ SG_ DATA : 0|64@1+ (1,0) [0|0] "" MCU
+
+CM_ BO_ 2223054852 "MCU_02_10ms_4_GV60: 11-bit 0x124 as defined in ioniq5-2022.dbc (BO_ 292), signals copied verbatim.";
+CM_ BO_ 2223054852 "GV60 29-bit 0x04812004 = CCU-hub remap of 11-bit 0x124 (family base 0x120, index 4), prefix 0x048 = 4 * (0x120 >> 4). Observed payload (most common): 00 00 0A 00 00 C0 AB 57.";
+
+BO_ 2223057409 ADAS_CMD_30_10ms_1_GV60: 8 ADAS
+ SG_ DATA : 0|64@1+ (1,0) [0|0] "" ADAS
+
+CM_ BO_ 2223057409 "ADAS_CMD_30_10ms_1_GV60: 11-bit 0x12B as defined in ioniq5-2022.dbc (BO_ 299), signals copied verbatim.";
+CM_ BO_ 2223057409 "GV60 29-bit 0x04812A01 = CCU-hub remap of 11-bit 0x12B (family base 0x12A, index 1), prefix 0x048 = 4 * (0x12A >> 4). Observed payload (most common): 95 80 2C 02 40 00 08 00.";
+
+BO_ 2223057410 ADAS_CMD_30_10ms_2_GV60: 8 ADAS
+ SG_ DATA : 0|64@1+ (1,0) [0|0] "" ADAS
+
+CM_ BO_ 2223057410 "ADAS_CMD_30_10ms_2_GV60: 11-bit 0x12C as defined in ioniq5-2022.dbc (BO_ 300), signals copied verbatim.";
+CM_ BO_ 2223057410 "GV60 29-bit 0x04812A02 = CCU-hub remap of 11-bit 0x12C (family base 0x12A, index 2), prefix 0x048 = 4 * (0x12A >> 4). Observed payload (most common): 00 00 01 00 00 64 00 00.";
+
+BO_ 2239848449 ADAS_CMD_10_20ms_1_GV60: 8 ADAS
+ SG_ DATA : 0|64@1+ (1,0) [0|0] "" ADAS
+
+CM_ BO_ 2239848449 "ADAS_CMD_10_20ms_1_GV60: 11-bit 0x161 as defined in ioniq5-2022.dbc (BO_ 353), signals copied verbatim.";
+CM_ BO_ 2239848449 "GV60 29-bit 0x05816001 = CCU-hub remap of 11-bit 0x161 (family base 0x160, index 1), prefix 0x058 = 4 * (0x160 >> 4). Observed payload (most common): 9F 34 16 03 00 00 00 02.";
+
+BO_ 2239848450 ADAS_CMD_10_20ms_2_GV60: 8 ADAS
+ SG_ DATA : 0|64@1+ (1,0) [0|0] "" ADAS
+
+CM_ BO_ 2239848450 "ADAS_CMD_10_20ms_2_GV60: 11-bit 0x162 as defined in ioniq5-2022.dbc (BO_ 354), signals copied verbatim.";
+CM_ BO_ 2239848450 "GV60 29-bit 0x05816002 = CCU-hub remap of 11-bit 0x162 (family base 0x160, index 2), prefix 0x058 = 4 * (0x160 >> 4). Observed payload (most common): FF FC 01 00 00 00 00 00.";
+
+BO_ 2239849729 ADAS_PRK_20_20ms_1_GV60: 8 ADAS
+ SG_ DATA : 0|64@1+ (1,0) [0|0] "" ADAS
+
+CM_ BO_ 2239849729 "ADAS_PRK_20_20ms_1_GV60: 11-bit 0x166 as defined in ioniq5-2022.dbc (BO_ 358), signals copied verbatim.";
+CM_ BO_ 2239849729 "GV60 29-bit 0x05816501 = CCU-hub remap of 11-bit 0x166 (family base 0x165, index 1), prefix 0x058 = 4 * (0x165 >> 4). Observed payload (most common): A4 AE 08 48 00 00 00 00.";
+
+BO_ 2239849730 ADAS_PRK_20_20ms_2_GV60: 8 ADAS
+ SG_ DATA : 0|64@1+ (1,0) [0|0] "" ADAS
+
+CM_ BO_ 2239849730 "ADAS_PRK_20_20ms_2_GV60: 11-bit 0x167 as defined in ioniq5-2022.dbc (BO_ 359), signals copied verbatim.";
+CM_ BO_ 2239849730 "GV60 29-bit 0x05816502 = CCU-hub remap of 11-bit 0x167 (family base 0x165, index 2), prefix 0x058 = 4 * (0x165 >> 4). Observed payload (most common): 00 00 00 0C 00 00 02 00.";
+
+BO_ 2239849731 ADAS_PRK_20_20ms_3_GV60: 8 ADAS
+ SG_ DATA : 0|64@1+ (1,0) [0|0] "" ADAS
+
+CM_ BO_ 2239849731 "ADAS_PRK_20_20ms_3_GV60: 11-bit 0x168 as defined in ioniq5-2022.dbc (BO_ 360), signals copied verbatim.";
+CM_ BO_ 2239849731 "GV60 29-bit 0x05816503 = CCU-hub remap of 11-bit 0x168 (family base 0x165, index 3), prefix 0x058 = 4 * (0x165 >> 4). Observed payload (most common): 00 00 00 00 00 00 00 00.";
+
+BO_ 2239851009 ADAS_PRK_21_20ms_1_GV60: 8 ADAS
+ SG_ DATA : 0|64@1+ (1,0) [0|0] "" ADAS
+
+CM_ BO_ 2239851009 "ADAS_PRK_21_20ms_1_GV60: 11-bit 0x16B as defined in ioniq5-2022.dbc (BO_ 363), signals copied verbatim.";
+CM_ BO_ 2239851009 "GV60 29-bit 0x05816A01 = CCU-hub remap of 11-bit 0x16B (family base 0x16A, index 1), prefix 0x058 = 4 * (0x16A >> 4). Observed payload (most common): E1 69 08 01 41 15 00 00.";
+
+BO_ 2239851010 ADAS_PRK_21_20ms_2_GV60: 8 ADAS
+ SG_ DATA : 0|64@1+ (1,0) [0|0] "" ADAS
+
+CM_ BO_ 2239851010 "ADAS_PRK_21_20ms_2_GV60: 11-bit 0x16C as defined in ioniq5-2022.dbc (BO_ 364), signals copied verbatim.";
+CM_ BO_ 2239851010 "GV60 29-bit 0x05816A02 = CCU-hub remap of 11-bit 0x16C (family base 0x16A, index 2), prefix 0x058 = 4 * (0x16A >> 4). Observed payload (most common): 00 00 00 00 00 00 02 03.";
+
+BO_ 2239851011 ADAS_PRK_21_20ms_3_GV60: 8 ADAS
+ SG_ DATA : 0|64@1+ (1,0) [0|0] "" ADAS
+
+CM_ BO_ 2239851011 "ADAS_PRK_21_20ms_3_GV60: 11-bit 0x16D as defined in ioniq5-2022.dbc (BO_ 365), signals copied verbatim.";
+CM_ BO_ 2239851011 "GV60 29-bit 0x05816A03 = CCU-hub remap of 11-bit 0x16D (family base 0x16A, index 3), prefix 0x058 = 4 * (0x16A >> 4). Observed payload (most common): 00 00 00 00 50 00 00 00.";
+
+BO_ 2239851012 ADAS_PRK_21_20ms_4_GV60: 8 ADAS
+ SG_ DATA : 0|64@1+ (1,0) [0|0] "" ADAS
+
+CM_ BO_ 2239851012 "ADAS_PRK_21_20ms_4_GV60: 11-bit 0x16E as defined in ioniq5-2022.dbc (BO_ 366), signals copied verbatim.";
+CM_ BO_ 2239851012 "GV60 29-bit 0x05816A04 = CCU-hub remap of 11-bit 0x16E (family base 0x16A, index 4), prefix 0x058 = 4 * (0x16A >> 4). Observed payload (most common): 00 00 00 00 00 00 00 00.";
+
+BO_ 2244046849 ADAS_PRK_10_20ms_1_GV60: 8 ADAS
+ SG_ DATA : 0|64@1+ (1,0) [0|0] "" ADAS
+
+CM_ BO_ 2244046849 "ADAS_PRK_10_20ms_1_GV60: 11-bit 0x171 as defined in ioniq5-2022.dbc (BO_ 369), signals copied verbatim.";
+CM_ BO_ 2244046849 "GV60 29-bit 0x05C17001 = CCU-hub remap of 11-bit 0x171 (family base 0x170, index 1), prefix 0x05C = 4 * (0x170 >> 4). Observed payload (most common): 3E B5 08 00 00 00 04 02.";
+
+BO_ 2244046850 ADAS_PRK_10_20ms_2_GV60: 8 ADAS
+ SG_ DATA : 0|64@1+ (1,0) [0|0] "" ADAS
+
+CM_ BO_ 2244046850 "ADAS_PRK_10_20ms_2_GV60: 11-bit 0x172 as defined in ioniq5-2022.dbc (BO_ 370), signals copied verbatim.";
+CM_ BO_ 2244046850 "GV60 29-bit 0x05C17002 = CCU-hub remap of 11-bit 0x172 (family base 0x170, index 2), prefix 0x05C = 4 * (0x170 >> 4). Observed payload (most common): 4D 0A 00 00 00 00 00 00.";
+
+BO_ 2256642049 ADAS_CMD_20_20ms_1_GV60: 8 ADAS
+ SG_ DATA : 0|64@1+ (1,0) [0|0] "" ADAS
+
+CM_ BO_ 2256642049 "ADAS_CMD_20_20ms_1_GV60: 11-bit 0x1A1 as defined in ioniq5-2022.dbc (BO_ 417), signals copied verbatim.";
+CM_ BO_ 2256642049 "GV60 29-bit 0x0681A001 = CCU-hub remap of 11-bit 0x1A1 (family base 0x1A0, index 1), prefix 0x068 = 4 * (0x1A0 >> 4). Observed payload (most common): 93 59 16 FE F7 7F 64 00.";
+
+BO_ 2256642050 ADAS_CMD_20_20ms_2_GV60: 8 ADAS
+ SG_ DATA : 0|64@1+ (1,0) [0|0] "" ADAS
+
+CM_ BO_ 2256642050 "ADAS_CMD_20_20ms_2_GV60: 11-bit 0x1A2 as defined in ioniq5-2022.dbc (BO_ 418), signals copied verbatim.";
+CM_ BO_ 2256642050 "GV60 29-bit 0x0681A002 = CCU-hub remap of 11-bit 0x1A2 (family base 0x1A0, index 2), prefix 0x068 = 4 * (0x1A0 >> 4). Observed payload (most common): 00 00 00 00 00 08 00 00.";
+
+BO_ 2256642051 ADAS_CMD_20_20ms_3_GV60: 8 ADAS
+ SG_ DATA : 0|64@1+ (1,0) [0|0] "" ADAS
+
+CM_ BO_ 2256642051 "ADAS_CMD_20_20ms_3_GV60: 11-bit 0x1A3 as defined in ioniq5-2022.dbc (BO_ 419), signals copied verbatim.";
+CM_ BO_ 2256642051 "GV60 29-bit 0x0681A003 = CCU-hub remap of 11-bit 0x1A3 (family base 0x1A0, index 3), prefix 0x068 = 4 * (0x1A0 >> 4). Observed payload (most common): FF F3 3F 00 00 00 00 00.";
+
+BO_ 2256642052 ADAS_CMD_20_20ms_4_GV60: 8 ADAS
+ SG_ DATA : 0|64@1+ (1,0) [0|0] "" ADAS
+
+CM_ BO_ 2256642052 "ADAS_CMD_20_20ms_4_GV60: 11-bit 0x1A4 as defined in ioniq5-2022.dbc (BO_ 420), signals copied verbatim.";
+CM_ BO_ 2256642052 "GV60 29-bit 0x0681A004 = CCU-hub remap of 11-bit 0x1A4 (family base 0x1A0, index 4), prefix 0x068 = 4 * (0x1A0 >> 4). Observed payload (most common): FE 07 00 00 00 00 00 00.";
+
+BO_ 2256644609 CLU_01_20ms_1_GV60: 8 CLU
+ SG_ DATA : 0|64@1+ (1,0) [0|0] "" CLU
+
+CM_ BO_ 2256644609 "CLU_01_20ms_1_GV60: 11-bit 0x1AB as defined in ioniq5-2022.dbc (BO_ 427), signals copied verbatim.";
+CM_ BO_ 2256644609 "GV60 29-bit 0x0681AA01 = CCU-hub remap of 11-bit 0x1AB (family base 0x1AA, index 1), prefix 0x068 = 4 * (0x1AA >> 4). Observed payload (most common): F7 C7 11 40 00 38 00 00.";
+
+BO_ 2256644610 Cluster_Info_GV60: 8 Vector__XXX
+ SG_ Speed_kph : 0|8@1+ (1,0) [0|255] "kph" Vector__XXX
+
+CM_ BO_ 2256644610 "Cluster_Info_GV60: 11-bit 0x1AC as defined in ioniq5-2022.dbc (BO_ 428), signals copied verbatim.";
+CM_ BO_ 2256644610 "GV60 29-bit 0x0681AA02 = CCU-hub remap of 11-bit 0x1AC (family base 0x1AA, index 2), prefix 0x068 = 4 * (0x1AA >> 4). Observed payload (most common): 00 80 04 00 00 00 00 00.";
+
+BO_ 2260840449 DATC_02_20ms_1_GV60: 8 DATC
+ SG_ DATA : 0|64@1+ (1,0) [0|0] "" DATC
+
+CM_ BO_ 2260840449 "DATC_02_20ms_1_GV60: 11-bit 0x1B1 as defined in ioniq5-2022.dbc (BO_ 433), signals copied verbatim.";
+CM_ BO_ 2260840449 "GV60 29-bit 0x06C1B001 = CCU-hub remap of 11-bit 0x1B1 (family base 0x1B0, index 1), prefix 0x06C = 4 * (0x1B0 >> 4). Observed payload (most common): 2E F5 11 00 72 00 00 00.";
+
+BO_ 2260840450 DATC_02_20ms_2_GV60: 8 DATC
+ SG_ DATA : 0|64@1+ (1,0) [0|0] "" DATC
+
+CM_ BO_ 2260840450 "DATC_02_20ms_2_GV60: 11-bit 0x1B2 as defined in ioniq5-2022.dbc (BO_ 434), signals copied verbatim.";
+CM_ BO_ 2260840450 "GV60 29-bit 0x06C1B002 = CCU-hub remap of 11-bit 0x1B2 (family base 0x1B0, index 2), prefix 0x06C = 4 * (0x1B0 >> 4). Observed payload (most common): 23 00 04 0F 10 00 51 64.";
+
+BO_ 2260840451 DATC_02_20ms_3_GV60: 8 DATC
+ SG_ DATA : 0|64@1+ (1,0) [0|0] "" DATC
+
+CM_ BO_ 2260840451 "DATC_02_20ms_3_GV60: 11-bit 0x1B3 as defined in ioniq5-2022.dbc (BO_ 435), signals copied verbatim.";
+CM_ BO_ 2260840451 "GV60 29-bit 0x06C1B003 = CCU-hub remap of 11-bit 0x1B3 (family base 0x1B0, index 3), prefix 0x06C = 4 * (0x1B0 >> 4). Observed payload (most common): 10 22 00 00 76 7A 7C 7D.";
+
+BO_ 2260840452 DATC_02_20ms_4_GV60: 8 DATC
+ SG_ DATA : 0|64@1+ (1,0) [0|0] "" DATC
+
+CM_ BO_ 2260840452 "DATC_02_20ms_4_GV60: 11-bit 0x1B4 as defined in ioniq5-2022.dbc (BO_ 436), signals copied verbatim.";
+CM_ BO_ 2260840452 "GV60 29-bit 0x06C1B004 = CCU-hub remap of 11-bit 0x1B4 (family base 0x1B0, index 4), prefix 0x06C = 4 * (0x1B0 >> 4). Observed payload (most common): 7B 7D 17 00 00 40 00 00.";
+
+BO_ 2260843009 RR_C_RDR_02_50ms_1_GV60: 8 RR
+ SG_ DATA : 0|64@1+ (1,0) [0|0] "" RR
+
+CM_ BO_ 2260843009 "RR_C_RDR_02_50ms_1_GV60: 11-bit 0x1BB as defined in ioniq5-2022.dbc (BO_ 443), signals copied verbatim.";
+CM_ BO_ 2260843009 "GV60 29-bit 0x06C1BA01 = CCU-hub remap of 11-bit 0x1BB (family base 0x1BA, index 1), prefix 0x06C = 4 * (0x1BA >> 4). Observed payload (most common): 26 91 3A 02 00 00 00 0A.";
+
+BO_ 2260843010 RR_C_RDR_02_50ms_2_GV60: 8 RR
+ SG_ DATA : 0|64@1+ (1,0) [0|0] "" RR
+
+CM_ BO_ 2260843010 "RR_C_RDR_02_50ms_2_GV60: 11-bit 0x1BC as defined in ioniq5-2022.dbc (BO_ 444), signals copied verbatim.";
+CM_ BO_ 2260843010 "GV60 29-bit 0x06C1BA02 = CCU-hub remap of 11-bit 0x1BC (family base 0x1BA, index 2), prefix 0x06C = 4 * (0x1BA >> 4). Observed payload (most common): 32 00 00 00 02 00 00 00.";
+
+BO_ 2260843011 RR_C_RDR_02_50ms_3_GV60: 8 RR
+ SG_ DATA : 0|64@1+ (1,0) [0|0] "" RR
+
+CM_ BO_ 2260843011 "RR_C_RDR_02_50ms_3_GV60: 11-bit 0x1BD as defined in ioniq5-2022.dbc (BO_ 445), signals copied verbatim.";
+CM_ BO_ 2260843011 "GV60 29-bit 0x06C1BA03 = CCU-hub remap of 11-bit 0x1BD (family base 0x1BA, index 3), prefix 0x06C = 4 * (0x1BA >> 4). Observed payload (most common): 00 00 00 00 00 00 00 00.";
+
+BO_ 2273435649 ADAS_CMD_31_50ms_1_GV60: 8 ADAS
+ SG_ DATA : 0|64@1+ (1,0) [0|0] "" ADAS
+
+CM_ BO_ 2273435649 "ADAS_CMD_31_50ms_1_GV60: 11-bit 0x1E1 as defined in ioniq5-2022.dbc (BO_ 481), signals copied verbatim.";
+CM_ BO_ 2273435649 "GV60 29-bit 0x0781E001 = CCU-hub remap of 11-bit 0x1E1 (family base 0x1E0, index 1), prefix 0x078 = 4 * (0x1E0 >> 4). Observed payload (most common): 3A 15 3D 02 00 00 00 00.";
+
+BO_ 2273435650 ADAS_CMD_31_50ms_2_GV60: 8 ADAS
+ SG_ DATA : 0|64@1+ (1,0) [0|0] "" ADAS
+
+CM_ BO_ 2273435650 "ADAS_CMD_31_50ms_2_GV60: 11-bit 0x1E2 as defined in ioniq5-2022.dbc (BO_ 482), signals copied verbatim.";
+CM_ BO_ 2273435650 "GV60 29-bit 0x0781E002 = CCU-hub remap of 11-bit 0x1E2 (family base 0x1E0, index 2), prefix 0x078 = 4 * (0x1E0 >> 4). Observed payload (most common): 00 00 00 00 00 00 00 00.";
+
+BO_ 2273436929 RR_C_RDR_01_50ms_1_GV60: 8 RR
+ SG_ DATA : 0|64@1+ (1,0) [0|0] "" RR
+
+CM_ BO_ 2273436929 "RR_C_RDR_01_50ms_1_GV60: 11-bit 0x1E6 as defined in ioniq5-2022.dbc (BO_ 486), signals copied verbatim.";
+CM_ BO_ 2273436929 "GV60 29-bit 0x0781E501 = CCU-hub remap of 11-bit 0x1E6 (family base 0x1E5, index 1), prefix 0x078 = 4 * (0x1E5 >> 4). Observed payload (most common): 45 31 3A 02 00 00 00 00.";
+
+BO_ 2273436930 RR_C_RDR_01_50ms_2_GV60: 8 RR
+ SG_ DATA : 0|64@1+ (1,0) [0|0] "" RR
+
+CM_ BO_ 2273436930 "RR_C_RDR_01_50ms_2_GV60: 11-bit 0x1E7 as defined in ioniq5-2022.dbc (BO_ 487), signals copied verbatim.";
+CM_ BO_ 2273436930 "GV60 29-bit 0x0781E502 = CCU-hub remap of 11-bit 0x1E7 (family base 0x1E5, index 2), prefix 0x078 = 4 * (0x1E5 >> 4). Observed payload (most common): 00 00 22 03 20 01 00 00.";
+
+BO_ 2281833729 ICSC_02_100ms_1_GV60: 8 ICSC
+ SG_ DATA : 0|64@1+ (1,0) [0|0] "" ICSC
+
+CM_ BO_ 2281833729 "ICSC_02_100ms_1_GV60: 11-bit 0x206 as defined in ioniq5-2022.dbc (BO_ 518), signals copied verbatim.";
+CM_ BO_ 2281833729 "GV60 29-bit 0x08020501 = CCU-hub remap of 11-bit 0x206 (family base 0x205, index 1), prefix 0x080 = 4 * (0x205 >> 4). Observed payload (most common): 6C C4 CC 02 22 02 22 22.";
+
+BO_ 2281833730 ICSC_02_100ms_2_GV60: 8 ICSC
+ SG_ DATA : 0|64@1+ (1,0) [0|0] "" ICSC
+
+CM_ BO_ 2281833730 "ICSC_02_100ms_2_GV60: 11-bit 0x207 as defined in ioniq5-2022.dbc (BO_ 519), signals copied verbatim.";
+CM_ BO_ 2281833730 "GV60 29-bit 0x08020502 = CCU-hub remap of 11-bit 0x207 (family base 0x205, index 2), prefix 0x080 = 4 * (0x205 >> 4). Observed payload (most common): 22 22 00 30 22 00 22 00.";
+
+BO_ 2281833731 ICSC_02_100ms_3_GV60: 8 ICSC
+ SG_ DATA : 0|64@1+ (1,0) [0|0] "" ICSC
+
+CM_ BO_ 2281833731 "ICSC_02_100ms_3_GV60: 11-bit 0x208 as defined in ioniq5-2022.dbc (BO_ 520), signals copied verbatim.";
+CM_ BO_ 2281833731 "GV60 29-bit 0x08020503 = CCU-hub remap of 11-bit 0x208 (family base 0x205, index 3), prefix 0x080 = 4 * (0x205 >> 4). Observed payload (most common): 22 00 00 00 00 00 00 10.";
+
+BO_ 2290230529 Ambient_Temperature_GV60: 8 Vector__XXX
+ SG_ Outdoor_Temperature : 24|8@1+ (1,-40) [-40|215] "C" Vector__XXX
+
+CM_ BO_ 2290230529 "Ambient_Temperature_GV60: 11-bit 0x226 as defined in ioniq5-2022.dbc (BO_ 550), signals copied verbatim.";
+CM_ BO_ 2290230529 "GV60 29-bit 0x08822501 = CCU-hub remap of 11-bit 0x226 (family base 0x225, index 1), prefix 0x088 = 4 * (0x225 >> 4). Observed payload (most common): 43 00 05 3C C1 E0 FF 40.";
+
+BO_ 2290230530 Odometer_GV60: 8 Vector__XXX
+ SG_ Odometer : 8|24@1+ (0.1,0) [0|1677721] "km" Vector__XXX
+
+CM_ BO_ 2290230530 "Odometer_GV60: 11-bit 0x227 as defined in ioniq5-2022.dbc (BO_ 551), signals copied verbatim.";
+CM_ BO_ 2290230530 "GV60 29-bit 0x08822502 = CCU-hub remap of 11-bit 0x227 (family base 0x225, index 2), prefix 0x088 = 4 * (0x225 >> 4). Observed payload (most common): 02 40 C7 04 00 01 60 03.";
+
+BO_ 2298626561 GV60_x89024201: 8 Vector__XXX
+	SG_ DATA : 0|64@1+ (1,0) [0|0] "" Vector__XXX
+
+CM_ BO_ 2298626561 "GV60 29-bit 0x09024201 = CCU-hub remap of 11-bit 0x243 (family base 0x242, index 1), prefix 0x090 = 4 * (0x242 >> 4). Observed payload (most common): 00 00 00 00 00 00 00 00.";
+CM_ BO_ 2298626561 "No signal definition on the Ioniq 5 / EV6; raw DATA only.";
+
+BO_ 2315421185 GV60_x8A028601: 8 Vector__XXX
+	SG_ DATA : 0|64@1+ (1,0) [0|0] "" Vector__XXX
+
+CM_ BO_ 2315421185 "GV60 29-bit 0x0A028601 = CCU-hub remap of 11-bit 0x287 (family base 0x286, index 1), prefix 0x0A0 = 4 * (0x286 >> 4). Observed payload (most common): 0C 00 00 00 00 00 00 00.";
+CM_ BO_ 2315421185 "No signal definition on the Ioniq 5 / EV6; raw DATA only.";
+
+BO_ 2323819009 VCU_04_100ms_1_GV60: 8 VCU
+ SG_ DATA : 0|64@1+ (1,0) [0|0] "" VCU
+
+CM_ BO_ 2323819009 "VCU_04_100ms_1_GV60: 11-bit 0x2AB as defined in ioniq5-2022.dbc (BO_ 683), signals copied verbatim.";
+CM_ BO_ 2323819009 "GV60 29-bit 0x0A82AA01 = CCU-hub remap of 11-bit 0x2AB (family base 0x2AA, index 1), prefix 0x0A8 = 4 * (0x2AA >> 4). Observed payload (most common): 97 59 7D FF FF 00 00 00.";
+
+BO_ 2323819010 VCU_04_100ms_2_GV60: 8 VCU
+ SG_ DATA : 0|64@1+ (1,0) [0|0] "" VCU
+
+CM_ BO_ 2323819010 "VCU_04_100ms_2_GV60: 11-bit 0x2AC as defined in ioniq5-2022.dbc (BO_ 684), signals copied verbatim.";
+CM_ BO_ 2323819010 "GV60 29-bit 0x0A82AA02 = CCU-hub remap of 11-bit 0x2AC (family base 0x2AA, index 2), prefix 0x0A8 = 4 * (0x2AA >> 4). Observed payload (most common): 00 FF FF 00 00 40 00 30.";
+
+BO_ 2323819011 BMS_Precond_Status_GV60: 8 Vector__XXX
+ SG_ Battery_Precond_State : 8|8@1+ (1,0) [0|255] "" Vector__XXX
+
+CM_ BO_ 2323819011 "BMS_Precond_Status_GV60: 11-bit 0x2AD as defined in ioniq5-2022.dbc (BO_ 685), signals copied verbatim.";
+CM_ BO_ 2323819011 "GV60 29-bit 0x0A82AA03 = CCU-hub remap of 11-bit 0x2AD (family base 0x2AA, index 3), prefix 0x0A8 = 4 * (0x2AA >> 4). Observed payload (most common): 00 05 00 40 FF FF FF 0F.";
+
+VAL_ 2323819011  Battery_Precond_State        21 "On" 5 "Preparing" 1 "Off" ;
+
+BO_ 2323819012 VCU_04_100ms_4_GV60: 8 VCU
+ SG_ DATA : 0|64@1+ (1,0) [0|0] "" VCU
+
+CM_ BO_ 2323819012 "VCU_04_100ms_4_GV60: 11-bit 0x2AE as defined in ioniq5-2022.dbc (BO_ 686), signals copied verbatim.";
+CM_ BO_ 2323819012 "GV60 29-bit 0x0A82AA04 = CCU-hub remap of 11-bit 0x2AE (family base 0x2AA, index 4), prefix 0x0A8 = 4 * (0x2AA >> 4). Observed payload (most common): 01 00 FF 3F 01 01 00 00.";
+
+BO_ 2332213249 GV60_x8B02C001: 8 Vector__XXX
+	SG_ DATA : 0|64@1+ (1,0) [0|0] "" Vector__XXX
+
+CM_ BO_ 2332213249 "GV60 29-bit 0x0B02C001 = CCU-hub remap of 11-bit 0x2C1 (family base 0x2C0, index 1), prefix 0x0B0 = 4 * (0x2C0 >> 4). Observed payload (most common): 3B B4 D1 21 00 A9 00 B0.";
+CM_ BO_ 2332213249 "No signal definition on the Ioniq 5 / EV6; raw DATA only.";
+
+BO_ 2332213250 GV60_x8B02C002: 8 Vector__XXX
+	SG_ DATA : 0|64@1+ (1,0) [0|0] "" Vector__XXX
+
+CM_ BO_ 2332213250 "GV60 29-bit 0x0B02C002 = CCU-hub remap of 11-bit 0x2C2 (family base 0x2C0, index 2), prefix 0x0B0 = 4 * (0x2C0 >> 4). Observed payload (most common): 3A 00 00 00 00 28 00 00.";
+CM_ BO_ 2332213250 "No signal definition on the Ioniq 5 / EV6; raw DATA only.";
+
+BO_ 2332213251 GV60_x8B02C003: 8 Vector__XXX
+	SG_ DATA : 0|64@1+ (1,0) [0|0] "" Vector__XXX
+
+CM_ BO_ 2332213251 "GV60 29-bit 0x0B02C003 = CCU-hub remap of 11-bit 0x2C3 (family base 0x2C0, index 3), prefix 0x0B0 = 4 * (0x2C0 >> 4). Observed payload (most common): 00 00 00 00 00 00 00 00.";
+CM_ BO_ 2332213251 "No signal definition on the Ioniq 5 / EV6; raw DATA only.";
+
+BO_ 2332213252 GV60_x8B02C004: 8 Vector__XXX
+	SG_ DATA : 0|64@1+ (1,0) [0|0] "" Vector__XXX
+
+CM_ BO_ 2332213252 "GV60 29-bit 0x0B02C004 = CCU-hub remap of 11-bit 0x2C4 (family base 0x2C0, index 4), prefix 0x0B0 = 4 * (0x2C0 >> 4). Observed payload (most common): 00 00 00 00 00 00 00 00.";
+CM_ BO_ 2332213252 "No signal definition on the Ioniq 5 / EV6; raw DATA only.";
+
+BO_ 2349009409 VCMS_02_100ms_1_GV60: 8 VCMS
+ SG_ DATA : 0|64@1+ (1,0) [0|0] "" VCMS
+
+CM_ BO_ 2349009409 "VCMS_02_100ms_1_GV60: 11-bit 0x30B as defined in ioniq5-2022.dbc (BO_ 779), signals copied verbatim.";
+CM_ BO_ 2349009409 "GV60 29-bit 0x0C030A01 = CCU-hub remap of 11-bit 0x30B (family base 0x30A, index 1), prefix 0x0C0 = 4 * (0x30A >> 4). Observed payload (most common): A4 FC C0 00 04 00 00 00.";
+
+BO_ 2349009410 VCMS_02_100ms_2_GV60: 8 VCMS
+ SG_ DATA : 0|64@1+ (1,0) [0|0] "" VCMS
+
+CM_ BO_ 2349009410 "VCMS_02_100ms_2_GV60: 11-bit 0x30C as defined in ioniq5-2022.dbc (BO_ 780), signals copied verbatim.";
+CM_ BO_ 2349009410 "GV60 29-bit 0x0C030A02 = CCU-hub remap of 11-bit 0x30C (family base 0x30A, index 2), prefix 0x0C0 = 4 * (0x30A >> 4). Observed payload (most common): 00 00 0C 00 2C 00 A0 0F.";
+
+BO_ 2349009411 VCMS_02_100ms_3_GV60: 8 VCMS
+ SG_ DATA : 0|64@1+ (1,0) [0|0] "" VCMS
+
+CM_ BO_ 2349009411 "VCMS_02_100ms_3_GV60: 11-bit 0x30D as defined in ioniq5-2022.dbc (BO_ 781), signals copied verbatim.";
+CM_ BO_ 2349009411 "GV60 29-bit 0x0C030A03 = CCU-hub remap of 11-bit 0x30D (family base 0x30A, index 3), prefix 0x0C0 = 4 * (0x30A >> 4). Observed payload (most common): 00 00 00 00 3E 00 00 00.";
+
+BO_ 2349009412 Charging_Power_GV60: 8 Vector__XXX
+	SG_ Charging_Power_kW : 48|8@1+ (1,0) [0|255] "kW" Vector__XXX
+
+CM_ BO_ 2349009412 "Charging_Power_GV60: 11-bit 0x30E as defined in ioniq5-2022.dbc (BO_ 782), signals copied verbatim.";
+CM_ BO_ 2349009412 "GV60 29-bit 0x0C030A04 = CCU-hub remap of 11-bit 0x30E (family base 0x30A, index 4), prefix 0x0C0 = 4 * (0x30A >> 4). Observed payload (most common): 00 00 30 05 21 00 00 04.";
+
+BO_ 2378399489 Climate_Temperature_GV60: 8 Vector__XXX
+ SG_ Driver_Temp_Raw    : 24|8@1+ (0.5,14) [14|32] "C" Vector__XXX
+ SG_ Passenger_Temp_Raw : 32|8@1+ (0.5,14) [14|32] "C" Vector__XXX
+ SG_ Rear_Temp_1_Raw    : 40|8@1+ (0.5,14) [14|32] "C" Vector__XXX
+ SG_ Rear_Temp_2_Raw    : 48|8@1+ (0.5,14) [14|32] "C" Vector__XXX
+
+CM_ BO_ 2378399489 "Climate_Temperature_GV60: 11-bit 0x380 as defined in ioniq5-2022.dbc (BO_ 896), signals copied verbatim.";
+CM_ BO_ 2378399489 "GV60 29-bit 0x0DC37F01 = CCU-hub remap of 11-bit 0x380 (family base 0x37F, index 1), prefix 0x0DC = 4 * (0x37F >> 4). Observed payload (most common): FC 60 52 24 41 02 00 00.";
+
+VAL_ 2378399489 Driver_Temp_Raw 0 "Off" ;
+VAL_ 2378399489 Passenger_Temp_Raw 0 "Off" ;
+VAL_ 2378399489 Rear_Temp_1_Raw 0 "Off" ;
+VAL_ 2378399489 Rear_Temp_2_Raw 0 "Off" ;
+
+BO_ 2390994433 GV60_x8E83AE01: 8 Vector__XXX
+	SG_ DATA : 0|64@1+ (1,0) [0|0] "" Vector__XXX
+
+CM_ BO_ 2390994433 "GV60 29-bit 0x0E83AE01 = CCU-hub remap of 11-bit 0x3AF (family base 0x3AE, index 1), prefix 0x0E8 = 4 * (0x3AE >> 4). Observed payload (most common): 1B FF FF FF FF FF FF FF.";
+CM_ BO_ 2390994433 "No signal definition on the Ioniq 5 / EV6; raw DATA only.";
+
+BO_ 2395189761 GV60_x8EC3B201: 8 Vector__XXX
+	SG_ DATA : 0|64@1+ (1,0) [0|0] "" Vector__XXX
+
+CM_ BO_ 2395189761 "GV60 29-bit 0x0EC3B201 = CCU-hub remap of 11-bit 0x3B3 (family base 0x3B2, index 1), prefix 0x0EC = 4 * (0x3B2 >> 4). Observed payload (most common): 6F 44 01 0A 29 6F 34 00.";
+CM_ BO_ 2395189761 "No signal definition on the Ioniq 5 / EV6; raw DATA only.";
+
+BO_ 2424580353 GV60_x90842901: 8 Vector__XXX
+	SG_ DATA : 0|64@1+ (1,0) [0|0] "" Vector__XXX
+
+CM_ BO_ 2424580353 "GV60 29-bit 0x10842901 = CCU-hub remap of 11-bit 0x42A (family base 0x429, index 1), prefix 0x108 = 4 * (0x429 >> 4). Observed payload (most common): 3F 7E 00 40 00 00 00 00.";
+CM_ BO_ 2424580353 "No signal definition on the Ioniq 5 / EV6; raw DATA only.";
+
+BO_ 2445570561 GV60_x91C47201: 8 Vector__XXX
+	SG_ DATA : 0|64@1+ (1,0) [0|0] "" Vector__XXX
+
+CM_ BO_ 2445570561 "GV60 29-bit 0x11C47201 = CCU-hub remap of 11-bit 0x473 (family base 0x472, index 1), prefix 0x11C = 4 * (0x472 >> 4). Observed payload (most common): 0C 5B 06 00 00 01 00 00.";
+CM_ BO_ 2445570561 "No signal definition on the Ioniq 5 / EV6; raw DATA only.";
+
+BO_ 2449770241 GV60_x92048701: 8 Vector__XXX
+	SG_ DATA : 0|64@1+ (1,0) [0|0] "" Vector__XXX
+
+CM_ BO_ 2449770241 "GV60 29-bit 0x12048701 = CCU-hub remap of 11-bit 0x488 (family base 0x487, index 1), prefix 0x120 = 4 * (0x487 >> 4). Observed payload (most common): 00 00 00 00 00 00 00 00.";
+CM_ BO_ 2449770241 "No signal definition on the Ioniq 5 / EV6; raw DATA only.";
+
+BO_ 2470762241 GV60_x9344D701: 8 Vector__XXX
+	SG_ DATA : 0|64@1+ (1,0) [0|0] "" Vector__XXX
+
+CM_ BO_ 2470762241 "GV60 29-bit 0x1344D701 = CCU-hub remap of 11-bit 0x4D8 (family base 0x4D7, index 1), prefix 0x134 = 4 * (0x4D7 >> 4). Observed payload (most common): 20 01 00 00 00 00 00 00.";
+CM_ BO_ 2470762241 "No signal definition on the Ioniq 5 / EV6; raw DATA only.";
+
+BO_ 2470762497 GV60_x9344D801: 8 Vector__XXX
+	SG_ DATA : 0|64@1+ (1,0) [0|0] "" Vector__XXX
+
+CM_ BO_ 2470762497 "GV60 29-bit 0x1344D801 = CCU-hub remap of 11-bit 0x4D9 (family base 0x4D8, index 1), prefix 0x134 = 4 * (0x4D8 >> 4). Observed payload (most common): 40 80 F6 FC 70 F3 00 01.";
+CM_ BO_ 2470762497 "No signal definition on the Ioniq 5 / EV6; raw DATA only.";
+
+BO_ 2474960641 Distance_Flag_Display_GV60: 8 Vector__XXX
+	SG_ Distance_Unit : 0|4@1+ (1,0) [0|0] "" Vector__XXX
+	SG_ Distance_Tenths : 4|4@1+ (1,0) [0|0] "" Vector__XXX
+	SG_ Distance_To_Charger : 32|16@1+ (1,0) [0|0] "" Vector__XXX
+	SG_ Distance_Flag : 48|4@1+ (1,0) [0|0] "" Vector__XXX
+
+CM_ BO_ 2474960641 "Distance_Flag_Display_GV60: 11-bit 0x4E8 as defined in ioniq5-2022.dbc (BO_ 1256), signals copied verbatim.";
+CM_ BO_ 2474960641 "GV60 29-bit 0x1384E701 = CCU-hub remap of 11-bit 0x4E8 (family base 0x4E7, index 1), prefix 0x138 = 4 * (0x4E7 >> 4). Observed payload (most common): 00 00 F8 F0 00 00 00 00.";
+CM_ SG_ 2474960641 Distance_Unit "byte 0 LS nibble";
+CM_ SG_ 2474960641 Distance_Tenths "byte 0 MS nibble";
+CM_ SG_ 2474960641 Distance_To_Charger "bytes 4-5, uint16 LE";
+CM_ SG_ 2474960641 Distance_Flag "byte 6 LS nibble";
+
+VAL_ 2474960641 Distance_Unit 0 "M" 1 "KM" 2 "MI" 3 "FT" 4 "YD" ;
+VAL_ 2474960641 Distance_Flag 0 "Destination" 1 "Blue 1" 2 "Blue 2" 3 "Blue 3" 4 "Blue 4" 15 "None" ;
+
+BO_ 2479157505 Display_Brightness_GV60: 8 Vector__XXX
+	SG_ Brightness_Flags : 48|8@1+ (1,0) [0|255] "" Vector__XXX
+	SG_ Brightness_Raw   : 56|8@1+ (1,0) [0|255] "" Vector__XXX
+
+CM_ BO_ 2479157505 "Display_Brightness_GV60: 11-bit 0x4F2 as defined in ev6-2024.dbc (BO_ 1266), signals copied verbatim.";
+CM_ BO_ 2479157505 "GV60 29-bit 0x13C4F101 = CCU-hub remap of 11-bit 0x4F2 (family base 0x4F1, index 1), prefix 0x13C = 4 * (0x4F1 >> 4). Observed payload (most common): 00 30 04 FF 03 00 00 00.";
+CM_ SG_ 2479157505 Brightness_Flags "byte 6 (D7): 0x00 or 0x80";
+CM_ SG_ 2479157505 Brightness_Raw "byte 7 (D8): brightness level, 0x19-0xFA";
+
+BO_ 2479157761 GV60_x93C4F201: 8 Vector__XXX
+	SG_ DATA : 0|64@1+ (1,0) [0|0] "" Vector__XXX
+
+CM_ BO_ 2479157761 "GV60 29-bit 0x13C4F201 = CCU-hub remap of 11-bit 0x4F3 (family base 0x4F2, index 1), prefix 0x13C = 4 * (0x4F2 >> 4). Observed payload (most common): 02 00 10 F8 03 01 40 0C.";
+CM_ BO_ 2479157761 "No signal definition on the Ioniq 5 / EV6; raw DATA only.";
+
+BO_ 2479160833 GV60_x93C4FE01: 8 Vector__XXX
+	SG_ DATA : 0|64@1+ (1,0) [0|0] "" Vector__XXX
+
+CM_ BO_ 2479160833 "GV60 29-bit 0x13C4FE01 = CCU-hub remap of 11-bit 0x4FF (family base 0x4FE, index 1), prefix 0x13C = 4 * (0x4FE >> 4). Observed payload (most common): 86 23 00 02 5F 07 40 BF.";
+CM_ BO_ 2479160833 "No signal definition on the Ioniq 5 / EV6; raw DATA only.";
+
+BO_ 2558926849 GV60_x98862001: 8 Vector__XXX
+	SG_ DATA : 0|64@1+ (1,0) [0|0] "" Vector__XXX
+
+CM_ BO_ 2558926849 "GV60 29-bit 0x18862001 = CCU-hub remap of 11-bit 0x621 (family base 0x620, index 1), prefix 0x188 = 4 * (0x620 >> 4). Observed payload (most common): 00 02 00 00 00 00 00 00.";
+CM_ BO_ 2558926849 "No signal definition on the Ioniq 5 / EV6; raw DATA only.";
+
+BO_ 2558929665 GV60_x98862B01: 8 Vector__XXX
+	SG_ DATA : 0|64@1+ (1,0) [0|0] "" Vector__XXX
+
+CM_ BO_ 2558929665 "GV60 29-bit 0x18862B01 = CCU-hub remap of 11-bit 0x62C (family base 0x62B, index 1), prefix 0x188 = 4 * (0x62B >> 4). Observed payload (most common): 7F 00 00 00 00 00 00 00.";
+CM_ BO_ 2558929665 "No signal definition on the Ioniq 5 / EV6; raw DATA only.";
+
+BO_ 2563125249 GV60_x98C63001: 8 Vector__XXX
+	SG_ DATA : 0|64@1+ (1,0) [0|0] "" Vector__XXX
+
+CM_ BO_ 2563125249 "GV60 29-bit 0x18C63001 = CCU-hub remap of 11-bit 0x631 (family base 0x630, index 1), prefix 0x18C = 4 * (0x630 >> 4). Observed payload (most common): F0 4E FA 06 FF F0 C7 00.";
+CM_ BO_ 2563125249 "No signal definition on the Ioniq 5 / EV6; raw DATA only.";
+
+BO_ 2563128577 GV60_x98C63D01: 8 Vector__XXX
+	SG_ DATA : 0|64@1+ (1,0) [0|0] "" Vector__XXX
+
+CM_ BO_ 2563128577 "GV60 29-bit 0x18C63D01 = CCU-hub remap of 11-bit 0x63E (family base 0x63D, index 1), prefix 0x18C = 4 * (0x63D >> 4). Observed payload (most common): 00 40 00 00 00 00 00 00.";
+CM_ BO_ 2563128577 "No signal definition on the Ioniq 5 / EV6; raw DATA only.";
+
+BO_ 2567325441 GV60_x99064701: 8 Vector__XXX
+	SG_ DATA : 0|64@1+ (1,0) [0|0] "" Vector__XXX
+
+CM_ BO_ 2567325441 "GV60 29-bit 0x19064701 = CCU-hub remap of 11-bit 0x648 (family base 0x647, index 1), prefix 0x190 = 4 * (0x647 >> 4). Observed payload (most common): 0F 00 00 00 00 00 00 00.";
+CM_ BO_ 2567325441 "No signal definition on the Ioniq 5 / EV6; raw DATA only.";
+
+BA_ "VFrameFormat" BO_ 2160080129 1;
+BA_ "VFrameFormat" BO_ 2160080130 1;
+BA_ "VFrameFormat" BO_ 2160080131 1;
+BA_ "VFrameFormat" BO_ 2160080132 1;
+BA_ "VFrameFormat" BO_ 2164279809 1;
+BA_ "VFrameFormat" BO_ 2164279810 1;
+BA_ "VFrameFormat" BO_ 2164279811 1;
+BA_ "VFrameFormat" BO_ 2164279812 1;
+BA_ "VFrameFormat" BO_ 2189467649 1;
+BA_ "VFrameFormat" BO_ 2189467650 1;
+BA_ "VFrameFormat" BO_ 2189467651 1;
+BA_ "VFrameFormat" BO_ 2214660609 1;
+BA_ "VFrameFormat" BO_ 2214660610 1;
+BA_ "VFrameFormat" BO_ 2214660611 1;
+BA_ "VFrameFormat" BO_ 2214660612 1;
+BA_ "VFrameFormat" BO_ 2223054849 1;
+BA_ "VFrameFormat" BO_ 2223054850 1;
+BA_ "VFrameFormat" BO_ 2223054851 1;
+BA_ "VFrameFormat" BO_ 2223054852 1;
+BA_ "VFrameFormat" BO_ 2223057409 1;
+BA_ "VFrameFormat" BO_ 2223057410 1;
+BA_ "VFrameFormat" BO_ 2239848449 1;
+BA_ "VFrameFormat" BO_ 2239848450 1;
+BA_ "VFrameFormat" BO_ 2239849729 1;
+BA_ "VFrameFormat" BO_ 2239849730 1;
+BA_ "VFrameFormat" BO_ 2239849731 1;
+BA_ "VFrameFormat" BO_ 2239851009 1;
+BA_ "VFrameFormat" BO_ 2239851010 1;
+BA_ "VFrameFormat" BO_ 2239851011 1;
+BA_ "VFrameFormat" BO_ 2239851012 1;
+BA_ "VFrameFormat" BO_ 2244046849 1;
+BA_ "VFrameFormat" BO_ 2244046850 1;
+BA_ "VFrameFormat" BO_ 2256642049 1;
+BA_ "VFrameFormat" BO_ 2256642050 1;
+BA_ "VFrameFormat" BO_ 2256642051 1;
+BA_ "VFrameFormat" BO_ 2256642052 1;
+BA_ "VFrameFormat" BO_ 2256644609 1;
+BA_ "VFrameFormat" BO_ 2256644610 1;
+BA_ "VFrameFormat" BO_ 2260840449 1;
+BA_ "VFrameFormat" BO_ 2260840450 1;
+BA_ "VFrameFormat" BO_ 2260840451 1;
+BA_ "VFrameFormat" BO_ 2260840452 1;
+BA_ "VFrameFormat" BO_ 2260843009 1;
+BA_ "VFrameFormat" BO_ 2260843010 1;
+BA_ "VFrameFormat" BO_ 2260843011 1;
+BA_ "VFrameFormat" BO_ 2273435649 1;
+BA_ "VFrameFormat" BO_ 2273435650 1;
+BA_ "VFrameFormat" BO_ 2273436929 1;
+BA_ "VFrameFormat" BO_ 2273436930 1;
+BA_ "VFrameFormat" BO_ 2281833729 1;
+BA_ "VFrameFormat" BO_ 2281833730 1;
+BA_ "VFrameFormat" BO_ 2281833731 1;
+BA_ "VFrameFormat" BO_ 2290230529 1;
+BA_ "VFrameFormat" BO_ 2290230530 1;
+BA_ "VFrameFormat" BO_ 2298626561 1;
+BA_ "VFrameFormat" BO_ 2315421185 1;
+BA_ "VFrameFormat" BO_ 2323819009 1;
+BA_ "VFrameFormat" BO_ 2323819010 1;
+BA_ "VFrameFormat" BO_ 2323819011 1;
+BA_ "VFrameFormat" BO_ 2323819012 1;
+BA_ "VFrameFormat" BO_ 2332213249 1;
+BA_ "VFrameFormat" BO_ 2332213250 1;
+BA_ "VFrameFormat" BO_ 2332213251 1;
+BA_ "VFrameFormat" BO_ 2332213252 1;
+BA_ "VFrameFormat" BO_ 2349009409 1;
+BA_ "VFrameFormat" BO_ 2349009410 1;
+BA_ "VFrameFormat" BO_ 2349009411 1;
+BA_ "VFrameFormat" BO_ 2349009412 1;
+BA_ "VFrameFormat" BO_ 2378399489 1;
+BA_ "VFrameFormat" BO_ 2390994433 1;
+BA_ "VFrameFormat" BO_ 2395189761 1;
+BA_ "VFrameFormat" BO_ 2424580353 1;
+BA_ "VFrameFormat" BO_ 2445570561 1;
+BA_ "VFrameFormat" BO_ 2449770241 1;
+BA_ "VFrameFormat" BO_ 2470762241 1;
+BA_ "VFrameFormat" BO_ 2470762497 1;
+BA_ "VFrameFormat" BO_ 2474960641 1;
+BA_ "VFrameFormat" BO_ 2479157505 1;
+BA_ "VFrameFormat" BO_ 2479157761 1;
+BA_ "VFrameFormat" BO_ 2479160833 1;
+BA_ "VFrameFormat" BO_ 2558926849 1;
+BA_ "VFrameFormat" BO_ 2558929665 1;
+BA_ "VFrameFormat" BO_ 2563125249 1;
+BA_ "VFrameFormat" BO_ 2563128577 1;
+BA_ "VFrameFormat" BO_ 2567325441 1;

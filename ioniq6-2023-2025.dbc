@@ -38,14 +38,14 @@ BU_: Vector__XXX
 BA_DEF_ BO_  "VFrameFormat" ENUM  "StandardCAN","ExtendedCAN";
 BA_DEF_DEF_ "VFrameFormat" "StandardCAN";
 
-CM_ "Ioniq 6 (2023+, ccNC) frame ids. The ccNC cars re-address classic 11-bit car-bus frames onto 29-bit extended ids that encode the original 11-bit id:";
+CM_ "Ioniq 6 frame ids. The CCU CAN hub, which replaced the older ICU CAN hub, re-addresses classic 11-bit car-bus frames onto 29-bit extended ids that encode the original 11-bit id. This predates ccNC head units and is NOT a ccNC feature:";
 CM_ "    prefix = 4 * (base >> 4)";
 CM_ "    ext    = (prefix << 20) | (base << 8) | index        (id11 = base + index)";
 CM_ "base = min(11-bit id of the family) - 1 and index = 1..N inside the family. Decode with base = (ext >> 8) & 0xFFF, index = ext & 0xFF, id11 = base + index.";
 CM_ "This file uses BO_ = 0x80000000 | ext for the extended frames, plus BA_ \"VFrameFormat\" BO_ <id> 1 (ExtendedCAN). Worked example: 0x2AD -> base 0x2AA, index 3 -> 0x0A82AA03 -> BO_ 2323819011.";
 CM_ "The remap is PARTIAL. Frames that keep their 11-bit id on Ioniq 6 include 0x448 (car bus) and the head-unit set 0x0C7 / 0x4CC / 0x4E8 / 0x4ED / 0x651 / 0x652.";
 CM_ "Verified byte-for-byte against Ioniq 5 / EV6 logs: 0x037 -> 0x00C03502, 0x038 -> 0x00C03503, 0x0A2 -> 0x0280A002, 0x10C -> 0x04010A02, 0x2AC/0x2AD/0x2AE -> 0x0A82AA02/03/04, 0x2E2/0x2E3/0x2E4 -> 0x0B82E002/03/04, 0x397/0x398 -> 0x0E439502/03.";
-CM_ "DERIVED, NOT YET OBSERVED ON THE WIRE: 0x152 -> 0x05415002 (BO_ 2235650050). Prefix table and full mapping: ../egmpdbc/README.md.";
+CM_ "OPEN: the CCU-hub form of 0x152 / BMS_10_100ms_2 (battery min/max temperature) is NOT identified. The naive remap would be 0x05415002 (family base 0x150, index 2), but NO frame with family base 0x150 is transmitted in any CCU-hub capture available (this Ioniq 6 capture or the three GV60 captures), so that id is unconfirmed and has been removed. What IS verified is the prefix rule itself, on 129 extended ids with 0 mismatches.";
 
 BO_ 56 Power_Status: 8 Vector__XXX
 	SG_ Power_Status_Ready : 0|4@1+ (1,0) [0|0] "" Vector__XXX
@@ -58,7 +58,7 @@ VAL_ 56 Power_Status_Ready 1 "Awake_Not_Ready" 4 "Ready" ;
 BO_ 2160080131 Power_Status_Ioniq6: 8 Vector__XXX
 	SG_ Power_Status_Ready : 0|4@1+ (1,0) [0|0] "" Vector__XXX
 
-CM_ BO_ 2160080131 "POWER_STATUS for Ioniq 6: 29-bit 0x00C03503, the ccNC remap of 11-bit 0x038 (family 0x036-0x039, base 0x035, index 3). LS nibble of byte 0: 0x01 = awake but off, 0x04 = READY. Observed as 01 00 00 00 00 00 06 00 (awake, not READY) throughout an Ioniq 6 capture.";
+CM_ BO_ 2160080131 "POWER_STATUS for Ioniq 6: 29-bit 0x00C03503, the CCU-hub remap of 11-bit 0x038 (family 0x036-0x039, base 0x035, index 3). LS nibble of byte 0: 0x01 = awake but off, 0x04 = READY. Observed as 01 00 00 00 00 00 06 00 (awake, not READY) throughout an Ioniq 6 capture.";
 CM_ SG_ 2160080131 Power_Status_Ready "LS nibble of byte 0";
 
 VAL_ 2160080131 Power_Status_Ready 1 "Awake_Not_Ready" 4 "Ready" ;
@@ -85,7 +85,7 @@ VAL_ 685 Battery_Precond_State 1 "Off" 5 "Preparing" 21 "On" ;
 BO_ 2323819011 BMS_Precond_Status_Ioniq6: 8 Vector__XXX
 	SG_ Battery_Precond_State : 8|8@1+ (1,0) [0|0] "" Vector__XXX
 
-CM_ BO_ 2323819011 "BMS_Precond_Status for Ioniq 6 (extended ID 0x0A82AA03 = ccNC remap of 11-bit 0x2AD). Same byte-1 state semantics as 0x2AD on Ioniq 5 / EV6. Payload verified byte-for-byte against an Ioniq 5 capture: 00 01 00 40 FF FF FF 0F.";
+CM_ BO_ 2323819011 "BMS_Precond_Status for Ioniq 6 (extended ID 0x0A82AA03 = CCU-hub remap of 11-bit 0x2AD). Same byte-1 state semantics as 0x2AD on Ioniq 5 / EV6. Payload verified byte-for-byte against an Ioniq 5 capture: 00 01 00 40 FF FF FF 0F.";
 CM_ SG_ 2323819011 Battery_Precond_State "byte 1 state";
 
 VAL_ 2323819011 Battery_Precond_State 1 "Off" 5 "Preparing" 21 "On" ;
@@ -127,25 +127,16 @@ BO_ 338 Battery_Temperature: 8 Vector__XXX
 	SG_ Battery_Temperature_Min : 0|8@1- (1,0) [0|0] "" Vector__XXX
 	SG_ Battery_Temperature_Max : 8|8@1- (1,0) [0|0] "" Vector__XXX
 
-CM_ BO_ 338 "Battery temperature (0x152), Ioniq 5 / EV6 form: data[0] = min cell temp, data[1] = max cell temp (int8, deg C). On Ioniq 6 the frame is the 29-bit 0x05415002 = BO_ 2235650050, NOT this 11-bit id.";
+CM_ BO_ 338 "Battery temperature (0x152), Ioniq 5 / EV6 form: data[0] = min cell temp, data[1] = max cell temp (int8, deg C). The Ioniq 6 (CCU hub) form of this frame is NOT yet identified: no frame with family base 0x150 appears in any CCU-hub capture available, and the Ioniq 6 capture is an awake-not-READY state in which the Ioniq 5 also stops sending 0x152.";
 CM_ SG_ 338 Battery_Temperature_Min "byte 0, signed deg C";
 CM_ SG_ 338 Battery_Temperature_Max "byte 1, signed deg C";
-
-
-BO_ 2235650050 Battery_Temperature_Ioniq6: 8 Vector__XXX
-	SG_ Battery_Temperature_Min : 0|8@1- (1,0) [0|0] "" Vector__XXX
-	SG_ Battery_Temperature_Max : 8|8@1- (1,0) [0|0] "" Vector__XXX
-
-CM_ BO_ 2235650050 "Battery temperature for Ioniq 6: 29-bit 0x05415002, the ccNC remap of 11-bit 0x152 / BMS_10_100ms_2 (family 0x151-0x154, base 0x150, index 2). data[0] = min cell temp, data[1] = max cell temp (int8, deg C). DERIVED FROM THE ID SCHEME, NOT YET OBSERVED ON THE WIRE: the whole 0x150 family is absent from the only Ioniq 6 capture on disk, so confirm this id against a capture taken with the car in READY.";
-CM_ SG_ 2235650050 Battery_Temperature_Min "byte 0, signed deg C";
-CM_ SG_ 2235650050 Battery_Temperature_Max "byte 1, signed deg C";
 
 
 BO_ 1096 Steering_Wheel_Buttons: 8 Vector__XXX
 	SG_ Steering_Wheel_Other_Button : 16|8@1+ (1,0) [0|0] "" Vector__XXX
 	SG_ Steering_Wheel_Star_Button : 40|8@1+ (1,0) [0|0] "" Vector__XXX
 
-CM_ BO_ 1096 "Steering-wheel buttons (0x448): star, mode, speak, call, volume, skip, OK buttons. Car-bus frame that nevertheless KEEPS its 11-bit id on Ioniq 6 (present in the Ioniq 6 capture as 7F 00 00 00 00 00 00 00), so the ccNC remap is only partial.";
+CM_ BO_ 1096 "Steering-wheel buttons (0x448): star, mode, speak, call, volume, skip, OK buttons. Car-bus frame that nevertheless KEEPS its 11-bit id on Ioniq 6 (present in the Ioniq 6 capture as 7F 00 00 00 00 00 00 00), so the CCU-hub remap is only partial.";
 CM_ SG_ 1096 Steering_Wheel_Other_Button "byte 2";
 CM_ SG_ 1096 Steering_Wheel_Star_Button "byte 5";
 
@@ -181,5 +172,4 @@ VAL_ 1618 AVN_Star 0 "Release" 3 "Release" 4 "Press" 7 "Press" ;
 VAL_ 1618 AVN_Tuner_Up_Down 0 "Release" 1 "Down Press" 3 "Release" 4 "Up Press" 7 "Up Press" 12 "Release" 13 "Down Press" ;
 
 BA_ "VFrameFormat" BO_ 2160080131 1;
-BA_ "VFrameFormat" BO_ 2235650050 1;
 BA_ "VFrameFormat" BO_ 2323819011 1;
