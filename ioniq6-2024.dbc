@@ -45,7 +45,8 @@ CM_ "base = min(11-bit id of the family) - 1 and index = 1..N inside the family.
 CM_ "This file uses BO_ = 0x80000000 | ext for the extended frames, plus BA_ \"VFrameFormat\" BO_ <id> 1 (ExtendedCAN). Worked example: 0x2AD -> base 0x2AA, index 3 -> 0x0A82AA03 -> BO_ 2323819011.";
 CM_ "The remap is PARTIAL. Frames that keep their 11-bit id on Ioniq 6 include 0x448 (car bus) and the head-unit set 0x0C7 / 0x4CC / 0x4E8 / 0x4ED / 0x651 / 0x652.";
 CM_ "Verified byte-for-byte against Ioniq 5 / EV6 logs: 0x037 -> 0x00C03502, 0x038 -> 0x00C03503, 0x0A2 -> 0x0280A002, 0x10C -> 0x04010A02, 0x2AC/0x2AD/0x2AE -> 0x0A82AA02/03/04, 0x2E2/0x2E3/0x2E4 -> 0x0B82E002/03/04, 0x397/0x398 -> 0x0E439502/03.";
-CM_ "OPEN: the CCU-hub form of 0x152 / BMS_10_100ms_2 (battery min/max temperature) is NOT identified. The naive remap would be 0x05415002 (family base 0x150, index 2), but NO frame with family base 0x150 is transmitted in any CCU-hub capture available (this Ioniq 6 capture or the three GV60 captures), so that id is unconfirmed and has been removed. What IS verified is the prefix rule itself, on 129 extended ids with 0 mismatches.";
+CM_ "RESOLVED Oct 2026: the CCU-hub form of 0x152 / BMS_10_100ms_2 IS transmitted. The whole family base 0x150 appears in the Ioniq 6 capture 'Battery conditioning test.csv' as 0x05415001/02/03/04 (index 1..4 -> 0x151..0x154 = BMS_10_100ms_1..4) at a steady 1.66 Hz with no gap longer than 0.3 s, so 0x152 -> BO_ 2235650050 (0x05415002). The earlier 'no base-0x150 frame is transmitted' finding came from an awake-not-READY capture (Ioniq6_off.csv, 44 extended ids); the new capture adds 192 extended ids in 71 families and every one still satisfies prefix == 4*(base>>4) with family indices contiguous from 1.";
+CM_ "RESOLVED Oct 2026: 0x2FC / Battery_Info (state of charge) is BO_ 2344811010 (0x0BC2FA02, family base 0x2FA, index 2 -> 0x2FC). Byte 7 * 0.5 = SOC: 0xC6 = 198 = 99.0 % in 'Car off-ready-off-accessory.csv' / 'Car on steady state.csv' / 'Switching songs.csv', 0xC5 = 197 = 98.5 % in 'Battery conditioning test.csv'. Payload shape matches the Ioniq 5 0x2FC (byte 6 = 0x8F in both). NB: the 11-bit 0x2FB still appears on the Ioniq 6 bus but is a DIFFERENT frame (constant 00 04 61 F0 00 00 00 00); the real 0x2FB is the remap 0x0BC2FA01.";
 
 BO_ 56 Power_Status: 8 Vector__XXX
 	SG_ Power_Status_Ready : 0|4@1+ (1,0) [0|0] "" Vector__XXX
@@ -127,9 +128,26 @@ BO_ 338 Battery_Temperature: 8 Vector__XXX
 	SG_ Battery_Temperature_Min : 0|8@1- (1,0) [0|0] "" Vector__XXX
 	SG_ Battery_Temperature_Max : 8|8@1- (1,0) [0|0] "" Vector__XXX
 
-CM_ BO_ 338 "Battery temperature (0x152), Ioniq 5 / EV6 form: data[0] = min cell temp, data[1] = max cell temp (int8, deg C). The Ioniq 6 (CCU hub) form of this frame is NOT yet identified: no frame with family base 0x150 appears in any CCU-hub capture available, and the Ioniq 6 capture is an awake-not-READY state in which the Ioniq 5 also stops sending 0x152.";
+CM_ BO_ 338 "Battery temperature (0x152), Ioniq 5 / EV6 form: data[0] = min cell temp, data[1] = max cell temp (int8, deg C); data[2] carries a third cell temperature. On Ioniq 6 the frame is the 29-bit 0x05415002 = BO_ 2235650050.";
 CM_ SG_ 338 Battery_Temperature_Min "byte 0, signed deg C";
 CM_ SG_ 338 Battery_Temperature_Max "byte 1, signed deg C";
+
+
+BO_ 2235650050 Battery_Temperature_Ioniq6: 8 Vector__XXX
+	SG_ Battery_Temperature_Min : 0|8@1- (1,0) [0|0] "" Vector__XXX
+	SG_ Battery_Temperature_Max : 8|8@1- (1,0) [0|0] "" Vector__XXX
+
+CM_ BO_ 2235650050 "Battery temperature for Ioniq 6: 29-bit 0x05415002, the CCU-hub remap of 11-bit 0x152 (family 0x151-0x154, base 0x150, index 2). data[0] = min cell temp, data[1] = max cell temp, data[2] = a third cell temperature that trails data[1] by one step (all int8 deg C). Broadcast continuously at 1.66 Hz in 'Battery conditioning test.csv': byte 0 stays 0x0E (14 C) while byte 1 steps 0x0E -> 0x0F -> 0x10 -> 0x11 (14 -> 17 C) at 147.5 / 228.5 / 292.7 s and byte 2 follows at 157.1 / 237.5 s. Read in Fahrenheit (14 C = 57.2 F, 16 C = 60.8 F, 17 C = 62.6 F) that is the driver's 57/57 -> 57/61, with the last 5 s of the log reaching 57/63. The same min/max pair is mirrored in 0x0CC33502 (11-bit 0x337) bytes 3/4, switching at 227.9 s and 292.7 s.";
+CM_ SG_ 2235650050 Battery_Temperature_Min "byte 0, signed deg C";
+CM_ SG_ 2235650050 Battery_Temperature_Max "byte 1, signed deg C";
+CM_ "CAUTION: only bytes 0-2 of 0x05415002 match the Ioniq 5 0x152 layout. The tail differs (Ioniq 5 has a non-zero byte 4 and zero bytes 6/7; Ioniq 6 has 00 00 00 34 6C constant), so do not carry the Ioniq 5 tail semantics across.";
+
+
+BO_ 2344811010 Battery_Info_Ioniq6: 8 Vector__XXX
+	SG_ State_Of_Charge : 56|8@1+ (0.5,0) [0|100] "%" Vector__XXX
+
+CM_ BO_ 2344811010 "Battery_Info for Ioniq 6: 29-bit 0x0BC2FA02, the CCU-hub remap of 11-bit 0x2FC (family 0x2FB-0x2FE, base 0x2FA, index 2), same frame as Ioniq 5 / EV6 BO_ 764. Byte 7 * 0.5 = state of charge: 0xC6 = 198 = 99.0 % in 'Car off-ready-off-accessory.csv' / 'Car on steady state.csv' / 'Switching songs.csv' and 0xC5 = 197 = 98.5 % in 'Battery conditioning test.csv'. Broadcast at 5 Hz. Payload shape matches the Ioniq 5 frame (byte 6 = 0x8F in both).";
+CM_ SG_ 2344811010 State_Of_Charge "byte 7, factor 0.5";
 
 
 BO_ 1096 Steering_Wheel_Buttons: 8 Vector__XXX
@@ -171,5 +189,34 @@ VAL_ 1618 AVN_Map_Nav 0 "Release" 1 "Nav Press" 3 "Release" 4 "Map Press" 7 "Map
 VAL_ 1618 AVN_Star 0 "Release" 3 "Release" 4 "Press" 7 "Press" ;
 VAL_ 1618 AVN_Tuner_Up_Down 0 "Release" 1 "Down Press" 3 "Release" 4 "Up Press" 7 "Up Press" 12 "Release" 13 "Down Press" ;
 
+BO_ 1750 ISOTP_FF_6D6: 8 Vector__XXX
+	SG_ ISOTP_Type : 4|4@1+ (1,0) [0|15] "" Vector__XXX
+	SG_ ISOTP_Len_High : 0|4@1+ (1,0) [0|15] "" Vector__XXX
+	SG_ ISOTP_Len_Low : 8|8@1+ (1,0) [0|255] "" Vector__XXX
+
+CM_ BO_ 1750 "Track text, media ISO-TP first frame (0x6D6) -> flow control from 0x6B6 (BO_ 1718). Head-unit bus frame, kept 11-bit on Ioniq 6. The payload after the 2-byte ISO-TP header is bare UTF-16LE with NO SID/type byte, padded with 0xAA. VERIFIED on Ioniq 6: 'Switching songs.csv' carries a 36-byte transfer decoding to 'stream of silllver' and 'Battery conditioning test.csv' a 20-byte one decoding to 'Who's That'; both while 0x4CE byte 0 = 0xDC (Apple CarPlay). The same title is ALSO broadcast as a 128-byte message on 0x684 (duplicated on 0x686 about 250 ms later) as 10 80 followed by a one-byte type 0x6E ('n') then UTF-16LE; 0x684 is BO_ 1668 in ioniq5-2022.dbc (FC from 0x685) and no consecutive frames ever follow it in the Ioniq 6 captures.";
+CM_ SG_ 1750 ISOTP_Type "1 = FirstFrame (2 = ConsecFrame on the same id)";
+CM_ SG_ 1750 ISOTP_Len_High "high nibble of the 12-bit payload length";
+CM_ SG_ 1750 ISOTP_Len_Low "low byte of the 12-bit payload length";
+
+VAL_ 1750 ISOTP_Type 0 "SingleFrame" 1 "FirstFrame" 2 "ConsecFrame" 3 "FlowCtrl" ;
+
+BO_ 1718 ISOTP_FC_6B6: 8 Vector__XXX
+	SG_ ISOTP_Type : 4|4@1+ (1,0) [0|15] "" Vector__XXX
+	SG_ ISOTP_Flow_Status : 0|4@1+ (1,0) [0|15] "" Vector__XXX
+	SG_ ISOTP_Block_Size : 8|8@1+ (1,0) [0|255] "" Vector__XXX
+	SG_ ISOTP_STmin : 16|8@1+ (1,0) [0|255] "ms" Vector__XXX
+
+CM_ BO_ 1718 "Track text flow control (0x6B6): the head unit answering a first frame on 0x6D6. Always 30 00 03 AA AA AA AA AA (CTS, block size 0, STmin 3 ms, padding 0xAA) in the Ioniq 6 captures.";
+CM_ SG_ 1718 ISOTP_Block_Size "always 0 (send all remaining frames)";
+CM_ SG_ 1718 ISOTP_STmin "3 ms";
+
+VAL_ 1718 ISOTP_Type 0 "SingleFrame" 1 "FirstFrame" 2 "ConsecFrame" 3 "FlowCtrl" ;
+VAL_ 1718 ISOTP_Flow_Status 0 "ContinueToSend" 1 "Wait" 2 "Overflow" ;
+
+CM_ "Media ISO-TP, OPEN items on Ioniq 6. The other transports in wicant-i-precondition track_popup.c are not confirmed by these captures: 0x6E0 (Apps / Sounds of Nature) is NEVER transmitted in any Ioniq 6 log, and 0x6BE (its flow control) is transmitted exactly once - 30 00 03 AA AA AA AA AA at t=5.83 s in 'Battery conditioning test.csv', at a moment when 0x4CE byte 0 = 0x14 (media off), i.e. the fallback path that pins the media type to 0x04. An FC can only be sent by the receiver of a first frame, so the head unit does accept the 0x6E0/0x6BE pair, but no car-originated traffic exercises it: 0x4CE byte 0 is only ever 0x14 / 0xDC (CarPlay) / 0xDE (Android Auto) / 0xFE across the whole 45-log corpus, never 0x04 or 0x05. 0x4CE itself (media type + popup trigger) is still undocumented in these DBCs.";
+
 BA_ "VFrameFormat" BO_ 2160080131 1;
 BA_ "VFrameFormat" BO_ 2323819011 1;
+BA_ "VFrameFormat" BO_ 2235650050 1;
+BA_ "VFrameFormat" BO_ 2344811010 1;
