@@ -41,8 +41,8 @@ CM_ "    prefix = 4 * (base >> 4)";
 CM_ "    ext    = (prefix << 20) | (base << 8) | index        (id11 = base + index)";
 CM_ "base = min(11-bit id of the family) - 1, index = 1..N inside the family. Decode with base = (ext >> 8) & 0xFFF, index = ext & 0xFF, id11 = base + index.";
 CM_ "The prefix rule is verified on 129 extended ids with 0 mismatches: 85 in the GV60 captures and 44 in the Ioniq 6 capture.";
-CM_ "This file lists the frames seen in ../Ioniq5_CAN/CAN_logs/other_cars/M-CAN_GV60_*.csv: all 85 remapped 29-bit frames, plus the plain 11-bit frames that ioniq5-2022.dbc / ev6-2024.dbc do not already define (those are NOT duplicated here - load those DBCs alongside this one). Where a remapped frame also exists on the Ioniq 5 / EV6 its name and signals are copied from ioniq5-2022.dbc / ev6-2024.dbc (name suffixed _GV60), so the copied comments describe the shared frame; otherwise the message only carries a raw DATA signal.";
-CM_ "Note: the CCU-hub 29-bit id space is shared with ioniq6-2023-2025.dbc (e.g. 0x00C03503 Power_Status), so load this file for GV60 captures and that one for Ioniq 6 captures.";
+CM_ "This file lists the frames seen in ../Ioniq5_CAN/CAN_logs/other_cars/M-CAN_GV60_*.csv: all 85 remapped 29-bit frames, plus the plain 11-bit frames that ioniq5-2022.dbc / ev6-2024.dbc do not already define (those are NOT duplicated here - load those DBCs alongside this one). Where a remapped frame also exists on the Ioniq 5 / EV6 its name and signals are copied from ioniq5-2022.dbc / ev6-2024.dbc (name suffixed _GV60), so the copied comments describe the shared frame; otherwise the message only carries a raw DATA signal. ONE EXCEPTION: 0x0DC37F01 (11-bit 0x380) carries a raw DATA signal because the Ioniq 5 layout does not fit the CCU-hub payload - see its CM_.";
+CM_ "Note: the CCU-hub 29-bit id space is shared with ioniq6-2023-2025.dbc (e.g. 0x00C03503 Power_Status) - in fact 52 of this file's 85 extended ids also occur in the Ioniq 6 capture - so load this file for GV60 captures and that one for Ioniq 6 captures, never both.";
 CM_ "DBC convention for extended frames: BO_ = 0x80000000 | ext, plus BA_ \"VFrameFormat\" BO_ <id> 1 (ExtendedCAN).";
 
 BO_ 156 GV60_x0000009C: 8 Vector__XXX
@@ -711,18 +711,11 @@ CM_ BO_ 2349009412 "Charging_Power_GV60: 11-bit 0x30E as defined in ioniq5-2022.
 CM_ BO_ 2349009412 "GV60 29-bit 0x0C030A04 = CCU-hub remap of 11-bit 0x30E (family base 0x30A, index 4), prefix 0x0C0 = 4 * (0x30A >> 4). Observed payload (most common): 00 00 30 05 21 00 00 04.";
 
 BO_ 2378399489 Climate_Temperature_GV60: 8 Vector__XXX
- SG_ Driver_Temp_Raw    : 24|8@1+ (0.5,14) [14|32] "C" Vector__XXX
- SG_ Passenger_Temp_Raw : 32|8@1+ (0.5,14) [14|32] "C" Vector__XXX
- SG_ Rear_Temp_1_Raw    : 40|8@1+ (0.5,14) [14|32] "C" Vector__XXX
- SG_ Rear_Temp_2_Raw    : 48|8@1+ (0.5,14) [14|32] "C" Vector__XXX
+ SG_ DATA : 0|64@1+ (1,0) [0|0] "" Vector__XXX
 
-CM_ BO_ 2378399489 "Climate_Temperature_GV60: 11-bit 0x380 as defined in ioniq5-2022.dbc (BO_ 896), signals copied verbatim.";
+CM_ BO_ 2378399489 "No signals: the Ioniq 5 0x380 layout used to be copied verbatim here and is WRONG for the CCU-hub payload, so it was removed in Oct 2026. The Ioniq 5 0x380 always has bytes 3-6 equal to each other (AD D7 FF 00 00 00 00 01, 73 DE 00 0C 0C 0C 0C 01, ...) while the GV60 payload is FC 60 52 24 41 02 00 00 - i.e. bytes 3-6 = 24 41 02 00, never equal - so Driver/Passenger/Rear_Temp_* decoded to 32.0 / 46.5 / 15.0 / Off degC in 2125/2125 frames.";
+CM_ BO_ 2378399489 "This is not a GV60 quirk: the Ioniq 6 CCU-hub capture carries the same frame (0x0DC37F01, 1907 frames) as xx xx 92 24 41 02 00 00, i.e. the same 24 41 02 00 in bytes 3-6. Both CCU-hub cars therefore differ from the ICU-hub Ioniq 5 payload. Re-decode only from a capture taken while the climate setpoint is changed, and do not reuse the ioniq5-2022.dbc / ev6-2024.dbc 0x380 layout for CCU-hub captures.";
 CM_ BO_ 2378399489 "GV60 29-bit 0x0DC37F01 = CCU-hub remap of 11-bit 0x380 (family base 0x37F, index 1), prefix 0x0DC = 4 * (0x37F >> 4). Observed payload (most common): FC 60 52 24 41 02 00 00.";
-
-VAL_ 2378399489 Driver_Temp_Raw 0 "Off" ;
-VAL_ 2378399489 Passenger_Temp_Raw 0 "Off" ;
-VAL_ 2378399489 Rear_Temp_1_Raw 0 "Off" ;
-VAL_ 2378399489 Rear_Temp_2_Raw 0 "Off" ;
 
 BO_ 2390994433 GV60_x8E83AE01: 8 Vector__XXX
 	SG_ DATA : 0|64@1+ (1,0) [0|0] "" Vector__XXX
