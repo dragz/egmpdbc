@@ -43,18 +43,10 @@ CM_ "    prefix = 4 * (base >> 4)";
 CM_ "    ext    = (prefix << 20) | (base << 8) | index        (id11 = base + index)";
 CM_ "base = min(11-bit id of the family) - 1 and index = 1..N inside the family. Decode with base = (ext >> 8) & 0xFFF, index = ext & 0xFF, id11 = base + index.";
 CM_ "This file uses BO_ = 0x80000000 | ext for the extended frames, plus BA_ \"VFrameFormat\" BO_ <id> 1 (ExtendedCAN). Worked example: 0x2AD -> base 0x2AA, index 3 -> 0x0A82AA03 -> BO_ 2323819011.";
-CM_ "The remap is PARTIAL. Frames that keep their 11-bit id on Ioniq 6 include 0x448 (car bus) and the head-unit set 0x0C7 / 0x4CC / 0x4E8 / 0x4ED / 0x651 / 0x652.";
+CM_ "The remap is PARTIAL. Frames that keep their 11-bit id on Ioniq 6 include 0x448 (car bus) and the head-unit set 0x0C7 / 0x4CC / 0x4E8 / 0x4ED / 0x651 / 0x652. The 11-bit BO_ 56 (0x038) and BO_ 685 (0x2AD) definitions were REMOVED in Oct 2026: neither id is transmitted by the Ioniq 6 (0 frames in all five captures on disk, M-CAN), while the remapped 0x00C03503 and 0x0A82AA03 fire 7638 and 1910 times, so the 11-bit entries were unreachable and contradicted the CM_ of the frames themselves. The 11-bit BO_ 338 (0x152) is kept - that id does sometimes appear.";
 CM_ "Verified byte-for-byte against Ioniq 5 / EV6 logs: 0x037 -> 0x00C03502, 0x038 -> 0x00C03503, 0x0A2 -> 0x0280A002, 0x10C -> 0x04010A02, 0x2AC/0x2AD/0x2AE -> 0x0A82AA02/03/04, 0x2E2/0x2E3/0x2E4 -> 0x0B82E002/03/04, 0x397/0x398 -> 0x0E439502/03.";
 CM_ "RESOLVED Oct 2026: the CCU-hub form of 0x152 / BMS_10_100ms_2 IS transmitted. The whole family base 0x150 appears in the Ioniq 6 capture 'Battery conditioning test.csv' as 0x05415001/02/03/04 (index 1..4 -> 0x151..0x154 = BMS_10_100ms_1..4) at a steady 1.66 Hz with no gap longer than 0.3 s, so 0x152 -> BO_ 2235650050 (0x05415002). The earlier 'no base-0x150 frame is transmitted' finding came from an awake-not-READY capture (Ioniq6_off.csv, 44 extended ids); the new capture adds 192 extended ids in 71 families and every one still satisfies prefix == 4*(base>>4) with family indices contiguous from 1.";
 CM_ "RESOLVED Oct 2026: 0x2FC / Battery_Info (state of charge) is BO_ 2344811010 (0x0BC2FA02, family base 0x2FA, index 2 -> 0x2FC). Byte 7 * 0.5 = SOC: 0xC6 = 198 = 99.0 % in 'Car off-ready-off-accessory.csv' / 'Car on steady state.csv' / 'Switching songs.csv', 0xC5 = 197 = 98.5 % in 'Battery conditioning test.csv'. Payload shape matches the Ioniq 5 0x2FC (byte 6 = 0x8F in both). NB: the 11-bit 0x2FB still appears on the Ioniq 6 bus but is a DIFFERENT frame (constant 00 04 61 F0 00 00 00 00); the real 0x2FB is the remap 0x0BC2FA01.";
-
-BO_ 56 Power_Status: 8 Vector__XXX
-	SG_ Power_Status_Ready : 0|4@1+ (1,0) [0|0] "" Vector__XXX
-
-CM_ BO_ 56 "POWER_STATUS (0x038) power/READY frame, Ioniq 5 / EV6 form. LS nibble of byte 0: 0x01 = awake but off (with some lag), 0x04 = READY. On Ioniq 6 the frame is the 29-bit 0x00C03503 = BO_ 2160080131.";
-CM_ SG_ 56 Power_Status_Ready "LS nibble of byte 0";
-
-VAL_ 56 Power_Status_Ready 1 "Awake_Not_Ready" 4 "Ready" ;
 
 BO_ 2160080131 Power_Status_Ioniq6: 8 Vector__XXX
 	SG_ Power_Status_Ready : 0|4@1+ (1,0) [0|0] "" Vector__XXX
@@ -74,14 +66,6 @@ CM_ SG_ 199 Battery_Preconditioning_1 "byte 4";
 
 VAL_ 199 Battery_Preconditioning_0 0 "Off" 64 "On" ;
 VAL_ 199 Battery_Preconditioning_1 0 "Off" 3 "On" ;
-
-BO_ 685 BMS_Precond_Status: 8 Vector__XXX
-	SG_ Battery_Precond_State : 8|8@1+ (1,0) [0|0] "" Vector__XXX
-
-CM_ BO_ 685 "BMS_Precond_Status (0x2AD), Ioniq 5 / EV6. Byte 1 state: Ioniq 5 0x01 idle / 0x05 starting / 0x15 started; EV6 0x41 / 0x45 / 0x55. Ioniq 6 uses the 29-bit remap 0x0A82AA03 = BO_ 2323819011 (family 0x2AB-0x2AE, base 0x2AA, index 3) instead.";
-CM_ SG_ 685 Battery_Precond_State "byte 1 state";
-
-VAL_ 685 Battery_Precond_State 1 "Off" 5 "Preparing" 21 "On" ;
 
 BO_ 2323819011 BMS_Precond_Status_Ioniq6: 8 Vector__XXX
 	SG_ Battery_Precond_State : 8|8@1+ (1,0) [0|0] "" Vector__XXX

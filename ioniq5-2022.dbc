@@ -43,6 +43,7 @@ BO_ 1041 Door_Seatbelt_Status: 8 Vector__XXX
  SG_ Passenger_Seatbelt_Status  : 32|8@1+ (1,0) [0|255] "" Vector__XXX
  SG_ Driver_Seatbelt_Status     : 40|8@1+ (1,0) [0|255] "" Vector__XXX
 CM_ BO_ 1041 "a.k.a. ICU ICU_02_200ms in gen5w_hu_rx.dbc";
+CM_ SG_ 1041 Driver_Door_Indicator "byte 3. Raw values are 0x51 = 81 (open), 0x50 = 80 (closed) and 0x00 = locked. The VAL_ keys used to be written as the decimal forms of those hex bytes (51/50), which never occur in a capture; they are now the correct integers 81/80. Bit 24 alone is the open flag (see the bit-level Body_Status in ev6-2024.dbc). The two seatbelt signals below are 8-bit wide and therefore also pick up neighbouring bits of bytes 4/5 (0x04 and 0x14 appear), so treat a set bit 36 / 42 as the seatbelt rather than the whole byte.";
 
 CM_ "FrameID: 412";
 BO_ 1042 Brake_Pedal_Status: 8 Vector__XXX
@@ -60,8 +61,9 @@ CM_ BO_ 685 "a.k.a. VCU VCU_04_100ms_3 in gen5w_hu_rx.dbc";
 
 CM_ "FrameID: 0x418";
 BO_ 1048 Steering_Wheel_Heating: 8 Vector__XXX
- SG_ Steering_Wheel_Heating_State : 16|8@1+ (1,0) [0|255] "" Vector__XXX
+ SG_ Steering_Wheel_Heating_State : 24|1@1+ (1,0) [0|1] "" Vector__XXX
 CM_ BO_ 1048 "a.k.a. ICU ICU_08_200ms in gen5w_hu_rx.dbc";
+CM_ SG_ 1048 Steering_Wheel_Heating_State "byte 3 bit 0. Previously modelled at 16|8 (byte 2), which is 0x00 in 100% of every capture on every car (Ioniq 5 5731, Ioniq 6 1916, GV60 1063 frames), so it could only ever read Off. Byte 3 is the only byte that tracks the steering-wheel warmer: 0x01 in M-CAN_steering_wheel_warmer_only.csv (10/20 frames), M-CAN_panda_nothing_on_climate_start_both_warmers.csv (60/202) and M-CAN_panda_nothing_on_remote_lock.csv (16/100), and 0x00 in every other capture - including the dedicated left/right seat warmer, climate-on, climate-on-defrost and rear-defrost files, so it is not a generic warmer flag. Byte 5 bit 6 (0x0C -> 0x4C) is the generic one: it turns on with ANY warmer. The steering-wheel captures are only a few seconds long, so whether byte 3 bit 0 is a latched state or the press event itself is not settled.";
 
 CM_ "FrameID: 0x438";
 BO_ 1080 RearLeft_Seat_Heating: 8 Vector__XXX
@@ -119,6 +121,8 @@ CM_ "Probably wrong: unsigned int, and this byte doesn't change in my logs. --TR
 BO_ 550 Ambient_Temperature: 8 Vector__XXX
  SG_ Outdoor_Temperature : 24|8@1+ (1,-40) [-40|215] "C" Vector__XXX
 CM_ BO_ 550 "a.k.a. CLU CLU_02_100ms_1 in gen5w_hu_rx.dbc";
+CM_ SG_ 550 Outdoor_Temperature "byte 3. The bit placement matches the official CLU_OutTempCSta (24|8@1+ (1,-40) [-40|215]) in BO_ 549 CLU_02_100ms of dbcs/dbcs/HMVS4_CAN-FD_DBC_3Gen_R3_rev2.dbc:178, whose VAL_ makes 0..100 = -40..60 C, 101..254 = Reserved and 255 = Invalid. Every Ioniq 5 capture on disk (old/ and current folders, M-CAN and I-CAN) reads 0xFF = 255 = Invalid in this byte, so the -40 offset reports a nonsense 215 C unless 255 is treated as no-data. Bytes 4-7 carry session-stable values of unknown meaning, so a real ambient value may live there instead; unresolved.";
+VAL_ 550 Outdoor_Temperature 255 "Invalid" ;
 
 CM_ "FrameID: 0x227";
 BO_ 551 Odometer: 8 Vector__XXX
@@ -158,7 +162,7 @@ VAL_ 199  Utility_Mode                 128 "Utility_Mode_Request" 0 "Not_Utility
 VAL_ 199  Battery_Preconditioning_0    240 "Conditioning_Mode_Enable" 232 "Conditioning_Mode_Disable" 224 "Command_Trailer" 64 "Precond_Start" 16 "Conditioning_Mode_Enable_Alt" 0 "Stop_Phase1_Or_Idle";
 VAL_ 199  Battery_Preconditioning_1    7 "Trailer_Operand" 3 "Precond_Start_Operand" 0 "None";
 VAL_ 605  Conditioning_Mode_State      128 "Enabled" 64 "Disabled";
-VAL_ 1041 Driver_Door_Indicator      51 "Open" 50 "Closed" 0 "Locked";
+VAL_ 1041 Driver_Door_Indicator      81 "Open" 80 "Closed" 0 "Locked";
 VAL_ 1041 Passenger_Seatbelt_Status  16 "Fastened" 0 "Unfastened";
 VAL_ 1041 Driver_Seatbelt_Status      4 "Fastened" 0 "Unfastened";
 VAL_ 1042 Brake_Pedal                 4 "Pressed" 0 "Not_Pressed";
@@ -350,28 +354,10 @@ VAL_ 1780 ISOTP_Flow_Status 0 "ContinueToSend" 1 "Wait" 2 "Overflow";
 VAL_ 1706 ISOTP_Flow_Status 0 "ContinueToSend" 1 "Wait" 2 "Overflow";
 
 BO_ 996 VIN_Broadcast: 8 Vector__XXX
- SG_ VIN_Frame M  :  0|8@1+ (1,0) [0|255] "" Vector__XXX
- SG_ VIN_C01 m42  : 56|8@1+ (1,0) [0|255] "" Vector__XXX
- SG_ VIN_C02 m42  : 48|8@1+ (1,0) [0|255] "" Vector__XXX
- SG_ VIN_C03 m42  : 40|8@1+ (1,0) [0|255] "" Vector__XXX
- SG_ VIN_C04 m42  : 32|8@1+ (1,0) [0|255] "" Vector__XXX
- SG_ VIN_C05 m42  : 24|8@1+ (1,0) [0|255] "" Vector__XXX
- SG_ VIN_C06 m42  : 16|8@1+ (1,0) [0|255] "" Vector__XXX
- SG_ VIN_C07 m42  :  8|8@1+ (1,0) [0|255] "" Vector__XXX
- SG_ VIN_C08 m74  : 56|8@1+ (1,0) [0|255] "" Vector__XXX
- SG_ VIN_C09 m74  : 48|8@1+ (1,0) [0|255] "" Vector__XXX
- SG_ VIN_C10 m74  : 40|8@1+ (1,0) [0|255] "" Vector__XXX
- SG_ VIN_C11 m74  : 32|8@1+ (1,0) [0|255] "" Vector__XXX
- SG_ VIN_C12 m74  : 24|8@1+ (1,0) [0|255] "" Vector__XXX
- SG_ VIN_C13 m74  : 16|8@1+ (1,0) [0|255] "" Vector__XXX
- SG_ VIN_C14 m74  :  8|8@1+ (1,0) [0|255] "" Vector__XXX
- SG_ VIN_C15 m106 : 56|8@1+ (1,0) [0|255] "" Vector__XXX
- SG_ VIN_C16 m106 : 48|8@1+ (1,0) [0|255] "" Vector__XXX
- SG_ VIN_C17 m106 : 40|8@1+ (1,0) [0|255] "" Vector__XXX
+ SG_ DATA : 0|64@1+ (1,0) [0|0] "" Vector__XXX
 
-CM_ BO_ 996 "VIN broadcast 0x3E4. Byte 0 = frame counter. VIN chars stored in reverse byte order (byte7=VIN[1], byte6=VIN[2]...). Frame 0x2A: VIN[1-7]=KMHKR81, Frame 0x4A: VIN[8-14]=CPNU058, Frame 0x6A: VIN[15-17]=627";
+CM_ BO_ 996 "0x3E4. FORMERLY modelled as a multiplexed VIN broadcast (VIN_Frame mux 42/74/106 with VIN_C01..C17, plus a comment claiming VIN[1-7]=KMHKR81, VIN[8-14]=CPNU058, VIN[15-17]=627). That structure does not appear in any capture and has been removed - this frame carries no VIN signals. Every Ioniq 5 capture on disk (1013 frames across M-CAN and I-CAN) and every Ioniq 6 capture (379 frames) carries the constant payload FE 00 00 00 00 00 00 00, whose byte 0 = 0xFE is not one of the three multiplexer keys. ev6_HU_dump/HKMC_Consolidated_CAN_Master_Map.csv assigns 0x3E4 to the Gen-2A message BMS84 (Tx=BMS), and no in-repo official DBC (dbcs/dbcs/) defines a VIN broadcast here, so the frame name VIN_Broadcast is itself unsubstantiated - it is kept only so the id stays covered.";
 
-VAL_ 996 VIN_Frame 42 "VIN_chars_01_07" 74 "VIN_chars_08_14" 106 "VIN_chars_15_17";
 CM_ BO_ 199 "Low level BMU control (0x0C7). Every command is 3 frames at 25 Hz followed by a 3-frame commit. Utility mode: D3=80 E0 07 then D3=00 E0 07. Conditioning mode enable: D4=F0 07 then D4=E0 07; disable: D4=E8 07 then D4=E0 07 (conditioning_mode_check.md, utility_mode.md). Preconditioning start: D4=40 03 then D4=E0 07; stop: D4=00 00 then D4=E0 07. A D4=10 00 pair also enabled conditioning mode in the 2026-09-07 MITM capture but is undocumented.";
 CM_ SG_ 199 Utility_Mode "byte 2 (D3): 0x80 = utility-mode request (paired with D4=E0 D5=07); 0x00 = commit phase / not utility mode";
 CM_ SG_ 199 Battery_Preconditioning_0 "byte 3 (D4) opcode: 0x00 stop phase 1, 0x10 undocumented conditioning-mode enable, 0x40 preconditioning start, 0xE0 command trailer, 0xE8 conditioning-mode disable, 0xF0 conditioning-mode enable";

@@ -59,18 +59,10 @@ VAL_ 199 Battery_Preconditioning_1 0 "Off" 3 "On" ;
 BO_ 685 BMS_Precond_Status: 8 Vector__XXX
 	SG_ Battery_Precond_State : 8|8@1+ (1,0) [0|0] "" Vector__XXX
 
-CM_ BO_ 685 "BMS_Precond_Status (0x2AD), Ioniq 5 / EV6. Byte 1 state: Ioniq 5 0x01 idle / 0x05 starting / 0x15 started; EV6 0x41 / 0x45 / 0x55. Ioniq 6 uses the extended ID 0x0A82AA03 instead.";
+CM_ BO_ 685 "BMS_Precond_Status (0x2AD), Ioniq 5 / EV6. Byte 1 state: Ioniq 5 0x01 idle / 0x05 starting / 0x15 started; EV6 0x41 / 0x45 / 0x55.";
 CM_ SG_ 685 Battery_Precond_State "byte 1 state";
 
 VAL_ 685 Battery_Precond_State 65 "Off" 69 "Preparing" 85 "On" ;
-
-BO_ 2323819011 BMS_Precond_Status_Ioniq6: 8 Vector__XXX
-	SG_ Battery_Precond_State : 8|8@1+ (1,0) [0|0] "" Vector__XXX
-
-CM_ BO_ 2323819011 "BMS_Precond_Status for Ioniq 6 (extended ID 0x0A82AA03). Same byte-1 state semantics as 0x2AD on Ioniq 5 / EV6.";
-CM_ SG_ 2323819011 Battery_Precond_State "byte 1 state";
-
-VAL_ 2323819011 Battery_Precond_State 1 "Off" 5 "Preparing" 21 "On" ;
 
 BO_ 1261 Navigation_Precond_Status: 8 Vector__XXX
 	SG_ Distance_To_Charger_1 : 40|8@1+ (1,0) [0|0] "" Vector__XXX
@@ -378,4 +370,3 @@ CM_ SG_ 719 Passenger_Temp_Cmd "byte 2 (D3): 0x01=Passenger Up, 0x80=Passenger D
 VAL_ 719 Driver_Temp_Cmd 1 "Driver_Up" 128 "Driver_Down" ;
 VAL_ 719 Passenger_Temp_Cmd 1 "Passenger_Up" 128 "Passenger_Down" ;
 
-BA_ "VFrameFormat" BO_ 2323819011 1;
