@@ -50,7 +50,7 @@ ext    = (0x0A8 << 20) | (0x2AA << 8) | 3 = 0x0A82AA03
 ```
 
 which is the `BMS_Precond_Status_Ioniq6` already recorded in
-`ioniq6-2023-2025.dbc` (`BO_ 2323819011` = bit31 | `0x0A82AA03`). **DBC
+`ioniq6-2024.dbc` (`BO_ 2323819011` = bit31 | `0x0A82AA03`). **DBC
 convention for these frames: `BO_` = 0x80000000 | the 29-bit id.**
 
 ### Prefix table — `prefix == 4 * (base >> 4)` holds for every family seen
@@ -99,7 +99,7 @@ they are worth stating explicitly: `0x05415002` matches `0x152` only in bytes
 0-2 (the three cell temperatures; its tail is `00 00 00 34 6C` here against a
 non-zero byte 4 and zero bytes 6/7 on the Ioniq 5), and `0x0BC2FA02` matches
 `0x2FC` in shape with byte 7 being the 0.5-scaled state of charge (byte 6 is
-`0x8F` in both). Both are decoded in `ioniq6-2023-2025.dbc` as
+`0x8F` in both). Both are decoded in `ioniq6-2024.dbc` as
 `Battery_Temperature_Ioniq6` and `Battery_Info_Ioniq6`.
 
 ### Media ISO-TP (head-unit bus, not part of the remap)
