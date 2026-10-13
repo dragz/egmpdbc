@@ -58,8 +58,8 @@ BO_ 199 Toggle_Battery_Preconditioning: 8 Vector__XXX
 	SG_ Battery_Preconditioning_0 : 24|8@1+ (1,0) [0|0] "" Vector__XXX
 	SG_ Battery_Preconditioning_1 : 32|8@1+ (1,0) [0|0] "" Vector__XXX
 
-CM_ BO_ 199 "Low level BMU control (preconditioning, utility mode activation; involved in start/stop). Head-unit bus frame, so the car-bus remap does not apply and the 11-bit id stands on Ioniq 6; absent from the Ioniq 6 capture on disk (command frame).";
-CM_ SG_ 199 Battery_Preconditioning_0 "byte 3";
+CM_ BO_ 199 "Low level BMU control (preconditioning, utility mode activation; involved in start/stop). Head-unit bus frame, so the car-bus remap does not apply and the 11-bit id stands on Ioniq 6.";
+CM_ SG_ 199 Battery_Preconditioning_0 "byte 3. Opcodes seen in the Ioniq 6 capture 'Car off-ready-off-accessory.csv' (12 frames): 0xE0 and 0xE1 (command trailers), plus the 0x00/0x40 forms in the CM_ of ioniq5-2022.dbc. This VAL_ only covers 0x00/0x40 - see the richer table in ioniq5-2022.dbc:158.";
 CM_ SG_ 199 Battery_Preconditioning_1 "byte 4";
 
 VAL_ 199 Battery_Preconditioning_0 0 "Off" 64 "On" ;

@@ -42,7 +42,6 @@ CM_ "    ext    = (prefix << 20) | (base << 8) | index        (id11 = base + ind
 CM_ "base = min(11-bit id of the family) - 1, index = 1..N inside the family. Decode with base = (ext >> 8) & 0xFFF, index = ext & 0xFF, id11 = base + index.";
 CM_ "The prefix rule is verified on 129 extended ids with 0 mismatches: 85 in the GV60 captures and 44 in the Ioniq 6 capture.";
 CM_ "This file lists the frames seen in ../Ioniq5_CAN/CAN_logs/other_cars/M-CAN_GV60_*.csv: all 85 remapped 29-bit frames, plus the plain 11-bit frames that ioniq5-2022.dbc / ev6-2024.dbc do not already define (those are NOT duplicated here - load those DBCs alongside this one). Where a remapped frame also exists on the Ioniq 5 / EV6 its name and signals are copied from ioniq5-2022.dbc / ev6-2024.dbc (name suffixed _GV60), so the copied comments describe the shared frame; otherwise the message only carries a raw DATA signal. ONE EXCEPTION: 0x0DC37F01 (11-bit 0x380) carries a raw DATA signal because the Ioniq 5 layout does not fit the CCU-hub payload - see its CM_.";
-CM_ "Note: the CCU-hub 29-bit id space is shared with ioniq6-2023-2025.dbc (e.g. 0x00C03503 Power_Status) - in fact 52 of this file's 85 extended ids also occur in the Ioniq 6 capture - so load this file for GV60 captures and that one for Ioniq 6 captures, never both.";
 CM_ "DBC convention for extended frames: BO_ = 0x80000000 | ext, plus BA_ \"VFrameFormat\" BO_ <id> 1 (ExtendedCAN).";
 
 BO_ 156 GV60_x0000009C: 8 Vector__XXX
