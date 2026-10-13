@@ -115,7 +115,7 @@ Sounds-of-Nature pair (`0x6E0` / `0x6BE`) is *not* confirmed by any capture:
 `0x6E0` is never transmitted, and `0x6BE` appears exactly once as a lone flow
 control frame (`30 00 03`) while `0x4CE` byte 0 = `0x14` (media off), i.e. the
 fallback path that pins the media type to `0x04`. See `BO_ 1750` /
-`BO_ 1718` and the media `CM_` notes in `ioniq6-2023-2025.dbc`.
+`BO_ 1718` and the media `CM_` notes in `ioniq6-2024.dbc`.
 
 ### Consequences
 
