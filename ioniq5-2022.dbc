@@ -139,7 +139,7 @@ CM_ "FrameID: 0x31B";
 BO_ 795 Climate_Status: 8 Vector__XXX
  SG_ Climate_Fan_Speed          : 24|4@1+ (1,0) [0|15] "" Vector__XXX
  SG_ Climate_Airflow_Direction  : 28|4@1+ (1,0) [0|15] "" Vector__XXX
- SG_ Climate_Recirculation_State: 34|1@1+ (1,0) [0|1]  "" Vector__XXX
+ SG_ Climate_Recirculation_State : 34|1@1+ (1,0) [0|1]  "" Vector__XXX
 CM_ BO_ 795 "a.k.a. DATC DATC_31_1000ms_1 in gen5w_hu_rx.dbc";
 
 CM_ BO_ 896 "First three bytes are a rolling counter (byte 0/1 non-monotonic, byte 2 increments with temp step).";
@@ -355,9 +355,28 @@ VAL_ 1780 ISOTP_Flow_Status 0 "ContinueToSend" 1 "Wait" 2 "Overflow";
 VAL_ 1706 ISOTP_Flow_Status 0 "ContinueToSend" 1 "Wait" 2 "Overflow";
 
 BO_ 996 VIN_Broadcast: 8 Vector__XXX
- SG_ DATA : 0|64@1+ (1,0) [0|0] "" Vector__XXX
+ SG_ VIN_Frame M  :  0|8@1+ (1,0) [0|255] "" Vector__XXX
+ SG_ VIN_C01 m42  : 56|8@1+ (1,0) [0|255] "" Vector__XXX
+ SG_ VIN_C02 m42  : 48|8@1+ (1,0) [0|255] "" Vector__XXX
+ SG_ VIN_C03 m42  : 40|8@1+ (1,0) [0|255] "" Vector__XXX
+ SG_ VIN_C04 m42  : 32|8@1+ (1,0) [0|255] "" Vector__XXX
+ SG_ VIN_C05 m42  : 24|8@1+ (1,0) [0|255] "" Vector__XXX
+ SG_ VIN_C06 m42  : 16|8@1+ (1,0) [0|255] "" Vector__XXX
+ SG_ VIN_C07 m42  :  8|8@1+ (1,0) [0|255] "" Vector__XXX
+ SG_ VIN_C08 m74  : 56|8@1+ (1,0) [0|255] "" Vector__XXX
+ SG_ VIN_C09 m74  : 48|8@1+ (1,0) [0|255] "" Vector__XXX
+ SG_ VIN_C10 m74  : 40|8@1+ (1,0) [0|255] "" Vector__XXX
+ SG_ VIN_C11 m74  : 32|8@1+ (1,0) [0|255] "" Vector__XXX
+ SG_ VIN_C12 m74  : 24|8@1+ (1,0) [0|255] "" Vector__XXX
+ SG_ VIN_C13 m74  : 16|8@1+ (1,0) [0|255] "" Vector__XXX
+ SG_ VIN_C14 m74  :  8|8@1+ (1,0) [0|255] "" Vector__XXX
+ SG_ VIN_C15 m106 : 56|8@1+ (1,0) [0|255] "" Vector__XXX
+ SG_ VIN_C16 m106 : 48|8@1+ (1,0) [0|255] "" Vector__XXX
+ SG_ VIN_C17 m106 : 40|8@1+ (1,0) [0|255] "" Vector__XXX
 
-CM_ BO_ 996 "0x3E4. FORMERLY modelled as a multiplexed VIN broadcast (VIN_Frame mux 42/74/106 with VIN_C01..C17, plus a comment claiming VIN[1-7]=KMHKR81, VIN[8-14]=CPNU058, VIN[15-17]=627). That structure does not appear in any capture and has been removed - this frame carries no VIN signals. Every Ioniq 5 capture on disk (1013 frames across M-CAN and I-CAN) and every Ioniq 6 capture (379 frames) carries the constant payload FE 00 00 00 00 00 00 00, whose byte 0 = 0xFE is not one of the three multiplexer keys. ev6_HU_dump/HKMC_Consolidated_CAN_Master_Map.csv assigns 0x3E4 to the Gen-2A message BMS84 (Tx=BMS), and no in-repo official DBC (dbcs/dbcs/) defines a VIN broadcast here, so the frame name VIN_Broadcast is itself unsubstantiated - it is kept only so the id stays covered.";
+CM_ BO_ 996 "0x3E4. The VIN embedding here appears to be region-specific and does not work on North American cars. Modelled as a multiplexed VIN broadcast: VIN_Frame mux 42/74/106 with VIN_C01..C17, chars in reverse byte order (byte7=VIN[1], byte6=VIN[2]...), mux 0x2A = VIN[1-7], 0x4A = VIN[8-14], 0x6A = VIN[15-17].";
+
+VAL_ 996 VIN_Frame 42 "VIN_chars_01_07" 74 "VIN_chars_08_14" 106 "VIN_chars_15_17";
 
 CM_ BO_ 199 "Low level BMU control (0x0C7). Every command is 3 frames at 25 Hz followed by a 3-frame commit. Utility mode: D3=80 E0 07 then D3=00 E0 07. Conditioning mode enable: D4=F0 07 then D4=E0 07; disable: D4=E8 07 then D4=E0 07 (conditioning_mode_check.md, utility_mode.md). Preconditioning start: D4=40 03 then D4=E0 07; stop: D4=00 00 then D4=E0 07. A D4=10 00 pair also enabled conditioning mode in the 2026-09-07 MITM capture but is undocumented.";
 CM_ SG_ 199 Utility_Mode "byte 2 (D3): 0x80 = utility-mode request (paired with D4=E0 D5=07); 0x00 = commit phase / not utility mode";

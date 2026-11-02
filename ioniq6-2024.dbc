@@ -132,6 +132,19 @@ CM_ BO_ 2344811010 "Battery_Info for Ioniq 6: 29-bit 0x0BC2FA02, the CCU-hub rem
 CM_ SG_ 2344811010 State_Of_Charge "byte 7, factor 0.5";
 
 
+BO_ 2302827011 Charge_Limit_DC_Status_Ioniq6: 8 Vector__XXX
+	SG_ DC_Charge_Limit : 8|8@1+ (0.5,0) [0|100] "%" Vector__XXX
+	SG_ Conditioning_Mode_State : 40|8@1+ (1,0) [0|255] "" Vector__XXX
+
+CM_ BO_ 2302827011 "DC charge limit + battery conditioning mode for Ioniq 6: 29-bit 0x09425A03, the CCU-hub remap of 11-bit 0x25D (BMS_04_100ms_3 in gen5w_hu_rx.dbc; Charge_Limit_DC_Status_25D in ioniq5-2022.dbc, BO_ 605). Family 0x25B-0x25E = BMS_04_100ms_1..4, base 0x25A, index 3 (prefix = 4*(0x25A>>4) = 0x094). Confirmed on the bus, not just derived: the whole family is transmitted on the CCU hub as 0x09425A01/02/03/04 -> 0x25B/0x25C/0x25D/0x25E, 744 frames each over 327.9 s in 'Battery conditioning test.csv'. NB the 0x25x block is split into per-group families: 0x09425001/02/03 -> 0x251/0x252/0x253 (base 0x250) and 0x09425501..04 -> 0x256..0x259 (base 0x255), so 0x25D is base 0x25A / index 3, NOT base 0x250 / index 0x0D.";
+CM_ SG_ 2302827011 DC_Charge_Limit "byte 1, factor 0.5 -> percent; 0xA0 = 160 = 80 % in the conditioning capture (Ioniq 5 0x25D read 0xC8 = 100 %)";
+CM_ SG_ 2302827011 Conditioning_Mode_State "byte 5: 0x80 = enabled, 0x40 = disabled. Only 0x80 was observed on Ioniq 6 - see the CAUTION below.";
+CM_ "Observed shape for 0x09425A03: 00 A0 00 00 00 80 C0 71, with byte 2 constant 0x3A and byte 3 stepping 00/01/02 in the 00 A0 3A xx 00 80 C0 71 forms (744 frames over 327.9 s at a ~400 ms period: median 400.0 ms, p99 407.1 ms; that is 2.5 Hz, not the Ioniq 5 0x25D's 5 Hz). Bytes 2-3 and 7 differ from the Ioniq 5 frame (00 00 ... C0 70) and are undecoded - do not carry the Ioniq 5 tail semantics across.";
+CM_ "CAUTION: only the enabled state (0x80) of Conditioning_Mode_State was observed on Ioniq 6; 'Battery conditioning test.csv' is a conditioning capture and the mode is on throughout. The 0x40 'Disabled' value in the VAL_ table is carried over from the Ioniq 5 0x25D table, not observed here.";
+
+VAL_ 2302827011 Conditioning_Mode_State 128 "Enabled" 64 "Disabled" ;
+
+
 BO_ 1096 Steering_Wheel_Buttons: 8 Vector__XXX
 	SG_ Steering_Wheel_Other_Button : 16|8@1+ (1,0) [0|0] "" Vector__XXX
 	SG_ Steering_Wheel_Star_Button : 40|8@1+ (1,0) [0|0] "" Vector__XXX
@@ -202,3 +215,4 @@ BA_ "VFrameFormat" BO_ 2160080131 1;
 BA_ "VFrameFormat" BO_ 2323819011 1;
 BA_ "VFrameFormat" BO_ 2235650050 1;
 BA_ "VFrameFormat" BO_ 2344811010 1;
+BA_ "VFrameFormat" BO_ 2302827011 1;
