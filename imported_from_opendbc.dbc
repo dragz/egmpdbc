@@ -38,7 +38,7 @@ CM_ "imported_from_opendbc.dbc";
 CM_ "source: /home/trh/Packages/opendbc";
 CM_ "logs: /home/trh/Packages/Ioniq5_CAN/CAN_logs";
 CM_ "only messages validated against the logs are defined below";
-CM_ "every BO_/SG_/VAL_/SG_MUL_VAL_ line is copied verbatim from the opendbc source file named in its comment";
+CM_ "every BO_/SG_/VAL_/SG_MUL_VAL_ line is copied verbatim from the opendbc source file named in its comment, except where the source line is invalid and is noted next to the affected frame";
 CM_ "Not imported, although the frame id matches the logs:";
 CM_ "0x316  opendbc EMS11/EMS1 layout is wrong here: bytes 3-7 are constant, byte 2 is an alive counter, bytes 0-1 a checksum. The 'N = 304 rpm' reading is the counter.";
 CM_ "0x251  opendbc MDPS12 layout is wrong here: CF_Mdps_Chksum2 (byte 3) is always 0x00 and bytes 4-7 are always 0; only the byte-2 counter lines up (+2 per frame).";
@@ -180,9 +180,9 @@ BO_ 1157 LFAHDA_MFC: 8 XXX
  SG_ NEW_SIGNAL_7 : 27|37@1+ (1,0) [0|0] "" XXX
 
 VAL_ 1157 HDA_Icon_State 0 "no_hda" 1 "white_hda" 2 "green_hda";
-VAL_ 1157 LFA_SysWarning 0 "no_message" 1 "switching_to_hda" 2 "switching_to_scc" 3 "lfa_error" 4 "check_hda" 5 "keep_hands_on_wheel_orange" 6 "keep_hands_on_wheel_red";
 VAL_ 1157 LFA_Icon_State 0 "no_wheel" 1 "white_wheel" 2 "green_wheel" 3 "green_wheel_blink";
-VAL_ 1157 HDA_SysWarning 0 "no_message" 1 "driving_convenience_systems_cancelled" 2 "highway_drive_assist_system_cancelled";
+
+CM_ "VAL_ 1157 LFA_SysWarning and VAL_ 1157 HDA_SysWarning are deliberately omitted: opendbc/dbc/hyundai_palisade_2023_generated.dbc declares those choice tables under BO_ 1157 but never defines LFA_SysWarning or HDA_SysWarning as signals in that frame (upstream defect), and cantools rejects VAL_ entries that no SG_ claims. Their decoded meanings if the signals are ever located: LFA_SysWarning 0=no_message 1=switching_to_hda 2=switching_to_scc 3=lfa_error 4=check_hda 5=keep_hands_on_wheel_orange 6=keep_hands_on_wheel_red; HDA_SysWarning 0=no_message 1=driving_convenience_systems_cancelled 2=highway_drive_assist_system_cancelled.";
 
 CM_ "0x4D8 CLUSTER_INFO from opendbc/dbc/hyundai_canfd_generated.dbc: T2 DISTANCE_UNIT decodes to Miles";
 BO_ 1240 CLUSTER_INFO: 8 XXX

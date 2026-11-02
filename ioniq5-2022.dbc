@@ -139,7 +139,7 @@ CM_ "FrameID: 0x31B";
 BO_ 795 Climate_Status: 8 Vector__XXX
  SG_ Climate_Fan_Speed          : 24|4@1+ (1,0) [0|15] "" Vector__XXX
  SG_ Climate_Airflow_Direction  : 28|4@1+ (1,0) [0|15] "" Vector__XXX
- SG_ Climate_Recirculation_State: 34|1@1+ (1,0) [0|1]  "" Vector__XXX
+ SG_ Climate_Recirculation_State : 34|1@1+ (1,0) [0|1]  "" Vector__XXX
 CM_ BO_ 795 "a.k.a. DATC DATC_31_1000ms_1 in gen5w_hu_rx.dbc";
 
 CM_ BO_ 896 "First three bytes are a rolling counter (byte 0/1 non-monotonic, byte 2 increments with temp step).";
