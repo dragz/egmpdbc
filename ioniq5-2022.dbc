@@ -143,6 +143,7 @@ BO_ 795 Climate_Status: 8 Vector__XXX
 CM_ BO_ 795 "a.k.a. DATC DATC_31_1000ms_1 in gen5w_hu_rx.dbc";
 
 CM_ BO_ 896 "First three bytes are a rolling counter (byte 0/1 non-monotonic, byte 2 increments with temp step).";
+CM_ BO_ 896 "Bytes 0-1 do not appear to be a rolling counter on NA cars: they stay constant per transmitting node/state (3A 85 = HVAC running, AD D7 = HVAC off, A8 33 / C4 50 / 38 B7 / EB F0 / 75 11 / 31 04 = other nodes and transition states), and byte 2 is 00, 01 or FF. Raw 0 is the off state (AD D7 FF 00 00 00 00 01), not a 14 C setpoint. Measured 2026-10/11 on M-CAN and the I-CAN tap: 0x380 adopts a setpoint 1.7 s AFTER byte 1 of 0x39B (D2) carries the same code, with byte 4 of 0x2AC (D5) relaying it on the car bus in between.";
 BO_ 896 Climate_Temperature: 8 Vector__XXX
  SG_ Driver_Temp_Raw    : 24|8@1+ (0.5,14) [14|32] "C" Vector__XXX
  SG_ Passenger_Temp_Raw : 32|8@1+ (0.5,14) [14|32] "C" Vector__XXX
@@ -502,11 +503,33 @@ CM_ SG_ 1184 Sync_Request "byte 3 (D4): 0x07=Sync_Off, 0x0B=Sync_On, 0x0F=Applie
 
 VAL_ 1184 Sync_Request 7 "Sync_Off" 11 "Sync_On" 15 "Applied" ;
 
+CM_ "FrameID: 0x4F1 (Remote_Session_Status) - head-unit 1 Hz status frame; byte 1 carries the remote-session state.";
+BO_ 1265 Remote_Session_Status: 8 Vector__XXX
+ SG_ Remote_Session : 8|8@1+ (1,0) [0|255] "" Vector__XXX
+
+CM_ BO_ 1265 "Remote_Session_Status (0x4F1): 1 Hz head-unit frame, bytes 2-7 constant 00 in every capture. Byte 1 = 0xF0 when the head unit is in its long-idle state, 0xC0 when awake and idle, 0xD0 while a remote action is in flight. The C0->D0 edge is a 3-frame burst at 40 ms, then holds at 1 Hz for 7-12 s, then closes with a 3-frame C0 burst; every 0x4A2 burst re-opens or extends the window. A cloud start from a sleeping car is F0 -> C0 (3.0 s) -> D0, and only the D0 edge carries the 0x4A2 session-open burst, so D0 is a window, not a latch. Not modelled by any other DBC.";
+CM_ SG_ 1265 Remote_Session "byte 1: 0xF0 = asleep/idle, 0xC0 = awake, 0xD0 = remote window open";
+
+VAL_ 1265 Remote_Session 192 "Awake" 208 "Remote_Window" 240 "Asleep_Idle" ;
+
 BO_ 1186 Seat_Heat_Vent_Control: 8 Vector__XXX
 	SG_ Seat_Level_Passenger : 32|4@1+ (1,0) [0|15] "" Vector__XXX
 	SG_ Seat_Level_Driver    : 36|4@1+ (1,0) [0|15] "" Vector__XXX
+	SG_ Command_Mask : 16|8@1+ (1,0) [0|255] "" Vector__XXX
+	SG_ Command_Byte : 24|8@1+ (1,0) [0|255] "" Vector__XXX
+	SG_ Apply_Flag : 40|8@1+ (1,0) [0|255] "" Vector__XXX
+	SG_ State_Byte : 48|8@1+ (1,0) [0|255] "" Vector__XXX
 
 CM_ BO_ 1186 "Seat_Heat_Vent_Control (0x4A2): D5 (byte 4). High nibble = driver, low nibble = passenger. F = idle/no-change. Ioniq5 values: 8=High, 7=Medium, 6=Low, 2=Off.";
+CM_ BO_ 1186 "Seat_Heat_Vent_Control (0x4A2) is really the head unit's generic remote-comfort command. Bytes 0/1 (D1/D2) are always 00 00. Byte 2 (D3) = command mask; byte 3 (D4) = command byte, bit 7 = request->apply commit; byte 4 (D5) = seat levels (high nibble driver, low nibble passenger: 2=Off, 6=Low, 7=Medium, 8=High, F=idle/no-change), which is why the apply phase's FF FF reads as Idle; byte 5 (D6) = 0xFF only in the apply phase; byte 6 (D7) = function/state byte. Every phase is 3 frames at ~25 Hz and the second phase 120 ms later repeats the mask with byte 2 = 0xFF ('apply'). Capture notes number the bytes D0..D7 (0-based).";
+CM_ SG_ 1186 Command_Mask "byte 2 (D3): 0x0F = climate start, 0x7F = climate + rear/side defrost, 0xDF = climate + seat warmers, 0xF3 = lock/unlock or session-open, 0xFF = apply/refresh";
+CM_ SG_ 1186 Command_Byte "byte 3 (D4): bit 7 set in the apply phase (0x43->0xC3). 0x03 in local presses, 0x43/0xC3 in every 2026-11-04 cloud capture; bit 6 is unexplained.";
+CM_ SG_ 1186 Apply_Flag "byte 5 (D6): 0xFF in the apply burst, 0x00 in the request burst";
+CM_ SG_ 1186 State_Byte "byte 6 (D7): 0x00 plain climate, 0xF0 with front defrost / steering-wheel warmer (request and apply), 0xC0 then 0x40 = lock, 0xD0 then 0xF0 = unlock";
+
+VAL_ 1186 Command_Mask 15 "Climate_Start" 127 "Climate_Rear_Side_Defrost" 223 "Climate_Warmers" 243 "Lock_Unlock_or_Session_Open" 255 "Apply_or_Refresh" ;
+VAL_ 1186 Command_Byte 3 "Local_Request" 67 "Cloud_Request" 195 "Cloud_Apply" ;
+
 CM_ SG_ 1186 Seat_Level_Driver "byte 4 high nibble (mask 0xF0): 2=Off, 6=Low, 7=Med, 8=High, F=Idle";
 CM_ SG_ 1186 Seat_Level_Passenger "byte 4 low nibble (mask 0x0F): same codes as driver, F=Idle";
 
@@ -1193,9 +1216,10 @@ BO_ 683 VCU_04_100ms_1: 8 VCU
 
 CM_ BO_ 683 "VCU VCU_04_100ms_1";
 BO_ 684 VCU_04_100ms_2: 8 VCU
- SG_ DATA : 0|64@1+ (1,0) [0|0] "" VCU
+ SG_ Climate_Setpoint_Raw : 32|8@1+ (0.5,14) [14|32] "C" VCU
 
-CM_ BO_ 684 "VCU VCU_04_100ms_2";
+CM_ BO_ 684 "VCU VCU_04_100ms_2 (0x2AC). Byte 4 (D5) carries the cabin climate setpoint in the same (0.5,14) encoding as 0x380 and 0x39B: 00 FF FF 40 06 40 84 50 = 17.0 C, 00 FF FF 40 10 40 84 50 = 22.0 C, 00 FF FF 40 16 40 84 50 = 25.0 C; the HVAC-off payload is 00 FF FF 00 00 40 00 50 (raw 0), so the field is only meaningful while the HVAC runs. Timing (2026-11-03 defrost captures): 0x39B byte 1 (D2) changes first, 0x2AC byte 4 (D5) follows ~0.5 s, 0x380 reports it another ~1.2 s later. Remaining bytes not decoded (appear to be status/counter).";
+CM_ SG_ 684 Climate_Setpoint_Raw "byte 4 (D5): 0x06=17.0 C, 0x10=22.0 C, 0x11=22.5 C, 0x12=23.0 C, 0x16=25.0 C; 0x00 = HVAC off";
 BO_ 686 VCU_04_100ms_4: 8 VCU
  SG_ DATA : 0|64@1+ (1,0) [0|0] "" VCU
 
@@ -1493,9 +1517,20 @@ BO_ 920 MCU_04_200ms_3: 8 MCU
 
 CM_ BO_ 920 "MCU MCU_04_200ms_3";
 BO_ 923 TMU_01_200ms: 8 TMU
- SG_ DATA : 0|64@1+ (1,0) [0|0] "" TMU
+ SG_ Session_State : 0|8@1+ (1,0) [0|255] "" TMU
+ SG_ Setpoint_Raw : 8|8@1+ (0.5,14) [14|32] "C" TMU
+ SG_ Session_Counter : 24|8@1+ (1,0) [0|63] "" TMU
+ SG_ Command_Class : 40|8@1+ (1,0) [0|255] "" TMU
+ SG_ Session_Phase : 48|8@1+ (1,0) [0|255] "" TMU
 
-CM_ BO_ 923 "TMU TMU_01_200ms";
+CM_ BO_ 923 "TMU_01_200ms (0x39B) - the telematics side of a remote climate / lock / charge session. Seen on I-CAN only, never on M-CAN. Idle traffic is 00 00 00 00 00 03 10 00; a live session is 50 <setpoint> 00 <counter> 00 03 10 00 at 5 Hz, and the 00 03 10 00 tail clears to zeros ~8.3 s in. Byte 1 (D2) is the climate setpoint (0x06=17.0, 0x10=22.0, 0x11=22.5, 0x12=23.0 C) and it LEADS the matching code in 0x2AC byte 4 (~0.5 s) and 0x380 bytes 3-6 (~1.7 s) in all four 2026-11-03 captures, so the HVAC reports what this frame announces.";
+CM_ SG_ 923 Setpoint_Raw "byte 1 (D2): raw setpoint, 0x06=17.0 C, 0x10=22.0 C, 0x16=25.0 C. 0x00 = no setpoint announced (idle).";
+CM_ SG_ 923 Session_Counter "byte 3 (D4): seen stepping +0x04 and wrapping at 0x40 (16 values over 3 s at 5 Hz); one 0x01 was seen at a session start, so the step rule is not fully understood.";
+CM_ SG_ 923 Command_Class "byte 5 (D6): 0x01 lock/unlock, 0x02 charge limit, 0x03 climate. Not settled: a cloud climate start used 0x01.";
+CM_ SG_ 923 Session_Phase "byte 6 (D7): 0x10 normally, 0x14 in the climate closing frame (40 06 00 18 00 03 14 00).";
+
+VAL_ 923 Session_State 0 "Pending_or_Idle" 64 "Closing" 80 "Running" ;
+VAL_ 923 Command_Class 1 "Lock_Unlock" 2 "Charge_Limit" 3 "Climate" ;
 BO_ 929 TPMS_01_200ms_1: 8 TPMS
  SG_ DATA : 0|64@1+ (1,0) [0|0] "" TPMS
 
