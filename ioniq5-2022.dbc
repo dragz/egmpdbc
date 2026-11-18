@@ -389,12 +389,15 @@ CM_ BO_ 1096 "Steering-wheel buttons (0x448): star, mode, speak, call, volume, s
 
 BO_ 56 Power_Status: 8 Vector__XXX
 	SG_ Power_Status_Ready : 0|4@1+ (1,0) [0|0] "" Vector__XXX
+	SG_ Power_Status_Detail : 8|8@1+ (1,0) [0|255] "" Vector__XXX
 CM_ BO_ 56 "a.k.a. VCU VCU_01_10ms_3 in gen5w_hu_rx.dbc";
 
-CM_ BO_ 56 "POWER_STATUS (0x038) power/READY frame. LS nibble of byte 0: 0x01 = awake but off (with some lag), 0x04 = READY.";
+CM_ BO_ 56 "POWER_STATUS (0x038) power/READY frame. LS nibble of byte 0: 0x01 = awake but off (with some lag), 0x02 = ON, 0x04 = READY, 0x06 = charging/plugged in OR remotely woken up. Byte 1 = 0x8D when plugged in; byte 1 = 0xAB when remotely woken up.";
 CM_ SG_ 56 Power_Status_Ready "LS nibble of byte 0";
+CM_ SG_ 56 Power_Status_Detail "byte 1 (D2): 0x8D = plugged in / charging; 0xAB = VCU boot/wake transient (1-6 frames, remote wake), not a plug state.";
 
 VAL_ 56 Power_Status_Ready 1 "Awake_Not_Ready" 4 "Ready" ;
+VAL_ 56 Power_Status_Detail 141 "Plugged_In" 171 "Boot_Wake_Transient" ;
 
 BO_ 1256 Distance_Flag_Display: 8 Vector__XXX
 	SG_ Distance_Unit : 0|4@1+ (1,0) [0|0] "" Vector__XXX
