@@ -50,9 +50,10 @@ BO_ 2160080131 Power_Status_Ioniq6: 8 Vector__XXX
 	SG_ Power_Status_Ready : 0|4@1+ (1,0) [0|0] "" Vector__XXX
 
 CM_ BO_ 2160080131 "POWER_STATUS for Ioniq 6: 29-bit 0x00C03503, the CCU-hub remap of 11-bit 0x038 (family 0x036-0x039, base 0x035, index 3). LS nibble of byte 0: 0x01 = awake but off, 0x04 = READY. Observed as 01 00 00 00 00 00 06 00 (awake, not READY) throughout an Ioniq 6 capture.";
+CM_ BO_ 2160080131 "0x06 = charging/plugged in OR remotely woken up. Byte 1 = 0x8D when plugged in; byte 1 = 0xAB when remotely woken up. Not yet observed on an Ioniq 6 capture.";
 CM_ SG_ 2160080131 Power_Status_Ready "LS nibble of byte 0";
 
-VAL_ 2160080131 Power_Status_Ready 1 "Awake_Not_Ready" 4 "Ready" ;
+VAL_ 2160080131 Power_Status_Ready 0 "Off_Asleep" 1 "Off_Awake" 2 "ON_Not_Ready" 4 "READY" 6 "Plugged_In_Or_Remote_Wake" ;
 
 BO_ 199 Toggle_Battery_Preconditioning: 8 Vector__XXX
 	SG_ Battery_Preconditioning_0 : 24|8@1+ (1,0) [0|0] "" Vector__XXX

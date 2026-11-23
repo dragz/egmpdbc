@@ -39,9 +39,10 @@ BO_ 56 Power_Status: 8 Vector__XXX
 	SG_ Power_Status_Ready : 0|4@1+ (1,0) [0|0] "" Vector__XXX
 
 CM_ BO_ 56 "POWER_STATUS (0x038) power/READY frame. LS nibble of byte 0: 0x01 = awake but off (with some lag), 0x04 = READY.";
+CM_ BO_ 56 "0x06 = charging/plugged in OR remotely woken up. Byte 1 = 0x8D when plugged in; byte 1 = 0xAB when remotely woken up.";
 CM_ SG_ 56 Power_Status_Ready "LS nibble of byte 0";
 
-VAL_ 56 Power_Status_Ready 1 "Awake_Not_Ready" 4 "Ready" ;
+VAL_ 56 Power_Status_Ready 0 "Off_Asleep" 1 "Off_Awake" 2 "ON_Not_Ready" 4 "READY" 6 "Plugged_In_Or_Remote_Wake" ;
 
 BO_ 199 Toggle_Battery_Preconditioning: 8 Vector__XXX
 	SG_ Battery_Preconditioning_0 : 24|8@1+ (1,0) [0|0] "" Vector__XXX
