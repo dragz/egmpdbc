@@ -392,12 +392,14 @@ BO_ 56 Power_Status: 8 Vector__XXX
 	SG_ Power_Status_Detail : 8|8@1+ (1,0) [0|255] "" Vector__XXX
 CM_ BO_ 56 "a.k.a. VCU VCU_01_10ms_3 in gen5w_hu_rx.dbc";
 
-CM_ BO_ 56 "POWER_STATUS (0x038) power/READY frame. LS nibble of byte 0: 0x01 = awake but off (with some lag), 0x02 = ON, 0x04 = READY, 0x06 = charging/plugged in OR remotely woken up. Byte 1 = 0x8D when plugged in; byte 1 = 0xAB when remotely woken up.";
-CM_ SG_ 56 Power_Status_Ready "LS nibble of byte 0";
-CM_ SG_ 56 Power_Status_Detail "byte 1 (D2): 0x8D = plugged in / charging; 0xAB = VCU boot/wake transient (1-6 frames, remote wake), not a plug state.";
+CM_ BO_ 56 "POWER_STATUS (0x038) power/READY frame. LS nibble of byte 0: 0x00 = asleep, 0x01 = awake but off, 0x02 = ON (not ready), 0x04 = READY, 0x06 = plugged in or remotely woken up. Byte 1: 0x8D = charging session active, 0xAB = VCU boot/wake transient, 0x00 = idle.";
+CM_ BO_ 56 "CHARGING STATUS based on logs in tylerharvey/Ioniq5_CAN/CAN_logs/WiCAN_MITM: charging = 06 8D 00 00 60|20 39 82 D4 (51 frames in M-CAN_MITM_charging_9p6kW.csv); plugged but idle = 01 00 00 00 60 39 02 00 (72 frames in M-CAN_MITM_plugged_in_not_charging.csv).";
+CM_ BO_ 56 "Byte 1 = 0x8D tracks the charging SESSION, not the connector. In M-CAN_MITM_plugged_in_car-off_charging.csv the cable stayed plugged for all 43.8 s, yet byte 1 flips 0x8D -> 0x00 at t = 10.24 s and back to 0x8D at t = 16.48 s, with byte 0 flipping 0x06 -> 0x01 in step. So 0x8D does not mean the plug is present.";
+CM_ SG_ 56 Power_Status_Ready "LS nibble of byte 0 (mask 0x0F)";
+CM_ SG_ 56 Power_Status_Detail "byte 1 (D2): 0x8D = charging session active (not mere plug presence); 0xAB = VCU boot/wake transient (1-6 frames, remote wake); 0x00 = plugged-but-idle or unplugged.";
 
 VAL_ 56 Power_Status_Ready 0 "Off_Asleep" 1 "Off_Awake" 2 "ON_Not_Ready" 4 "READY" 6 "Plugged_In_Or_Remote_Wake" ;
-VAL_ 56 Power_Status_Detail 141 "Plugged_In" 171 "Boot_Wake_Transient" ;
+VAL_ 56 Power_Status_Detail 0 "Idle" 141 "Charging_Session_Active" 171 "Boot_Wake_Transient" ;
 
 BO_ 1256 Distance_Flag_Display: 8 Vector__XXX
 	SG_ Distance_Unit : 0|4@1+ (1,0) [0|0] "" Vector__XXX
@@ -426,6 +428,7 @@ BO_ 338 Battery_Temperature: 8 Vector__XXX
 CM_ BO_ 338 "a.k.a. BMS BMS_10_100ms_2 in gen5w_hu_rx.dbc";
 
 CM_ BO_ 338 "Battery temperature (0x152): data[0] = min cell temp, data[1] = max cell temp (int8, deg C).";
+CM_ BO_ 338 "Byte 4 (not declared above): 0x00 whenever no charging session is active, and 0x2F / 0x33 / 0x48 (int: 47 / 51 / 72) during charging sessions. Declared meaning unknown: it is not a power in any plausible scale, and it also climbs across a session, so it reads more like a charger (OBC) or pack temperature than a power. Speculation only.";
 CM_ SG_ 338 Battery_Temperature_Min "byte 0, signed deg C";
 CM_ SG_ 338 Battery_Temperature_Max "byte 1, signed deg C";
 
@@ -477,10 +480,12 @@ CM_ SG_ 57 Power_State_Aux_Raw "byte 0 raw";
 VAL_ 57 Power_State_Aux_Raw 5 "Door_Wake_Burst_05" 7 "Door_Wake_Burst_07" 9 "Powering_Up" ;
 
 BO_ 782 Charging_Power: 8 Vector__XXX
-	SG_ Charging_Power_kW : 48|8@1+ (1,0) [0|255] "kW" Vector__XXX
+	SG_ EV6_Charging_Power_kW : 48|8@1+ (1,0) [0|255] "kW" Vector__XXX
 CM_ BO_ 782 "a.k.a. VCMS VCMS_02_100ms_4 in gen5w_hu_rx.dbc";
 
-CM_ BO_ 782 "Charging_Power (0x30E): byte 6 = charging power in kW.";
+CM_ BO_ 782 "Charging_Power (0x30E): byte 6 = charging power in kW. (EV6 only? This interpretation added by Tichael on an EV6.)";
+CM_ BO_ 782 "Byte 2 appears to be related to charging power: it has values 0x18 / 0x20 / 0x28 / 0x30 (int: 24 / 32 / 40 / 48) and tylerharvey/Ioniq5_CAN/CAN_logs/WiCAN_MITM/M-CAN_MITM_charging_9p6kW.csv reads exactly 0x30. At 0.2 kW per count that is 4.8 / 6.4 / 8.0 / 9.6 kW, which matches the 9.6 kW in that capture's name.";
+CM_ BO_ 782 "Byte 2 may be a current/power limit, not measured power: in M-CAN_MITM_plugged_in_car-off_charging.csv it stays 0x28 through the 10.2-16.4 s window in which byte 1 of 0x038 shows the session has stopped.";
 
 BO_ 1053 Climate_Driver_Only_Control: 8 Vector__XXX
 	SG_ Driver_Only_Request : 32|8@1+ (1,0) [0|255] "" Vector__XXX
@@ -595,9 +600,28 @@ BO_ 16 ACU_02_00ms: 8 ACU
 
 CM_ BO_ 16 "ACU ACU_02_00ms";
 BO_ 54 VCU_01_10ms_1: 8 VCU
- SG_ DATA : 0|64@1+ (1,0) [0|0] "" VCU
+ SG_ Counter_Low : 0|8@1+ (1,0) [0|255] "" VCU
+ SG_ Counter_High : 8|8@1+ (1,0) [0|255] "" VCU
+ SG_ CRC : 16|8@1+ (1,0) [0|255] "" VCU
+ SG_ Power_Mode : 24|8@1+ (1,0) [0|255] "" VCU
+ SG_ Off_Not_Charging : 32|8@1+ (1,0) [0|255] "" VCU
+ SG_ Reserved_5 : 40|8@1+ (1,0) [0|255] "" VCU
+ SG_ HV_State : 48|8@1+ (1,0) [0|255] "" VCU
+ SG_ Byte7_Flag : 56|8@1+ (1,0) [0|255] "" VCU
+CM_ BO_ 54 "a.k.a. VCU VCU_01_10ms_1 in gen5w_hu_rx.dbc";
 
-CM_ BO_ 54 "VCU VCU_01_10ms_1";
+CM_ BO_ 54 "These are slop comments, left to help future interpretation.";
+CM_ BO_ 54 "VCU_01_10ms_1 (0x036) power-state frame, added 2026-11-26. Bytes 0-2 are a rolling counter and CRC (every sample distinct in a 51-frame capture); bytes 3-7 are slowly varying state, byte 5 always 0x00. This frame has NO charging-exclusive bit: the 0x036 differences that highlight_bits.py reports between the charging and not-charging captures are power-mode differences, not charging.";
+CM_ BO_ 54 "Steady-state bytes 3-7 by vehicle state (bus 0): charging with the car off = 01 00 00 21 05; off and not charging = 01 10 00 20 05; ON not ready = 01 10 00 20 05; READY / driving = 51 00 00 25 05. Byte 7 is 0x05 in most captures and 0x01 in M-CAN_MITM_plugged_in_car-off_charging.csv; its meaning is unknown.";
+CM_ BO_ 54 "Bit meanings: byte 6 bit 0 (0x01) = HV live / contactors closed, set when charging OR READY, so it is not charging-specific. byte 6 bit 2 (0x04) = READY only. byte 4 bit 4 (0x10) = off and not charging. byte 3 bits 4 and 6 (0x50) = READY.";
+CM_ BO_ 54 "CHARGING PREDICATE, the only charging tell in this frame: byte 3 == 0x01 AND byte 4 == 0x00 AND (byte 6 AND 0x01). Across the 34 WiCAN_MITM captures that holds in 2528 of 2613 charging rows and in 1 of 5119 off rows.";
+CM_ SG_ 54 Power_Mode "byte 3: 0x01 = awake/off state, charging or not; 0x51 = READY";
+CM_ SG_ 54 Off_Not_Charging "byte 4: 0x10 = off and not charging; 0x00 = charging or READY";
+CM_ SG_ 54 HV_State "byte 6: bit 0 set = HV live (charging or READY); bit 2 set = READY";
+
+VAL_ 54 Power_Mode 1 "Awake_Off_Or_Charging" 81 "READY" ;
+VAL_ 54 Off_Not_Charging 0 "Charging_Or_Ready" 16 "Off_Not_Charging" ;
+VAL_ 54 HV_State 32 "HV_Idle" 33 "HV_Live_Charging" 37 "HV_Live_READY" ;
 BO_ 55 VCU_01_10ms_2: 8 VCU
  SG_ DATA : 0|64@1+ (1,0) [0|0] "" VCU
 
@@ -974,6 +998,7 @@ BO_ 414 VCMS_01_10ms_4: 8 VCMS
  SG_ DATA : 0|64@1+ (1,0) [0|0] "" VCMS
 
 CM_ BO_ 414 "VCMS VCMS_01_10ms_4";
+CM_ BO_ 414 "Byte 1 tracks the charging session: 0x00 while charging, 0x23 when not. charging byte values: 15 00 03 00 00 32 00 00, not charging byte values: 15 23 03 00 00 32 00 00. Weak discriminator: some logs have 0x00 when not charging, so byte 1 == 0x00 is necessary but not sufficient for charging.";
 BO_ 417 ADAS_CMD_20_20ms_1: 8 ADAS
  SG_ DATA : 0|64@1+ (1,0) [0|0] "" ADAS
 
@@ -1082,6 +1107,7 @@ BO_ 503 BMS_08_100ms_2: 8 BMS
  SG_ DATA : 0|64@1+ (1,0) [0|0] "" BMS
 
 CM_ BO_ 503 "BMS BMS_08_100ms_2";
+CM_ BO_ 503 "Bytes 2-3 (D3-D4) may be a power/current measurement.";
 BO_ 504 BMS_08_100ms_3: 8 BMS
  SG_ DATA : 0|64@1+ (1,0) [0|0] "" BMS
 
@@ -1178,6 +1204,7 @@ BO_ 599 LDC_01_100ms_2: 8 LDC
  SG_ DATA : 0|64@1+ (1,0) [0|0] "" LDC
 
 CM_ BO_ 599 "LDC LDC_01_100ms_2";
+CM_ BO_ 599 "Observed payloads: charging byte values: 00 93 30 1C 74 07 00 93 (bytes 1 and 7 = 0x93, byte 2 = 0x30, byte 4 = 0x74), idle byte values: 00 00 00 00 64 00 02 00. This is a better charging indicator than anything in 0x30E.";
 BO_ 600 LDC_01_100ms_3: 8 LDC
  SG_ DATA : 0|64@1+ (1,0) [0|0] "" LDC
 
@@ -1267,6 +1294,7 @@ BO_ 727 MCU_06_200ms_2: 8 MCU
  SG_ DATA : 0|64@1+ (1,0) [0|0] "" MCU
 
 CM_ BO_ 727 "MCU MCU_06_200ms_2";
+CM_ BO_ 727 "Bytes 2 and 3 clear while a charging session is active: charging 00 00 00 00 03 00 00 00, and 0x03 / 0x03 once the session stops (00 00 03 03 03 00 00 00).";
 BO_ 728 MCU_06_200ms_3: 8 MCU
  SG_ DATA : 0|64@1+ (1,0) [0|0] "" MCU
 
@@ -1307,6 +1335,12 @@ BO_ 745 OBC_01_100ms_4: 8 OBC
  SG_ DATA : 0|64@1+ (1,0) [0|0] "" OBC
 
 CM_ BO_ 745 "OBC OBC_01_100ms_4";
+
+BO_ 747 maybe_OBC_02_100ms_1: 8 OBC
+ SG_ DATA : 0|64@1+ (1,0) [0|0] "" OBC
+CM_ BO_ 747 "Name is provisional: BO_ 747 is absent from gen5w_hu_rx.dbc. Added only so the charging note below has a place to live.";
+CM_ BO_ 747 "Byte 4 tracks the charging session exactly like the MCU frame 0x396: 0x04 while charging (648 of 648 charging rows) and 0x10 when not (545 of 545 off rows). The rest of the payload varies with the drive/charge load. Speculation only.";
+
 BO_ 763 BMS_02_100ms_1: 8 BMS
  SG_ DATA : 0|64@1+ (1,0) [0|0] "" BMS
 
@@ -1511,6 +1545,7 @@ BO_ 918 MCU_04_200ms_1: 8 MCU
  SG_ DATA : 0|64@1+ (1,0) [0|0] "" MCU
 
 CM_ BO_ 918 "MCU MCU_04_200ms_1";
+CM_ BO_ 918 "Byte 4 changes with charging: 0x04 while a charging session is active and 0x10 when not. Bytes 0-3 carry a varying motor quantity? The sibling MCU frame 0x2EB (BO_ 747) shows the same byte 4 behavior.";
 BO_ 919 MCU_04_200ms_2: 8 MCU
  SG_ DATA : 0|64@1+ (1,0) [0|0] "" MCU
 
@@ -1558,6 +1593,7 @@ BO_ 950 OBC_02_200ms_1: 8 OBC
  SG_ DATA : 0|64@1+ (1,0) [0|0] "" OBC
 
 CM_ BO_ 950 "OBC OBC_02_200ms_1";
+CM_ BO_ 950 "OBC_02_200ms_1..4 (0x3B6-0x3B9) are the best charging-SESSION indicator by presence alone: absent from all 119 bus-0 ids of tylerharvey/Ioniq5_CAN/CAN_logs/WiCAN_MITM/M-CAN_MITM_plugged_in_not_charging.csv, yet present at 200 ms in every capture in which 0x038 reads 06 8D. Frame presence indicates an active charging session. Payloads are counter plus CRC in bytes 0-2 (0x3B6, 0x3B8 roll every frame) and byte 3 of 0x3B6 is temperature-like, 0x33 / 0x28 / 0x2A (51 / 40 / 42) as the charge power falls from 9.6 kW, not a power value - 51 counts would be 10.2 kW at 0.2 kW per count. 0x3B0-0x3B2 are constant 72 37 FF C7 00 00 03 C0 / 9B 3C FF 40 00 00 20 00 / 36 15 FF 02 29 2F 34 00 across every charging capture, so they look like static EVSE configuration. Still speculative.";
 BO_ 951 OBC_02_200ms_2: 8 OBC
  SG_ DATA : 0|64@1+ (1,0) [0|0] "" OBC
 
