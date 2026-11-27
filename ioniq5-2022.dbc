@@ -480,12 +480,10 @@ CM_ SG_ 57 Power_State_Aux_Raw "byte 0 raw";
 VAL_ 57 Power_State_Aux_Raw 5 "Door_Wake_Burst_05" 7 "Door_Wake_Burst_07" 9 "Powering_Up" ;
 
 BO_ 782 Charging_Power: 8 Vector__XXX
-	SG_ EV6_Charging_Power_kW : 48|8@1+ (1,0) [0|255] "kW" Vector__XXX
+	SG_ AC_Charging_Current_Limit : 16|8@1+ (1,0) [0|255] "A" Vector__XXX
 CM_ BO_ 782 "a.k.a. VCMS VCMS_02_100ms_4 in gen5w_hu_rx.dbc";
 
-CM_ BO_ 782 "Charging_Power (0x30E): byte 6 = charging power in kW. (EV6 only? This interpretation added by Tichael on an EV6.)";
-CM_ BO_ 782 "Byte 2 appears to be related to charging power: it has values 0x18 / 0x20 / 0x28 / 0x30 (int: 24 / 32 / 40 / 48) and tylerharvey/Ioniq5_CAN/CAN_logs/WiCAN_MITM/M-CAN_MITM_charging_9p6kW.csv reads exactly 0x30. At 0.2 kW per count that is 4.8 / 6.4 / 8.0 / 9.6 kW, which matches the 9.6 kW in that capture's name.";
-CM_ BO_ 782 "Byte 2 may be a current/power limit, not measured power: in M-CAN_MITM_plugged_in_car-off_charging.csv it stays 0x28 through the 10.2-16.4 s window in which byte 1 of 0x038 shows the session has stopped.";
+CM_ BO_ 782 "Byte 2 is likely an AC current limit in amps (SG_ AC_Charging_Current_Limit is a speculative name). It reads 0x30 (48 A) in BOTH tylerharvey/Ioniq5_CAN/CAN_logs/WiCAN_MITM/M-CAN_MITM_charging_9p6kW.csv and M-CAN_MITM_charging_1p4kW_AC120V.csv -- two sessions whose real charge power differs by 6.9x - and 0x28 (40 A) in the ~9.5 kW captures. Values seen: 0x18 / 0x20 / 0x28 / 0x30 = 24 / 32 / 40 / 48 A, i.e. standard EVSE circuit ratings at 1 A per count.";
 
 BO_ 1053 Climate_Driver_Only_Control: 8 Vector__XXX
 	SG_ Driver_Only_Request : 32|8@1+ (1,0) [0|255] "" Vector__XXX
@@ -1107,7 +1105,6 @@ BO_ 503 BMS_08_100ms_2: 8 BMS
  SG_ DATA : 0|64@1+ (1,0) [0|0] "" BMS
 
 CM_ BO_ 503 "BMS BMS_08_100ms_2";
-CM_ BO_ 503 "Bytes 2-3 (D3-D4) may be a power/current measurement.";
 BO_ 504 BMS_08_100ms_3: 8 BMS
  SG_ DATA : 0|64@1+ (1,0) [0|0] "" BMS
 
@@ -1324,9 +1321,10 @@ BO_ 742 OBC_01_100ms_1: 8 OBC
 
 CM_ BO_ 742 "OBC OBC_01_100ms_1";
 BO_ 743 OBC_01_100ms_2: 8 OBC
- SG_ DATA : 0|64@1+ (1,0) [0|0] "" OBC
+ SG_ Charge_Power : 24|8@1+ (0.1,0) [0|25.5] "kW" OBC
 
 CM_ BO_ 743 "OBC OBC_01_100ms_2";
+CM_ BO_ 743 "0x2E7 byte 3 carries the same charge power as 0x3B7 byte 3 (BO_ 951) but ~5 % lower, which is what the battery side of the OBC should read: 0x5B (91) = 9.1 kW vs 0x60 (96) = 9.6 kW in M-CAN_MITM_charging_9p6kW.csv; 0x5A (90) vs 0x5F (95) in M-CAN_MITM_plugged_in_charging_car-off_car-on_car-off.csv; 0x0D (13) = 1.3 kW vs 0x0E (14) = 1.4 kW in M-CAN_MITM_charging_1p4kW_AC120V.csv. The pair therefore brackets the OBC efficiency (1.3/1.4 = 93 %, 9.1/9.6 = 95 %). Byte 4 looks like a fractional extension of the same value (0x78 = 120/256). Byte 3 is 0 in every driving log. Speculative: which side is the inlet and which is the pack is inferred from the ratio, not proven.";
 BO_ 744 OBC_01_100ms_3: 8 OBC
  SG_ DATA : 0|64@1+ (1,0) [0|0] "" OBC
 
@@ -1595,13 +1593,16 @@ BO_ 950 OBC_02_200ms_1: 8 OBC
 CM_ BO_ 950 "OBC OBC_02_200ms_1";
 CM_ BO_ 950 "OBC_02_200ms_1..4 (0x3B6-0x3B9) are the best charging-SESSION indicator by presence alone: absent from all 119 bus-0 ids of tylerharvey/Ioniq5_CAN/CAN_logs/WiCAN_MITM/M-CAN_MITM_plugged_in_not_charging.csv, yet present at 200 ms in every capture in which 0x038 reads 06 8D. Frame presence indicates an active charging session. Payloads are counter plus CRC in bytes 0-2 (0x3B6, 0x3B8 roll every frame) and byte 3 of 0x3B6 is temperature-like, 0x33 / 0x28 / 0x2A (51 / 40 / 42) as the charge power falls from 9.6 kW, not a power value - 51 counts would be 10.2 kW at 0.2 kW per count. 0x3B0-0x3B2 are constant 72 37 FF C7 00 00 03 C0 / 9B 3C FF 40 00 00 20 00 / 36 15 FF 02 29 2F 34 00 across every charging capture, so they look like static EVSE configuration. Still speculative.";
 BO_ 951 OBC_02_200ms_2: 8 OBC
- SG_ DATA : 0|64@1+ (1,0) [0|0] "" OBC
+ SG_ Charge_Power : 24|8@1+ (0.1,0) [0|25.5] "kW" OBC
 
 CM_ BO_ 951 "OBC OBC_02_200ms_2";
+CM_ BO_ 951 "0x3B7 byte 3 = measured charge power, 0.1 kW per count. 0x60 (96) = 9.6 kW in tylerharvey/Ioniq5_CAN/CAN_logs/WiCAN_MITM/M-CAN_MITM_charging_9p6kW.csv, 0x5F (95) = 9.5 kW in tylerharvey/Ioniq5_CAN/CAN_logs/WiCAN_MITM/M-CAN_MITM_plugged_in_charging_car-off_car-on_car-off.csv, 0x0E (14) = 1.4 kW in tylerharvey/Ioniq5_CAN/CAN_logs/WiCAN_MITM/M-CAN_MITM_charging_1p4kW_AC120V.csv, and 0 in every driving/parked/climate capture. 96/14 = 6.857 equals 9.6/1.4 exactly, which rules out line voltage (240/120 = 2.0) and AC current (40 A/11.7 A = 3.4) and leaves power.";
+CM_ BO_ 951 "The ramp proves it is a live measurement, not a configuration value: in tylerharvey/Ioniq5_CAN/CAN_logs/WiCAN_MITM/M-CAN_MITM_plugged_in_car-off_charging.csv byte 3 climbs 0, 3, 7, 13, 18, 27, 39, 81, 84, 87, 89, 95 over t = 22.1-36.1 s, starting 5.6 s after the session restarts at t = 16.48 s. Byte 7 co-ramps 0 -> 7 and is 7 in the 240 V captures but 0 in the 120 V one; meaning unknown. The whole frame is absent when plugged in but not charging, so frame presence plus byte 3 > 0 both indicate an active session. 0x2E7 byte 3 (BO_ 743) carries the same value ~5 % lower, and 0x3B8 bytes 1-2 (BO_ 952) track it at an unresolved scale.";
 BO_ 952 OBC_02_200ms_3: 8 OBC
  SG_ DATA : 0|64@1+ (1,0) [0|0] "" OBC
 
 CM_ BO_ 952 "OBC OBC_02_200ms_3";
+CM_ BO_ 952 "0x3B8 bytes 1-2 little-endian also track charge power but the scale is unresolved, so no SG_ was added: 367 in M-CAN_MITM_charging_9p6kW.csv, 362 in M-CAN_MITM_plugged_in_charging_car-off_car-on_car-off.csv, 54 in tylerharvey/Ioniq5_CAN/CAN_logs/WiCAN_MITM/M-CAN_MITM_charging_1p4kW_AC120V.csv (ratio 6.80, matching 9.6kW/1.4kW = 6.86 ratio between two logged charging power sessions), and 2 or 0 while not charging. That is 38.2 counts per kW (367/9.6) or 38.6 (54/1.4), i.e. ~0.026 kW per count - not a round quantisation, so the field may be a different quantity (AC current, or power at a third node) rather than a copy of the 0x3B7 value. Decode as kW only after a third power point is available.";
 BO_ 953 OBC_02_200ms_4: 8 OBC
  SG_ DATA : 0|64@1+ (1,0) [0|0] "" OBC
 
