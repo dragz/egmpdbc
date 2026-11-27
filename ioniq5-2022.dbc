@@ -143,6 +143,7 @@ BO_ 795 Climate_Status: 8 Vector__XXX
 CM_ BO_ 795 "a.k.a. DATC DATC_31_1000ms_1 in gen5w_hu_rx.dbc";
 
 CM_ BO_ 896 "First three bytes are a rolling counter (byte 0/1 non-monotonic, byte 2 increments with temp step).";
+CM_ BO_ 896 "Bytes 0-1 do not appear to be a rolling counter on NA cars: they stay constant per transmitting node/state (3A 85 = HVAC running, AD D7 = HVAC off, A8 33 / C4 50 / 38 B7 / EB F0 / 75 11 / 31 04 = other nodes and transition states), and byte 2 is 00, 01 or FF. Raw 0 is the off state (AD D7 FF 00 00 00 00 01), not a 14 C setpoint. Measured 2026-10/11 on M-CAN and the I-CAN tap: 0x380 adopts a setpoint 1.7 s AFTER byte 1 of 0x39B (D2) carries the same code, with byte 4 of 0x2AC (D5) relaying it on the car bus in between.";
 BO_ 896 Climate_Temperature: 8 Vector__XXX
  SG_ Driver_Temp_Raw    : 24|8@1+ (0.5,14) [14|32] "C" Vector__XXX
  SG_ Passenger_Temp_Raw : 32|8@1+ (0.5,14) [14|32] "C" Vector__XXX
@@ -388,12 +389,17 @@ CM_ BO_ 1096 "Steering-wheel buttons (0x448): star, mode, speak, call, volume, s
 
 BO_ 56 Power_Status: 8 Vector__XXX
 	SG_ Power_Status_Ready : 0|4@1+ (1,0) [0|0] "" Vector__XXX
+	SG_ Power_Status_Detail : 8|8@1+ (1,0) [0|255] "" Vector__XXX
 CM_ BO_ 56 "a.k.a. VCU VCU_01_10ms_3 in gen5w_hu_rx.dbc";
 
-CM_ BO_ 56 "POWER_STATUS (0x038) power/READY frame. LS nibble of byte 0: 0x01 = awake but off (with some lag), 0x04 = READY.";
-CM_ SG_ 56 Power_Status_Ready "LS nibble of byte 0";
+CM_ BO_ 56 "POWER_STATUS (0x038) power/READY frame. LS nibble of byte 0: 0x00 = asleep, 0x01 = awake but off, 0x02 = ON (not ready), 0x04 = READY, 0x06 = plugged in or remotely woken up. Byte 1: 0x8D = charging session active, 0xAB = VCU boot/wake transient, 0x00 = idle.";
+CM_ BO_ 56 "CHARGING STATUS based on logs in tylerharvey/Ioniq5_CAN/CAN_logs/WiCAN_MITM: charging = 06 8D 00 00 60|20 39 82 D4 (51 frames in M-CAN_MITM_charging_9p6kW.csv); plugged but idle = 01 00 00 00 60 39 02 00 (72 frames in M-CAN_MITM_plugged_in_not_charging.csv).";
+CM_ BO_ 56 "Byte 1 = 0x8D tracks the charging SESSION, not the connector. In M-CAN_MITM_plugged_in_car-off_charging.csv the cable stayed plugged for all 43.8 s, yet byte 1 flips 0x8D -> 0x00 at t = 10.24 s and back to 0x8D at t = 16.48 s, with byte 0 flipping 0x06 -> 0x01 in step. So 0x8D does not mean the plug is present.";
+CM_ SG_ 56 Power_Status_Ready "LS nibble of byte 0 (mask 0x0F)";
+CM_ SG_ 56 Power_Status_Detail "byte 1 (D2): 0x8D = charging session active (not mere plug presence); 0xAB = VCU boot/wake transient (1-6 frames, remote wake); 0x00 = plugged-but-idle or unplugged.";
 
-VAL_ 56 Power_Status_Ready 1 "Awake_Not_Ready" 4 "Ready" ;
+VAL_ 56 Power_Status_Ready 0 "Off_Asleep" 1 "Off_Awake" 2 "ON_Not_Ready" 4 "READY" 6 "Plugged_In_Or_Remote_Wake" ;
+VAL_ 56 Power_Status_Detail 0 "Idle" 141 "Charging_Session_Active" 171 "Boot_Wake_Transient" ;
 
 BO_ 1256 Distance_Flag_Display: 8 Vector__XXX
 	SG_ Distance_Unit : 0|4@1+ (1,0) [0|0] "" Vector__XXX
@@ -422,6 +428,7 @@ BO_ 338 Battery_Temperature: 8 Vector__XXX
 CM_ BO_ 338 "a.k.a. BMS BMS_10_100ms_2 in gen5w_hu_rx.dbc";
 
 CM_ BO_ 338 "Battery temperature (0x152): data[0] = min cell temp, data[1] = max cell temp (int8, deg C).";
+CM_ BO_ 338 "Byte 4 (not declared above): 0x00 whenever no charging session is active, and 0x2F / 0x33 / 0x48 (int: 47 / 51 / 72) during charging sessions. Declared meaning unknown: it is not a power in any plausible scale, and it also climbs across a session, so it reads more like a charger (OBC) or pack temperature than a power. Speculation only.";
 CM_ SG_ 338 Battery_Temperature_Min "byte 0, signed deg C";
 CM_ SG_ 338 Battery_Temperature_Max "byte 1, signed deg C";
 
@@ -473,10 +480,10 @@ CM_ SG_ 57 Power_State_Aux_Raw "byte 0 raw";
 VAL_ 57 Power_State_Aux_Raw 5 "Door_Wake_Burst_05" 7 "Door_Wake_Burst_07" 9 "Powering_Up" ;
 
 BO_ 782 Charging_Power: 8 Vector__XXX
-	SG_ Charging_Power_kW : 48|8@1+ (1,0) [0|255] "kW" Vector__XXX
+	SG_ AC_Charging_Current_Limit : 16|8@1+ (1,0) [0|255] "A" Vector__XXX
 CM_ BO_ 782 "a.k.a. VCMS VCMS_02_100ms_4 in gen5w_hu_rx.dbc";
 
-CM_ BO_ 782 "Charging_Power (0x30E): byte 6 = charging power in kW.";
+CM_ BO_ 782 "Byte 2 is likely an AC current limit in amps (SG_ AC_Charging_Current_Limit is a speculative name). It reads 0x30 (48 A) in BOTH tylerharvey/Ioniq5_CAN/CAN_logs/WiCAN_MITM/M-CAN_MITM_charging_9p6kW.csv and M-CAN_MITM_charging_1p4kW_AC120V.csv -- two sessions whose real charge power differs by 6.9x - and 0x28 (40 A) in the ~9.5 kW captures. Values seen: 0x18 / 0x20 / 0x28 / 0x30 = 24 / 32 / 40 / 48 A, i.e. standard EVSE circuit ratings at 1 A per count.";
 
 BO_ 1053 Climate_Driver_Only_Control: 8 Vector__XXX
 	SG_ Driver_Only_Request : 32|8@1+ (1,0) [0|255] "" Vector__XXX
@@ -502,11 +509,33 @@ CM_ SG_ 1184 Sync_Request "byte 3 (D4): 0x07=Sync_Off, 0x0B=Sync_On, 0x0F=Applie
 
 VAL_ 1184 Sync_Request 7 "Sync_Off" 11 "Sync_On" 15 "Applied" ;
 
+CM_ "FrameID: 0x4F1 (Remote_Session_Status) - head-unit 1 Hz status frame; byte 1 carries the remote-session state.";
+BO_ 1265 Remote_Session_Status: 8 Vector__XXX
+ SG_ Remote_Session : 8|8@1+ (1,0) [0|255] "" Vector__XXX
+
+CM_ BO_ 1265 "Remote_Session_Status (0x4F1): 1 Hz head-unit frame, bytes 2-7 constant 00 in every capture. Byte 1 = 0xF0 when the head unit is in its long-idle state, 0xC0 when awake and idle, 0xD0 while a remote action is in flight. The C0->D0 edge is a 3-frame burst at 40 ms, then holds at 1 Hz for 7-12 s, then closes with a 3-frame C0 burst; every 0x4A2 burst re-opens or extends the window. A cloud start from a sleeping car is F0 -> C0 (3.0 s) -> D0, and only the D0 edge carries the 0x4A2 session-open burst, so D0 is a window, not a latch. Not modelled by any other DBC.";
+CM_ SG_ 1265 Remote_Session "byte 1: 0xF0 = asleep/idle, 0xC0 = awake, 0xD0 = remote window open";
+
+VAL_ 1265 Remote_Session 192 "Awake" 208 "Remote_Window" 240 "Asleep_Idle" ;
+
 BO_ 1186 Seat_Heat_Vent_Control: 8 Vector__XXX
 	SG_ Seat_Level_Passenger : 32|4@1+ (1,0) [0|15] "" Vector__XXX
 	SG_ Seat_Level_Driver    : 36|4@1+ (1,0) [0|15] "" Vector__XXX
+	SG_ Command_Mask : 16|8@1+ (1,0) [0|255] "" Vector__XXX
+	SG_ Command_Byte : 24|8@1+ (1,0) [0|255] "" Vector__XXX
+	SG_ Apply_Flag : 40|8@1+ (1,0) [0|255] "" Vector__XXX
+	SG_ State_Byte : 48|8@1+ (1,0) [0|255] "" Vector__XXX
 
 CM_ BO_ 1186 "Seat_Heat_Vent_Control (0x4A2): D5 (byte 4). High nibble = driver, low nibble = passenger. F = idle/no-change. Ioniq5 values: 8=High, 7=Medium, 6=Low, 2=Off.";
+CM_ BO_ 1186 "Seat_Heat_Vent_Control (0x4A2) is really the head unit's generic remote-comfort command. Bytes 0/1 (D1/D2) are always 00 00. Byte 2 (D3) = command mask; byte 3 (D4) = command byte, bit 7 = request->apply commit; byte 4 (D5) = seat levels (high nibble driver, low nibble passenger: 2=Off, 6=Low, 7=Medium, 8=High, F=idle/no-change), which is why the apply phase's FF FF reads as Idle; byte 5 (D6) = 0xFF only in the apply phase; byte 6 (D7) = function/state byte. Every phase is 3 frames at ~25 Hz and the second phase 120 ms later repeats the mask with byte 2 = 0xFF ('apply'). Capture notes number the bytes D0..D7 (0-based).";
+CM_ SG_ 1186 Command_Mask "byte 2 (D3): 0x0F = climate start, 0x7F = climate + rear/side defrost, 0xDF = climate + seat warmers, 0xF3 = lock/unlock or session-open, 0xFF = apply/refresh";
+CM_ SG_ 1186 Command_Byte "byte 3 (D4): bit 7 set in the apply phase (0x43->0xC3). 0x03 in local presses, 0x43/0xC3 in every 2026-11-04 cloud capture; bit 6 is unexplained.";
+CM_ SG_ 1186 Apply_Flag "byte 5 (D6): 0xFF in the apply burst, 0x00 in the request burst";
+CM_ SG_ 1186 State_Byte "byte 6 (D7): 0x00 plain climate, 0xF0 with front defrost / steering-wheel warmer (request and apply), 0xC0 then 0x40 = lock, 0xD0 then 0xF0 = unlock";
+
+VAL_ 1186 Command_Mask 15 "Climate_Start" 127 "Climate_Rear_Side_Defrost" 223 "Climate_Warmers" 243 "Lock_Unlock_or_Session_Open" 255 "Apply_or_Refresh" ;
+VAL_ 1186 Command_Byte 3 "Local_Request" 67 "Cloud_Request" 195 "Cloud_Apply" ;
+
 CM_ SG_ 1186 Seat_Level_Driver "byte 4 high nibble (mask 0xF0): 2=Off, 6=Low, 7=Med, 8=High, F=Idle";
 CM_ SG_ 1186 Seat_Level_Passenger "byte 4 low nibble (mask 0x0F): same codes as driver, F=Idle";
 
@@ -569,9 +598,28 @@ BO_ 16 ACU_02_00ms: 8 ACU
 
 CM_ BO_ 16 "ACU ACU_02_00ms";
 BO_ 54 VCU_01_10ms_1: 8 VCU
- SG_ DATA : 0|64@1+ (1,0) [0|0] "" VCU
+ SG_ Counter_Low : 0|8@1+ (1,0) [0|255] "" VCU
+ SG_ Counter_High : 8|8@1+ (1,0) [0|255] "" VCU
+ SG_ CRC : 16|8@1+ (1,0) [0|255] "" VCU
+ SG_ Power_Mode : 24|8@1+ (1,0) [0|255] "" VCU
+ SG_ Off_Not_Charging : 32|8@1+ (1,0) [0|255] "" VCU
+ SG_ Reserved_5 : 40|8@1+ (1,0) [0|255] "" VCU
+ SG_ HV_State : 48|8@1+ (1,0) [0|255] "" VCU
+ SG_ Byte7_Flag : 56|8@1+ (1,0) [0|255] "" VCU
+CM_ BO_ 54 "a.k.a. VCU VCU_01_10ms_1 in gen5w_hu_rx.dbc";
 
-CM_ BO_ 54 "VCU VCU_01_10ms_1";
+CM_ BO_ 54 "These are slop comments, left to help future interpretation.";
+CM_ BO_ 54 "VCU_01_10ms_1 (0x036) power-state frame, added 2026-11-26. Bytes 0-2 are a rolling counter and CRC (every sample distinct in a 51-frame capture); bytes 3-7 are slowly varying state, byte 5 always 0x00. This frame has NO charging-exclusive bit: the 0x036 differences that highlight_bits.py reports between the charging and not-charging captures are power-mode differences, not charging.";
+CM_ BO_ 54 "Steady-state bytes 3-7 by vehicle state (bus 0): charging with the car off = 01 00 00 21 05; off and not charging = 01 10 00 20 05; ON not ready = 01 10 00 20 05; READY / driving = 51 00 00 25 05. Byte 7 is 0x05 in most captures and 0x01 in M-CAN_MITM_plugged_in_car-off_charging.csv; its meaning is unknown.";
+CM_ BO_ 54 "Bit meanings: byte 6 bit 0 (0x01) = HV live / contactors closed, set when charging OR READY, so it is not charging-specific. byte 6 bit 2 (0x04) = READY only. byte 4 bit 4 (0x10) = off and not charging. byte 3 bits 4 and 6 (0x50) = READY.";
+CM_ BO_ 54 "CHARGING PREDICATE, the only charging tell in this frame: byte 3 == 0x01 AND byte 4 == 0x00 AND (byte 6 AND 0x01). Across the 34 WiCAN_MITM captures that holds in 2528 of 2613 charging rows and in 1 of 5119 off rows.";
+CM_ SG_ 54 Power_Mode "byte 3: 0x01 = awake/off state, charging or not; 0x51 = READY";
+CM_ SG_ 54 Off_Not_Charging "byte 4: 0x10 = off and not charging; 0x00 = charging or READY";
+CM_ SG_ 54 HV_State "byte 6: bit 0 set = HV live (charging or READY); bit 2 set = READY";
+
+VAL_ 54 Power_Mode 1 "Awake_Off_Or_Charging" 81 "READY" ;
+VAL_ 54 Off_Not_Charging 0 "Charging_Or_Ready" 16 "Off_Not_Charging" ;
+VAL_ 54 HV_State 32 "HV_Idle" 33 "HV_Live_Charging" 37 "HV_Live_READY" ;
 BO_ 55 VCU_01_10ms_2: 8 VCU
  SG_ DATA : 0|64@1+ (1,0) [0|0] "" VCU
 
@@ -948,6 +996,7 @@ BO_ 414 VCMS_01_10ms_4: 8 VCMS
  SG_ DATA : 0|64@1+ (1,0) [0|0] "" VCMS
 
 CM_ BO_ 414 "VCMS VCMS_01_10ms_4";
+CM_ BO_ 414 "Byte 1 tracks the charging session: 0x00 while charging, 0x23 when not. charging byte values: 15 00 03 00 00 32 00 00, not charging byte values: 15 23 03 00 00 32 00 00. Weak discriminator: some logs have 0x00 when not charging, so byte 1 == 0x00 is necessary but not sufficient for charging.";
 BO_ 417 ADAS_CMD_20_20ms_1: 8 ADAS
  SG_ DATA : 0|64@1+ (1,0) [0|0] "" ADAS
 
@@ -1152,6 +1201,7 @@ BO_ 599 LDC_01_100ms_2: 8 LDC
  SG_ DATA : 0|64@1+ (1,0) [0|0] "" LDC
 
 CM_ BO_ 599 "LDC LDC_01_100ms_2";
+CM_ BO_ 599 "Observed payloads: charging byte values: 00 93 30 1C 74 07 00 93 (bytes 1 and 7 = 0x93, byte 2 = 0x30, byte 4 = 0x74), idle byte values: 00 00 00 00 64 00 02 00. This is a better charging indicator than anything in 0x30E.";
 BO_ 600 LDC_01_100ms_3: 8 LDC
  SG_ DATA : 0|64@1+ (1,0) [0|0] "" LDC
 
@@ -1193,9 +1243,10 @@ BO_ 683 VCU_04_100ms_1: 8 VCU
 
 CM_ BO_ 683 "VCU VCU_04_100ms_1";
 BO_ 684 VCU_04_100ms_2: 8 VCU
- SG_ DATA : 0|64@1+ (1,0) [0|0] "" VCU
+ SG_ Climate_Setpoint_Raw : 32|8@1+ (0.5,14) [14|32] "C" VCU
 
-CM_ BO_ 684 "VCU VCU_04_100ms_2";
+CM_ BO_ 684 "VCU VCU_04_100ms_2 (0x2AC). Byte 4 (D5) carries the cabin climate setpoint in the same (0.5,14) encoding as 0x380 and 0x39B: 00 FF FF 40 06 40 84 50 = 17.0 C, 00 FF FF 40 10 40 84 50 = 22.0 C, 00 FF FF 40 16 40 84 50 = 25.0 C; the HVAC-off payload is 00 FF FF 00 00 40 00 50 (raw 0), so the field is only meaningful while the HVAC runs. Timing (2026-11-03 defrost captures): 0x39B byte 1 (D2) changes first, 0x2AC byte 4 (D5) follows ~0.5 s, 0x380 reports it another ~1.2 s later. Remaining bytes not decoded (appear to be status/counter).";
+CM_ SG_ 684 Climate_Setpoint_Raw "byte 4 (D5): 0x06=17.0 C, 0x10=22.0 C, 0x11=22.5 C, 0x12=23.0 C, 0x16=25.0 C; 0x00 = HVAC off";
 BO_ 686 VCU_04_100ms_4: 8 VCU
  SG_ DATA : 0|64@1+ (1,0) [0|0] "" VCU
 
@@ -1240,6 +1291,7 @@ BO_ 727 MCU_06_200ms_2: 8 MCU
  SG_ DATA : 0|64@1+ (1,0) [0|0] "" MCU
 
 CM_ BO_ 727 "MCU MCU_06_200ms_2";
+CM_ BO_ 727 "Bytes 2 and 3 clear while a charging session is active: charging 00 00 00 00 03 00 00 00, and 0x03 / 0x03 once the session stops (00 00 03 03 03 00 00 00).";
 BO_ 728 MCU_06_200ms_3: 8 MCU
  SG_ DATA : 0|64@1+ (1,0) [0|0] "" MCU
 
@@ -1269,9 +1321,10 @@ BO_ 742 OBC_01_100ms_1: 8 OBC
 
 CM_ BO_ 742 "OBC OBC_01_100ms_1";
 BO_ 743 OBC_01_100ms_2: 8 OBC
- SG_ DATA : 0|64@1+ (1,0) [0|0] "" OBC
+ SG_ Charge_Power : 24|8@1+ (0.1,0) [0|25.5] "kW" OBC
 
 CM_ BO_ 743 "OBC OBC_01_100ms_2";
+CM_ BO_ 743 "0x2E7 byte 3 carries the same charge power as 0x3B7 byte 3 (BO_ 951) but ~5 % lower, which is what the battery side of the OBC should read: 0x5B (91) = 9.1 kW vs 0x60 (96) = 9.6 kW in M-CAN_MITM_charging_9p6kW.csv; 0x5A (90) vs 0x5F (95) in M-CAN_MITM_plugged_in_charging_car-off_car-on_car-off.csv; 0x0D (13) = 1.3 kW vs 0x0E (14) = 1.4 kW in M-CAN_MITM_charging_1p4kW_AC120V.csv. The pair therefore brackets the OBC efficiency (1.3/1.4 = 93 %, 9.1/9.6 = 95 %). Byte 4 looks like a fractional extension of the same value (0x78 = 120/256). Byte 3 is 0 in every driving log. Speculative: which side is the inlet and which is the pack is inferred from the ratio, not proven.";
 BO_ 744 OBC_01_100ms_3: 8 OBC
  SG_ DATA : 0|64@1+ (1,0) [0|0] "" OBC
 
@@ -1280,6 +1333,12 @@ BO_ 745 OBC_01_100ms_4: 8 OBC
  SG_ DATA : 0|64@1+ (1,0) [0|0] "" OBC
 
 CM_ BO_ 745 "OBC OBC_01_100ms_4";
+
+BO_ 747 maybe_OBC_02_100ms_1: 8 OBC
+ SG_ DATA : 0|64@1+ (1,0) [0|0] "" OBC
+CM_ BO_ 747 "Name is provisional: BO_ 747 is absent from gen5w_hu_rx.dbc. Added only so the charging note below has a place to live.";
+CM_ BO_ 747 "Byte 4 tracks the charging session exactly like the MCU frame 0x396: 0x04 while charging (648 of 648 charging rows) and 0x10 when not (545 of 545 off rows). The rest of the payload varies with the drive/charge load. Speculation only.";
+
 BO_ 763 BMS_02_100ms_1: 8 BMS
  SG_ DATA : 0|64@1+ (1,0) [0|0] "" BMS
 
@@ -1484,6 +1543,7 @@ BO_ 918 MCU_04_200ms_1: 8 MCU
  SG_ DATA : 0|64@1+ (1,0) [0|0] "" MCU
 
 CM_ BO_ 918 "MCU MCU_04_200ms_1";
+CM_ BO_ 918 "Byte 4 changes with charging: 0x04 while a charging session is active and 0x10 when not. Bytes 0-3 carry a varying motor quantity? The sibling MCU frame 0x2EB (BO_ 747) shows the same byte 4 behavior.";
 BO_ 919 MCU_04_200ms_2: 8 MCU
  SG_ DATA : 0|64@1+ (1,0) [0|0] "" MCU
 
@@ -1493,9 +1553,20 @@ BO_ 920 MCU_04_200ms_3: 8 MCU
 
 CM_ BO_ 920 "MCU MCU_04_200ms_3";
 BO_ 923 TMU_01_200ms: 8 TMU
- SG_ DATA : 0|64@1+ (1,0) [0|0] "" TMU
+ SG_ Session_State : 0|8@1+ (1,0) [0|255] "" TMU
+ SG_ Setpoint_Raw : 8|8@1+ (0.5,14) [14|32] "C" TMU
+ SG_ Session_Counter : 24|8@1+ (1,0) [0|63] "" TMU
+ SG_ Command_Class : 40|8@1+ (1,0) [0|255] "" TMU
+ SG_ Session_Phase : 48|8@1+ (1,0) [0|255] "" TMU
 
-CM_ BO_ 923 "TMU TMU_01_200ms";
+CM_ BO_ 923 "TMU_01_200ms (0x39B) - the telematics side of a remote climate / lock / charge session. Seen on I-CAN only, never on M-CAN. Idle traffic is 00 00 00 00 00 03 10 00; a live session is 50 <setpoint> 00 <counter> 00 03 10 00 at 5 Hz, and the 00 03 10 00 tail clears to zeros ~8.3 s in. Byte 1 (D2) is the climate setpoint (0x06=17.0, 0x10=22.0, 0x11=22.5, 0x12=23.0 C) and it LEADS the matching code in 0x2AC byte 4 (~0.5 s) and 0x380 bytes 3-6 (~1.7 s) in all four 2026-11-03 captures, so the HVAC reports what this frame announces.";
+CM_ SG_ 923 Setpoint_Raw "byte 1 (D2): raw setpoint, 0x06=17.0 C, 0x10=22.0 C, 0x16=25.0 C. 0x00 = no setpoint announced (idle).";
+CM_ SG_ 923 Session_Counter "byte 3 (D4): seen stepping +0x04 and wrapping at 0x40 (16 values over 3 s at 5 Hz); one 0x01 was seen at a session start, so the step rule is not fully understood.";
+CM_ SG_ 923 Command_Class "byte 5 (D6): 0x01 lock/unlock, 0x02 charge limit, 0x03 climate. Not settled: a cloud climate start used 0x01.";
+CM_ SG_ 923 Session_Phase "byte 6 (D7): 0x10 normally, 0x14 in the climate closing frame (40 06 00 18 00 03 14 00).";
+
+VAL_ 923 Session_State 0 "Pending_or_Idle" 64 "Closing" 80 "Running" ;
+VAL_ 923 Command_Class 1 "Lock_Unlock" 2 "Charge_Limit" 3 "Climate" ;
 BO_ 929 TPMS_01_200ms_1: 8 TPMS
  SG_ DATA : 0|64@1+ (1,0) [0|0] "" TPMS
 
@@ -1520,14 +1591,18 @@ BO_ 950 OBC_02_200ms_1: 8 OBC
  SG_ DATA : 0|64@1+ (1,0) [0|0] "" OBC
 
 CM_ BO_ 950 "OBC OBC_02_200ms_1";
+CM_ BO_ 950 "OBC_02_200ms_1..4 (0x3B6-0x3B9) are the best charging-SESSION indicator by presence alone: absent from all 119 bus-0 ids of tylerharvey/Ioniq5_CAN/CAN_logs/WiCAN_MITM/M-CAN_MITM_plugged_in_not_charging.csv, yet present at 200 ms in every capture in which 0x038 reads 06 8D. Frame presence indicates an active charging session. Payloads are counter plus CRC in bytes 0-2 (0x3B6, 0x3B8 roll every frame) and byte 3 of 0x3B6 is temperature-like, 0x33 / 0x28 / 0x2A (51 / 40 / 42) as the charge power falls from 9.6 kW, not a power value - 51 counts would be 10.2 kW at 0.2 kW per count. 0x3B0-0x3B2 are constant 72 37 FF C7 00 00 03 C0 / 9B 3C FF 40 00 00 20 00 / 36 15 FF 02 29 2F 34 00 across every charging capture, so they look like static EVSE configuration. Still speculative.";
 BO_ 951 OBC_02_200ms_2: 8 OBC
- SG_ DATA : 0|64@1+ (1,0) [0|0] "" OBC
+ SG_ Charge_Power : 24|8@1+ (0.1,0) [0|25.5] "kW" OBC
 
 CM_ BO_ 951 "OBC OBC_02_200ms_2";
+CM_ BO_ 951 "0x3B7 byte 3 = measured charge power, 0.1 kW per count. 0x60 (96) = 9.6 kW in tylerharvey/Ioniq5_CAN/CAN_logs/WiCAN_MITM/M-CAN_MITM_charging_9p6kW.csv, 0x5F (95) = 9.5 kW in tylerharvey/Ioniq5_CAN/CAN_logs/WiCAN_MITM/M-CAN_MITM_plugged_in_charging_car-off_car-on_car-off.csv, 0x0E (14) = 1.4 kW in tylerharvey/Ioniq5_CAN/CAN_logs/WiCAN_MITM/M-CAN_MITM_charging_1p4kW_AC120V.csv, and 0 in every driving/parked/climate capture. 96/14 = 6.857 equals 9.6/1.4 exactly, which rules out line voltage (240/120 = 2.0) and AC current (40 A/11.7 A = 3.4) and leaves power.";
+CM_ BO_ 951 "The ramp proves it is a live measurement, not a configuration value: in tylerharvey/Ioniq5_CAN/CAN_logs/WiCAN_MITM/M-CAN_MITM_plugged_in_car-off_charging.csv byte 3 climbs 0, 3, 7, 13, 18, 27, 39, 81, 84, 87, 89, 95 over t = 22.1-36.1 s, starting 5.6 s after the session restarts at t = 16.48 s. Byte 7 co-ramps 0 -> 7 and is 7 in the 240 V captures but 0 in the 120 V one; meaning unknown. The whole frame is absent when plugged in but not charging, so frame presence plus byte 3 > 0 both indicate an active session. 0x2E7 byte 3 (BO_ 743) carries the same value ~5 % lower, and 0x3B8 bytes 1-2 (BO_ 952) track it at an unresolved scale.";
 BO_ 952 OBC_02_200ms_3: 8 OBC
  SG_ DATA : 0|64@1+ (1,0) [0|0] "" OBC
 
 CM_ BO_ 952 "OBC OBC_02_200ms_3";
+CM_ BO_ 952 "0x3B8 bytes 1-2 little-endian also track charge power but the scale is unresolved, so no SG_ was added: 367 in M-CAN_MITM_charging_9p6kW.csv, 362 in M-CAN_MITM_plugged_in_charging_car-off_car-on_car-off.csv, 54 in tylerharvey/Ioniq5_CAN/CAN_logs/WiCAN_MITM/M-CAN_MITM_charging_1p4kW_AC120V.csv (ratio 6.80, matching 9.6kW/1.4kW = 6.86 ratio between two logged charging power sessions), and 2 or 0 while not charging. That is 38.2 counts per kW (367/9.6) or 38.6 (54/1.4), i.e. ~0.026 kW per count - not a round quantisation, so the field may be a different quantity (AC current, or power at a third node) rather than a copy of the 0x3B7 value. Decode as kW only after a third power point is available.";
 BO_ 953 OBC_02_200ms_4: 8 OBC
  SG_ DATA : 0|64@1+ (1,0) [0|0] "" OBC
 
